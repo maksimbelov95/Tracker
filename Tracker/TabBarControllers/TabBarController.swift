@@ -8,7 +8,7 @@ class TabBarController: UITabBarController{
     override func viewDidLoad() {
         super.viewDidLoad()
         generateTabBar()
-        setupTabBar()
+        setupTabBar()///
     }
     private func generateTabBar(){
         let trackerNav = UINavigationController(rootViewController: trackerView)
