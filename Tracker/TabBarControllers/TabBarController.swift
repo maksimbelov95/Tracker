@@ -8,7 +8,7 @@ class TabBarController: UITabBarController{
     override func viewDidLoad() {
         super.viewDidLoad()
         generateTabBar()
-        setupTabBar()///
+        setupTabBar()
     }
     private func generateTabBar(){
         let trackerNav = UINavigationController(rootViewController: trackerView)
@@ -20,11 +20,15 @@ class TabBarController: UITabBarController{
     private func generateVC(viewController: UINavigationController, title: String, image: UIImage?) -> UINavigationController{
         viewController.tabBarItem.title = title
         viewController.tabBarItem.image = image
+        
         return viewController
         
     }
     private func setupTabBar(){
         tabBar.backgroundColor = .white
+
+            
+        
     }
     private func setupNavControllers(){
     }
