@@ -9,7 +9,7 @@ class TabBarController: UITabBarController{
         super.viewDidLoad()
         generateTabBar()
         setupTabBar()
-    }
+    }///
     private func generateTabBar(){
         let trackerNav = UINavigationController(rootViewController: trackerView)
         let statisticNav = UINavigationController(rootViewController: statisticView)
