@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B3502EB2B597A490095C874 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502EA2B597A490095C874 /* UIColor.swift */; };
+		4B3502EB2B597A490095C874 /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502EA2B597A490095C874 /* Extension+UIColor.swift */; };
 		4B3502EF2B597AC40095C874 /* TrackerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502EE2B597AC40095C874 /* TrackerModel.swift */; };
 		4B3502F12B597AD50095C874 /* TrackerCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502F02B597AD50095C874 /* TrackerCategoryModel.swift */; };
 		4B3502F32B597AE00095C874 /* TrackerRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502F22B597AE00095C874 /* TrackerRecordModel.swift */; };
 		4B3502F72B597B030095C874 /* TrackerCellsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502F62B597B030095C874 /* TrackerCellsView.swift */; };
+		4B3502FE2B5A54810095C874 /* TrackerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502FD2B5A54810095C874 /* TrackerHeaderView.swift */; };
+		4B3503012B5A58080095C874 /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B3502FF2B5A58080095C874 /* YS Display-Bold.ttf */; };
+		4B3503022B5A58080095C874 /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B3503002B5A58080095C874 /* YS Display-Medium.ttf */; };
 		4B5BB9302B02B19A005EC75D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5BB92F2B02B19A005EC75D /* AppDelegate.swift */; };
 		4B5BB9322B02B19A005EC75D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5BB9312B02B19A005EC75D /* SceneDelegate.swift */; };
 		4B5BB9342B02B19A005EC75D /* TrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5BB9332B02B19A005EC75D /* TrackerViewController.swift */; };
@@ -22,11 +25,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4B3502EA2B597A490095C874 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		4B3502EA2B597A490095C874 /* Extension+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		4B3502EE2B597AC40095C874 /* TrackerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerModel.swift; sourceTree = "<group>"; };
 		4B3502F02B597AD50095C874 /* TrackerCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryModel.swift; sourceTree = "<group>"; };
 		4B3502F22B597AE00095C874 /* TrackerRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordModel.swift; sourceTree = "<group>"; };
 		4B3502F62B597B030095C874 /* TrackerCellsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCellsView.swift; sourceTree = "<group>"; };
+		4B3502FD2B5A54810095C874 /* TrackerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerHeaderView.swift; sourceTree = "<group>"; };
+		4B3502FF2B5A58080095C874 /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "YS Display-Bold.ttf"; path = "../../../../Downloads/MovieQuizFonts/YS Display-Bold.ttf"; sourceTree = "<group>"; };
+		4B3503002B5A58080095C874 /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "YS Display-Medium.ttf"; path = "../../../../Downloads/MovieQuizFonts/YS Display-Medium.ttf"; sourceTree = "<group>"; };
 		4B5BB92C2B02B19A005EC75D /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B5BB92F2B02B19A005EC75D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4B5BB9312B02B19A005EC75D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				4B3502F62B597B030095C874 /* TrackerCellsView.swift */,
+				4B3502FD2B5A54810095C874 /* TrackerHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -67,10 +74,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		4B3502FC2B5A46190095C874 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				4B3502EA2B597A490095C874 /* Extension+UIColor.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		4B5BB9232B02B19A005EC75D = {
 			isa = PBXGroup;
 			children = (
-				4B3502EA2B597A490095C874 /* UIColor.swift */,
 				4B5BB92E2B02B19A005EC75D /* Tracker */,
 				4B5BB92D2B02B19A005EC75D /* Products */,
 			);
@@ -92,9 +106,12 @@
 				4B3502ED2B597A830095C874 /* Model */,
 				4B3502EC2B597A790095C874 /* View */,
 				4B6100412B069B8500A333FB /* Controllers */,
+				4B3502FC2B5A46190095C874 /* Extension */,
 				4B5BB9382B02B19B005EC75D /* Assets.xcassets */,
 				4B5BB93A2B02B19B005EC75D /* LaunchScreen.storyboard */,
 				4B5BB93D2B02B19B005EC75D /* Info.plist */,
+				4B3502FF2B5A58080095C874 /* YS Display-Bold.ttf */,
+				4B3503002B5A58080095C874 /* YS Display-Medium.ttf */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -168,6 +185,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B5BB93C2B02B19B005EC75D /* LaunchScreen.storyboard in Resources */,
+				4B3503022B5A58080095C874 /* YS Display-Medium.ttf in Resources */,
+				4B3503012B5A58080095C874 /* YS Display-Bold.ttf in Resources */,
 				4B5BB9392B02B19B005EC75D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -181,7 +200,7 @@
 			files = (
 				4B3502F12B597AD50095C874 /* TrackerCategoryModel.swift in Sources */,
 				4B5BB9342B02B19A005EC75D /* TrackerViewController.swift in Sources */,
-				4B3502EB2B597A490095C874 /* UIColor.swift in Sources */,
+				4B3502EB2B597A490095C874 /* Extension+UIColor.swift in Sources */,
 				4B5BB9302B02B19A005EC75D /* AppDelegate.swift in Sources */,
 				4B3502F32B597AE00095C874 /* TrackerRecordModel.swift in Sources */,
 				4B5BB9322B02B19A005EC75D /* SceneDelegate.swift in Sources */,
@@ -189,6 +208,7 @@
 				4B3502F72B597B030095C874 /* TrackerCellsView.swift in Sources */,
 				4B5BB9462B02B7A0005EC75D /* StatisticViewController.swift in Sources */,
 				4B3502EF2B597AC40095C874 /* TrackerModel.swift in Sources */,
+				4B3502FE2B5A54810095C874 /* TrackerHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

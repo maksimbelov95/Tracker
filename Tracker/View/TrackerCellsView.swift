@@ -17,7 +17,7 @@ final class TrackerCellsView: UICollectionViewCell {
         view.frame = CGRect(x: 0, y: 0, width: 167, height: 90)
         view.backgroundColor = .ypBackgroundDay
         view.layer.cornerRadius = 16
-        view.layer.borderWidth = 1
+        view.layer.borderWidth = 0
         return view
     }()
     let quantityManagementView: UIView = {
@@ -36,7 +36,7 @@ final class TrackerCellsView: UICollectionViewCell {
     let emojiLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "YS Display", size: 16)
+        label.font = UIFont(name: "YS Display-Medium", size: 16)
         label.frame = CGRect(x: 0, y: 0, width: 16, height: 32)
         return label
     }()
@@ -45,7 +45,9 @@ final class TrackerCellsView: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.frame = CGRect(x: 0, y: 0, width: 143, height: 34)
         label.textColor = .ypWhite
-        label.font = UIFont(name: "YS Display", size: 12)
+        label.font = UIFont(name: "YS Display-Medium", size: 12)
+        print(label.font.fontName)
+        ///
         label.numberOfLines = 2
         return label
     }()
@@ -54,7 +56,7 @@ final class TrackerCellsView: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.frame = CGRect(x: 0, y: 0, width: 101, height: 18)
         label.textColor = .ypBlack
-        label.font = UIFont(name: "YS Display", size: 12)
+        label.font = UIFont(name: "YS Display-Medium", size: 12)
         return label
     }()
     let trackerButton: UIButton = {
