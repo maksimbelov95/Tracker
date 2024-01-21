@@ -6,7 +6,7 @@ final class SectionHeaderView: UICollectionReusableView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .ypBlack
-        label.font = UIFont(name: "YS Display-Bold", size: 19)
+        label.font = .hugeTitleBold12
         return label
     }()
     

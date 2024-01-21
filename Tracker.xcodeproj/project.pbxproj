@@ -13,8 +13,12 @@
 		4B3502F32B597AE00095C874 /* TrackerRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502F22B597AE00095C874 /* TrackerRecordModel.swift */; };
 		4B3502F72B597B030095C874 /* TrackerCellsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502F62B597B030095C874 /* TrackerCellsView.swift */; };
 		4B3502FE2B5A54810095C874 /* TrackerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502FD2B5A54810095C874 /* TrackerHeaderView.swift */; };
-		4B3503012B5A58080095C874 /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B3502FF2B5A58080095C874 /* YS Display-Bold.ttf */; };
-		4B3503022B5A58080095C874 /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B3503002B5A58080095C874 /* YS Display-Medium.ttf */; };
+		4B3503092B5AB7E40095C874 /* SelectingATrackerTypeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3503082B5AB7E40095C874 /* SelectingATrackerTypeController.swift */; };
+		4B35030B2B5BA03E0095C874 /* ShudelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B35030A2B5BA03E0095C874 /* ShudelViewController.swift */; };
+		4B35030D2B5BA06B0095C874 /* ShudleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B35030C2B5BA06B0095C874 /* ShudleTVCell.swift */; };
+		4B35030F2B5D68640095C874 /* TabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B35030E2B5D68640095C874 /* TabelViewCell.swift */; };
+		4B3503142B5D8B0B0095C874 /* Extension+Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3503132B5D8B0B0095C874 /* Extension+Fonts.swift */; };
+		4B3503162B5D94A10095C874 /* TrackerTypeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3503152B5D94A10095C874 /* TrackerTypeSelectionViewController.swift */; };
 		4B5BB9302B02B19A005EC75D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5BB92F2B02B19A005EC75D /* AppDelegate.swift */; };
 		4B5BB9322B02B19A005EC75D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5BB9312B02B19A005EC75D /* SceneDelegate.swift */; };
 		4B5BB9342B02B19A005EC75D /* TrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5BB9332B02B19A005EC75D /* TrackerViewController.swift */; };
@@ -31,8 +35,14 @@
 		4B3502F22B597AE00095C874 /* TrackerRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordModel.swift; sourceTree = "<group>"; };
 		4B3502F62B597B030095C874 /* TrackerCellsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCellsView.swift; sourceTree = "<group>"; };
 		4B3502FD2B5A54810095C874 /* TrackerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerHeaderView.swift; sourceTree = "<group>"; };
-		4B3502FF2B5A58080095C874 /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "YS Display-Bold.ttf"; path = "../../../../Downloads/MovieQuizFonts/YS Display-Bold.ttf"; sourceTree = "<group>"; };
-		4B3503002B5A58080095C874 /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "YS Display-Medium.ttf"; path = "../../../../Downloads/MovieQuizFonts/YS Display-Medium.ttf"; sourceTree = "<group>"; };
+		4B3503082B5AB7E40095C874 /* SelectingATrackerTypeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectingATrackerTypeController.swift; sourceTree = "<group>"; };
+		4B35030A2B5BA03E0095C874 /* ShudelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShudelViewController.swift; sourceTree = "<group>"; };
+		4B35030C2B5BA06B0095C874 /* ShudleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShudleTVCell.swift; sourceTree = "<group>"; };
+		4B35030E2B5D68640095C874 /* TabelViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabelViewCell.swift; sourceTree = "<group>"; };
+		4B3503112B5D8A7B0095C874 /* YS-Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS-Display-Bold.ttf"; sourceTree = "<group>"; };
+		4B3503122B5D8A7C0095C874 /* YS-Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS-Display-Medium.ttf"; sourceTree = "<group>"; };
+		4B3503132B5D8B0B0095C874 /* Extension+Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Fonts.swift"; sourceTree = "<group>"; };
+		4B3503152B5D94A10095C874 /* TrackerTypeSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTypeSelectionViewController.swift; sourceTree = "<group>"; };
 		4B5BB92C2B02B19A005EC75D /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B5BB92F2B02B19A005EC75D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4B5BB9312B02B19A005EC75D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +70,7 @@
 			children = (
 				4B3502F62B597B030095C874 /* TrackerCellsView.swift */,
 				4B3502FD2B5A54810095C874 /* TrackerHeaderView.swift */,
+				4B3503152B5D94A10095C874 /* TrackerTypeSelectionViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -78,8 +89,18 @@
 			isa = PBXGroup;
 			children = (
 				4B3502EA2B597A490095C874 /* Extension+UIColor.swift */,
+				4B3503132B5D8B0B0095C874 /* Extension+Fonts.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		4B3503102B5D8A700095C874 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				4B3503122B5D8A7C0095C874 /* YS-Display-Medium.ttf */,
+				4B3503112B5D8A7B0095C874 /* YS-Display-Bold.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		4B5BB9232B02B19A005EC75D = {
@@ -110,8 +131,7 @@
 				4B5BB9382B02B19B005EC75D /* Assets.xcassets */,
 				4B5BB93A2B02B19B005EC75D /* LaunchScreen.storyboard */,
 				4B5BB93D2B02B19B005EC75D /* Info.plist */,
-				4B3502FF2B5A58080095C874 /* YS Display-Bold.ttf */,
-				4B3503002B5A58080095C874 /* YS Display-Medium.ttf */,
+				4B3503102B5D8A700095C874 /* Fonts */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -121,6 +141,10 @@
 			children = (
 				4B61003F2B069B7B00A333FB /* TabBarController.swift */,
 				4B5BB9332B02B19A005EC75D /* TrackerViewController.swift */,
+				4B3503082B5AB7E40095C874 /* SelectingATrackerTypeController.swift */,
+				4B35030E2B5D68640095C874 /* TabelViewCell.swift */,
+				4B35030A2B5BA03E0095C874 /* ShudelViewController.swift */,
+				4B35030C2B5BA06B0095C874 /* ShudleTVCell.swift */,
 				4B5BB9452B02B7A0005EC75D /* StatisticViewController.swift */,
 			);
 			path = Controllers;
@@ -185,8 +209,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B5BB93C2B02B19B005EC75D /* LaunchScreen.storyboard in Resources */,
-				4B3503022B5A58080095C874 /* YS Display-Medium.ttf in Resources */,
-				4B3503012B5A58080095C874 /* YS Display-Bold.ttf in Resources */,
 				4B5BB9392B02B19B005EC75D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,12 +222,18 @@
 			files = (
 				4B3502F12B597AD50095C874 /* TrackerCategoryModel.swift in Sources */,
 				4B5BB9342B02B19A005EC75D /* TrackerViewController.swift in Sources */,
+				4B3503142B5D8B0B0095C874 /* Extension+Fonts.swift in Sources */,
 				4B3502EB2B597A490095C874 /* Extension+UIColor.swift in Sources */,
 				4B5BB9302B02B19A005EC75D /* AppDelegate.swift in Sources */,
+				4B35030B2B5BA03E0095C874 /* ShudelViewController.swift in Sources */,
 				4B3502F32B597AE00095C874 /* TrackerRecordModel.swift in Sources */,
+				4B35030F2B5D68640095C874 /* TabelViewCell.swift in Sources */,
+				4B3503092B5AB7E40095C874 /* SelectingATrackerTypeController.swift in Sources */,
 				4B5BB9322B02B19A005EC75D /* SceneDelegate.swift in Sources */,
 				4B6100402B069B7B00A333FB /* TabBarController.swift in Sources */,
+				4B3503162B5D94A10095C874 /* TrackerTypeSelectionViewController.swift in Sources */,
 				4B3502F72B597B030095C874 /* TrackerCellsView.swift in Sources */,
+				4B35030D2B5BA06B0095C874 /* ShudleTVCell.swift in Sources */,
 				4B5BB9462B02B7A0005EC75D /* StatisticViewController.swift in Sources */,
 				4B3502EF2B597AC40095C874 /* TrackerModel.swift in Sources */,
 				4B3502FE2B5A54810095C874 /* TrackerHeaderView.swift in Sources */,

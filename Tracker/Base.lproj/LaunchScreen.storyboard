@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,27 +13,23 @@
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="Ze5-6b-2t3">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="vD8-EF-Hoa">
-                                <rect key="frame" x="142" y="359" width="91" height="94"/>
+                                <rect key="frame" x="151" y="379" width="91" height="94"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="94" id="HwE-3t-ktl"/>
-                                    <constraint firstAttribute="height" constant="94" id="KUk-72-vj5"/>
-                                    <constraint firstAttribute="width" constant="91" id="Ns6-8p-dtA"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="91" id="teX-zl-k9y"/>
+                                    <constraint firstAttribute="height" constant="94" id="bjV-hg-frJ"/>
+                                    <constraint firstAttribute="width" constant="91" id="fbw-q6-cRd"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBlueColor"/>
                         <constraints>
-                            <constraint firstItem="vD8-EF-Hoa" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="359" id="50Z-aH-7fx"/>
-                            <constraint firstAttribute="bottom" secondItem="vD8-EF-Hoa" secondAttribute="bottom" constant="359" id="SFU-U4-BCy"/>
-                            <constraint firstItem="vD8-EF-Hoa" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="142" id="nKa-6g-tVT"/>
-                            <constraint firstAttribute="trailing" secondItem="vD8-EF-Hoa" secondAttribute="trailing" constant="142" id="v76-Kg-J3Q"/>
+                            <constraint firstItem="vD8-EF-Hoa" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="fGZ-Tx-qWG"/>
+                            <constraint firstItem="vD8-EF-Hoa" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="r7n-mQ-0fw"/>
                         </constraints>
                     </view>
                 </viewController>
