@@ -11,7 +11,7 @@ public extension UIFont{
     static var hugeTitleMedium17: UIFont{
         return UIFont(name: "YS-Display-Medium", size: 17) ?? .systemFont(ofSize: 17, weight: .medium)
     }
-    static var hugeTitleBold12: UIFont{
+    static var hugeTitleBold19: UIFont{
         return UIFont(name: "YS-Display-Bold", size: 19) ?? systemFont(ofSize: 19, weight: .bold)
     }
 }

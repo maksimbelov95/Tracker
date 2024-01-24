@@ -1,7 +1,7 @@
 
 import UIKit
 
-final class CustomTableViewCell: UITableViewCell {
+final class TableViewCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -56,11 +56,11 @@ final class CustomTableViewCell: UITableViewCell {
         self.accessoryView = disclosureIndicator
     }
 
-    func configure(title: String, description: String) {
+    func configure(title: String, description: String?) {
         titleLabel.text = title
         descriptionLabel.text = description
 
-        let constant: CGFloat = description.isEmpty ? 14 : 20
+        let constant: CGFloat = description?.isEmpty == true ? 14 : 20
         titleLabelTopConstraint.constant = constant
     }
 }

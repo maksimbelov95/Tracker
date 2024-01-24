@@ -34,7 +34,7 @@ final class ScheduleSelectionViewController: UIViewController {
         return tableView
     }()
     
-    private let doneButton: UIButton = {
+    private let readyButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .ypBlack
@@ -59,14 +59,14 @@ final class ScheduleSelectionViewController: UIViewController {
         
         view.addSubview(titleLabel)
         view.addSubview(tableView)
-        view.addSubview(doneButton)
+        view.addSubview(readyButton)
         
         setupConstraints()
         
         navigationItem.rightBarButtonItem = nil
         navigationItem.hidesBackButton = true
         
-        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+        readyButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
     
     private func setupConstraints() {
@@ -80,10 +80,10 @@ final class ScheduleSelectionViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(equalToConstant: 525),
             
-            doneButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            doneButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 49),
-            doneButton.heightAnchor.constraint(equalToConstant: 60)
+            readyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            readyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            readyButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 49),
+            readyButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     

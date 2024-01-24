@@ -1,7 +1,8 @@
+
 import UIKit
 
-final class TrackerHeaderView: UICollectionReusableView {
-    static let reuseIdentifier = "TrackerHeaderView"
+final class EmojiAndColorsHeaderView: UICollectionReusableView {
+    static let reuseIdentifier = "EmojiAndColorsHeaderView"
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -17,11 +18,14 @@ final class TrackerHeaderView: UICollectionReusableView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 28)])
-    }
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])}
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
