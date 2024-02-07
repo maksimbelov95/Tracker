@@ -137,7 +137,6 @@ class CreateTrackerViewController: UIViewController {
         let emojiCollectionView = EmojiCollectionViewController(frame: .zero, collectionViewLayout: layout)
         emojiCollectionView.translatesAutoresizingMaskIntoConstraints = false
         emojiCollectionView.register(EmojiCollectionViewCell.self, forCellWithReuseIdentifier: "EmojiCell")
-        emojiCollectionView.register(TrackerHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier:"TrackerHeaderView" )
         emojiCollectionView.backgroundColor = .ypWhite
         emojiCollectionView.delegate = emojiCollectionView
         emojiCollectionView.dataSource = emojiCollectionView
@@ -205,10 +204,10 @@ class CreateTrackerViewController: UIViewController {
         ]
     }
     private func emojiHeaderAdd(){
-        emojiCollectionView.register(TrackerHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmojiAndColorsHeaderView")
+        emojiCollectionView.register(EmojiAndColorsHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmojiAndColorsHeaderView")
     }
     private func colorsHeaderAdd(){
-        colorCollectionView.register(TrackerHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmojiAndColorsHeaderView")
+        colorCollectionView.register(EmojiAndColorsHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmojiAndColorsHeaderView")
     }
     private func addSubViews() {
         settingsNavigationBar()
@@ -288,7 +287,7 @@ extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSourc
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
         let cellData = cellData[indexPath.row]
 
-        cell.configure(title: cellData.title, description: cellData.description)
+        cell.settingStrings(title: cellData.title, description: cellData.description)
 
         return cell
         

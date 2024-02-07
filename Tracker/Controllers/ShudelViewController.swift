@@ -11,18 +11,7 @@ final class ScheduleSelectionViewController: UIViewController {
     private var selectedDays: [Schedule] = []
     weak var delegate: ScheduleSelectionDelegate?
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Расписание"
-        label.frame = CGRect(x: 0, y: 0, width: 149, height: 22)
-        label.textColor = .ypBlack
-        label.font = .hugeTitleMedium16
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.cornerRadius = 16
@@ -31,16 +20,31 @@ final class ScheduleSelectionViewController: UIViewController {
         tableView.separatorStyle = .singleLine
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 0.01))
         tableView.isScrollEnabled = false
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: "ScheduleCell")
         return tableView
     }()
     
-    private let readyButton: UIButton = {
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Расписание"
+        label.frame = CGRect(x: 0, y: 0, width: 149, height: 22)
+        label.textColor = .ypBlack
+        label.font = .hugeTitleMedium16
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private lazy var readyButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .ypBlack
         button.setTitle("Готово", for: .normal)
         button.titleLabel?.font = .hugeTitleMedium16
         button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -52,21 +56,15 @@ final class ScheduleSelectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: "ScheduleCell")
-        
+        navigationItem.hidesBackButton = true
+        addScheduleSubViews()
+        setupConstraints()
+    }
+    
+    private func addScheduleSubViews(){
         view.addSubview(titleLabel)
         view.addSubview(tableView)
         view.addSubview(readyButton)
-        
-        setupConstraints()
-        
-        navigationItem.rightBarButtonItem = nil
-        navigationItem.hidesBackButton = true
-        
-        readyButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
     
     private func setupConstraints() {
@@ -92,7 +90,7 @@ final class ScheduleSelectionViewController: UIViewController {
             if let index = Schedule.allCases.firstIndex(of: day) {
                 let indexPath = IndexPath(row: index, section: 0)
                 if let cell = tableView.cellForRow(at: indexPath) as? ScheduleTableViewCell {
-                    cell.toggleSwitch.isOn = true
+                    cell.scheduleSwitch.isOn = true
                 }
             }
         }
@@ -130,7 +128,7 @@ extension ScheduleSelectionViewController: UITableViewDelegate, UITableViewDataS
             cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         }
         
-        cell.toggleSwitchAction = { [weak self] isOn in
+        cell.scheduleSwitchAction = { [weak self] isOn in
             guard let self = self else { return }
             
             if isOn {

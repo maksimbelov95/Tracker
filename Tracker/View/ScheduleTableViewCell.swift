@@ -3,7 +3,9 @@ import UIKit
 
 final class ScheduleTableViewCell: UITableViewCell {
     
-    let titleLabel: UILabel = {
+    var scheduleSwitchAction: ((Bool) -> Void)?
+    
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .hugeTitleMedium12
@@ -11,41 +13,45 @@ final class ScheduleTableViewCell: UITableViewCell {
         return label
     }()
     
-    let toggleSwitch: UISwitch = {
-        let toggleSwitch = UISwitch()
-        toggleSwitch.translatesAutoresizingMaskIntoConstraints = false
-        toggleSwitch.onTintColor = .ypBlue
-        return toggleSwitch
+     lazy var scheduleSwitch: UISwitch = {
+        let scheduleSwitch = UISwitch()
+        scheduleSwitch.translatesAutoresizingMaskIntoConstraints = false
+        scheduleSwitch.onTintColor = .ypBlue
+        scheduleSwitch.addTarget(self, action: #selector(switchAction), for: .valueChanged)
+        return scheduleSwitch
     }()
-    
-    var toggleSwitchAction: ((Bool) -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(toggleSwitch)
-        
-        contentView.backgroundColor = .ypBackgroundDay
-        contentView.layer.masksToBounds = true
-        
-        NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            
-            toggleSwitch.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            toggleSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ])
-        
-        toggleSwitch.addTarget(self, action: #selector(switchToggled(_:)), for: .valueChanged)
+        addSubScheduleViews()
+        setupScheduleConstraints()
+        setupContentView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    private func setupScheduleConstraints(){
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            scheduleSwitch.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            scheduleSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+        ])
+    }
     
-    @objc func switchToggled(_ sender: UISwitch) {
-        toggleSwitchAction?(sender.isOn)
-        print("Toggle switch state changed to: \(sender.isOn)")
+    private func setupContentView(){
+        contentView.layer.masksToBounds = true
+        contentView.backgroundColor = .ypBackgroundDay
+    }
+    private func addSubScheduleViews(){
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(scheduleSwitch)
+    }
+    
+    @objc func switchAction(_ sender: UISwitch) {
+        scheduleSwitchAction?(sender.isOn)
     }
 }
 

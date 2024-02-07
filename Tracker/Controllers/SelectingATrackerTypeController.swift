@@ -276,16 +276,16 @@ extension TrackerCreationViewController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! TableViewCell
 
-        if indexPath.row == 0 && !isEvent {
-            cell.configure(title: "Категория", description: "Важное")
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16 )
-        } else if indexPath.row == 1 && !isEvent {
-            cell.configure(title: "Расписание", description: "")
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 375)
-        } else {
-            cell.configure(title: "Категория", description: "Важное")
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 375)
-        }
+//        if indexPath.row == 0 && !isEvent {
+//            cell.configure(title: "Категория", description: "Важное")
+//            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16 )
+//        } else if indexPath.row == 1 && !isEvent {
+//            cell.configure(title: "Расписание", description: "")
+//            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 375)
+//        } else {
+//            cell.configure(title: "Категория", description: "Важное")
+//            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 375)
+//        }
         return cell
     }
 
