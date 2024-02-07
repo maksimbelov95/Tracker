@@ -2,13 +2,13 @@
 import UIKit
 
 protocol ScheduleSelectionDelegate: AnyObject {
-    func didSelectSchedule(_ selectedSchedule: [Schedule])
+    func selectedSchedule(_ selectedSchedule: [Schedule])
 }
 
 final class ScheduleSelectionViewController: UIViewController {
     
-    var selectedSchedule: [Schedule] = []
-    private var selectedDays: [Schedule] = []
+    let weekDays:[Schedule] = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+    var selectedDays = Set<Schedule>()
     weak var delegate: ScheduleSelectionDelegate?
     
     private lazy var tableView: UITableView = {
@@ -80,13 +80,13 @@ final class ScheduleSelectionViewController: UIViewController {
             
             readyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             readyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            readyButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 49),
+            readyButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
             readyButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
     private func setInitialToggleStates() {
-        for day in selectedSchedule {
+        for day in selectedDays {
             if let index = Schedule.allCases.firstIndex(of: day) {
                 let indexPath = IndexPath(row: index, section: 0)
                 if let cell = tableView.cellForRow(at: indexPath) as? ScheduleTableViewCell {
@@ -97,50 +97,48 @@ final class ScheduleSelectionViewController: UIViewController {
     }
     
     @objc private func doneButtonTapped() {
-            delegate?.didSelectSchedule(selectedDays)
+        let selectedDays = self.selectedDays.map({$0}).sorted(by: {$0.rawValue < $1.rawValue})
+        delegate?.selectedSchedule(selectedDays)
             navigationController?.popViewController(animated: true)
         }
 }
 
-//MARK: TableView Delegate&DataSource
+//MARK: Schedule TableView DelegateAndDataSource
 
 extension ScheduleSelectionViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return weekDays.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleCell", for: indexPath) as! ScheduleTableViewCell
         
         let day: Schedule
-        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-            day = .sunday
-        } else {
-            day = Schedule(rawValue: indexPath.row + 2)!
-        }
-        
+        day = weekDays[indexPath.row]
         cell.textLabel?.text = day.fullDaysOfWeek()
         cell.selectionStyle = .none
-        
-        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 375)
-        } else {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        }
-        
-        cell.scheduleSwitchAction = { [weak self] isOn in
+        cell.scheduleSwitchAction = { [weak self] switchOn in
             guard let self = self else { return }
             
-            if isOn {
-                self.selectedDays.append(day)
+            if switchOn {
+                self.selectedDays.insert(day)
             } else {
                 if let index = self.selectedDays.firstIndex(of: day) {
                     self.selectedDays.remove(at: index)
                 }
             }
-            print("Selected days after toggling: \(self.selectedDays)")
         }
         
         return cell
     }
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        let isLastCell = indexPath.row == weekDays.count - 1
+//        let defaultInset = tableView.separatorInset
+//
+//        if isLastCell {
+//            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
+//        } else {
+//            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+//        }
+//    }
 }

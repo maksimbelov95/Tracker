@@ -2,7 +2,7 @@
 import UIKit
 
 protocol TrackerCreationDelegate: AnyObject {
-    func didCreateTracker(_ tracker: Tracker, isEvent: Bool)
+    func creatingANewTracker(_ tracker: Tracker, isEvent: Bool)
 }
 
 class CreateTrackerViewController: UIViewController {
@@ -31,8 +31,8 @@ class CreateTrackerViewController: UIViewController {
         var heightCell: CGFloat {
             return 75
         }
-        
     }
+    
     var heightTable: CGFloat {
         return self.state.heightCell * CGFloat(cellData.count)
     }
@@ -254,18 +254,6 @@ class CreateTrackerViewController: UIViewController {
         ])
     }
     
-    private func scheduleDescription() -> String {
-        let allDaysOfWeek = Schedule.allCases
-
-        if Set(schedule) == Set(allDaysOfWeek) {
-            return "Каждый День"
-        } else if !schedule.isEmpty {
-            return schedule.map { $0.shortDaysOfWeek() }.joined(separator: ", ")
-        }
-
-        return ""
-    }
-    
     @objc private func textFieldDidChange() {
         guard let text = nameTextField.text else { return }
 
@@ -295,12 +283,16 @@ extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+        if indexPath.row == 0 {
+            let categorySelectionViewController = CategoryViewController()
+            categorySelectionViewController.delegate = self
+            self.navigationController?.pushViewController(categorySelectionViewController, animated: true)
+        }
         if indexPath.row == 1 {
-            let scheduleSelectionVC = ScheduleSelectionViewController()
-            scheduleSelectionVC.selectedSchedule = self.schedule
-            scheduleSelectionVC.delegate = self
-            self.navigationController?.pushViewController(scheduleSelectionVC, animated: true)
+            let scheduleSelectionViewController = ScheduleSelectionViewController()
+            scheduleSelectionViewController.selectedDays = Set<Schedule>(self.schedule)
+            scheduleSelectionViewController.delegate = self
+            self.navigationController?.pushViewController(scheduleSelectionViewController, animated: true)
         }
     }
     
@@ -319,12 +311,20 @@ extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
 }
-
+//MARK: CategoryAndSchedule delegate
 extension CreateTrackerViewController: ScheduleSelectionDelegate{
-    func didSelectSchedule(_ selectedSchedule: [Schedule]) {
+    func selectedSchedule(_ selectedSchedule: [Schedule]) {
         self.schedule = selectedSchedule
-        print("Выбранные дни обновлены: \(selectedSchedule)")
+        if selectedSchedule.count == 7 {
+            self.eventDesc = "Каждый день"}
+        else {
+            self.eventDesc = selectedSchedule.map({$0.shortDaysOfWeek()}).joined(separator: ", ")
+        }
         tableView.reloadData()
 //        updateCreateButtonState()
+    }
+}
+extension CreateTrackerViewController: CategoryViewControllerDelegate{
+    func category() {
     }
 }

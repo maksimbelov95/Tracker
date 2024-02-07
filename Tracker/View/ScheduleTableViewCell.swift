@@ -5,14 +5,6 @@ final class ScheduleTableViewCell: UITableViewCell {
     
     var scheduleSwitchAction: ((Bool) -> Void)?
     
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .hugeTitleMedium12
-        label.textColor = .ypBlack
-        return label
-    }()
-    
      lazy var scheduleSwitch: UISwitch = {
         let scheduleSwitch = UISwitch()
         scheduleSwitch.translatesAutoresizingMaskIntoConstraints = false
@@ -33,9 +25,6 @@ final class ScheduleTableViewCell: UITableViewCell {
     }
     private func setupScheduleConstraints(){
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            
             scheduleSwitch.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             scheduleSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
@@ -46,7 +35,6 @@ final class ScheduleTableViewCell: UITableViewCell {
         contentView.backgroundColor = .ypBackgroundDay
     }
     private func addSubScheduleViews(){
-        contentView.addSubview(titleLabel)
         contentView.addSubview(scheduleSwitch)
     }
     

@@ -2,6 +2,9 @@ import UIKit
 
 
 final class TrackerCreationViewController: UIViewController, ScheduleSelectionDelegate {
+    func selectedSchedule(_ selectedSchedule: [Schedule]) {
+    }
+    
 
     weak var delegate: TrackerCreationDelegate?
 
@@ -257,7 +260,7 @@ final class TrackerCreationViewController: UIViewController, ScheduleSelectionDe
                                  emoji: "👽",
                                  schedule: isEvent ? [.monday, .tuesday, .thursday, .wednesday, .friday, .saturday, .sunday] : schedule)
 
-        delegate?.didCreateTracker(newTracker, isEvent: isEvent)
+        delegate?.creatingANewTracker(newTracker, isEvent: isEvent)
         dismiss(animated: true)
     }
 }
@@ -288,30 +291,30 @@ extension TrackerCreationViewController: UITableViewDelegate, UITableViewDataSou
 //        }
         return cell
     }
-
-    private func scheduleDescription() -> String {
-        let allDaysOfWeek = Schedule.allCases
-
-        if Set(schedule) == Set(allDaysOfWeek) {
-            return "Каждый День"
-        } else if !schedule.isEmpty {
-            return schedule.map { $0.shortDaysOfWeek() }.joined(separator: ", ")
-        }
-        return ""
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-
-        if indexPath.row == 1 && !isEvent {
-            let scheduleSelectionVC = ScheduleSelectionViewController()
-            scheduleSelectionVC.selectedSchedule = self.schedule
-            scheduleSelectionVC.delegate = self
-            self.navigationController?.pushViewController(scheduleSelectionVC, animated: true)
-        }
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
-    }
+//
+//    private func scheduleDescription() -> String {
+//        let allDaysOfWeek = Schedule.allCases
+//
+//        if Set(schedule) == Set(allDaysOfWeek) {
+//            return "Каждый День"
+//        } else if !schedule.isEmpty {
+//            return schedule.map { $0.shortDaysOfWeek() }.joined(separator: ", ")
+//        }
+//        return ""
+//    }
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//
+//        if indexPath.row == 1 && !isEvent {
+//            let scheduleSelectionVC = ScheduleSelectionViewController()
+//            scheduleSelectionVC.selectedSchedule = self.schedule
+//            scheduleSelectionVC.delegate = self
+//            self.navigationController?.pushViewController(scheduleSelectionVC, animated: true)
+//        }
+//    }
+//
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 75
+//    }
 }

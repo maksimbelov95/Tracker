@@ -139,7 +139,7 @@ final class TrackerViewController: UIViewController {
             placeHoldersImageView.isHidden = false
             trackersCollectionView.isHidden = true
         } else {
-            if !categories.isEmpty && activeCategories.isEmpty{
+            if !categories.isEmpty{
                 placeHoldersLabel.isHidden = false
                 placeHoldersLabel.text = "Ничего не найдено"
                 placeHoldersImageView.isHidden = false
@@ -150,9 +150,7 @@ final class TrackerViewController: UIViewController {
                 placeHoldersLabel.isHidden = true
                 trackersCollectionView.isHidden = false
             }
-            
-        }
-    }
+        }}
     
     func updateActiveCategories() {
         let calendar = Calendar.current
@@ -323,7 +321,7 @@ extension TrackerViewController: TrackerCellDelegate{
 }
 //MARK: TrackerCreationDelegate
 extension TrackerViewController: TrackerCreationDelegate {
-    func didCreateTracker(_ tracker: Tracker, isEvent: Bool) {
+    func creatingANewTracker(_ tracker: Tracker, isEvent: Bool) {
         let newCategory = TrackerCategory(
             title: "Важное",
             trackers: [tracker]

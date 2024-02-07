@@ -18,10 +18,10 @@ enum Schedule: Int, CaseIterable {
     case saturday = 7
     case sunday = 1
     
-    func shortDaysOfWeek() -> String {
+    func fullDaysOfWeek() -> String {
         switch self {
         case .monday:
-            return "Понеделиник"
+            return "Понедельник"
         case .tuesday:
             return "Вторник"
         case .wednesday:
@@ -37,7 +37,7 @@ enum Schedule: Int, CaseIterable {
         }
     }
     
-    func fullDaysOfWeek() -> String {
+    func shortDaysOfWeek() -> String {
         switch self {
         case .monday:
             return "Пн"
