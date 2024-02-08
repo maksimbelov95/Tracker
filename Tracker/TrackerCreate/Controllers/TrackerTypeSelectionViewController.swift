@@ -23,6 +23,7 @@ final class TrackerTypeSelectionViewController: UIViewController {
         button.backgroundColor = .ypBlack
         button.layer.cornerRadius = 16
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(habitButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -34,17 +35,20 @@ final class TrackerTypeSelectionViewController: UIViewController {
         button.backgroundColor = .ypBlack
         button.layer.cornerRadius = 16
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(eventButtonTapped), for: .touchUpInside)
         return button
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-
+        
         view.addSubview(titleLabel)
         view.addSubview(habitButton)
         view.addSubview(eventButton)
-
+        setupConstraints()
+    }
+    private func setupConstraints(){
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalToConstant: 149),
             titleLabel.heightAnchor.constraint(equalToConstant: 22),
@@ -63,11 +67,8 @@ final class TrackerTypeSelectionViewController: UIViewController {
             eventButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             eventButton.topAnchor.constraint(equalTo: habitButton.bottomAnchor, constant: 16),
         ])
-
-        habitButton.addTarget(self, action: #selector(habitButtonTapped), for: .touchUpInside)
-        eventButton.addTarget(self, action: #selector(eventButtonTapped), for: .touchUpInside)
     }
-
+//MARK: ButtonActions
     @objc func habitButtonTapped() {
         selectedCategory = "Привычка"
         let createHabitVC = CreateTrackerViewController(state: .habit)

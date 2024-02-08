@@ -115,7 +115,7 @@ extension ScheduleSelectionViewController: UITableViewDelegate, UITableViewDataS
         
         let day: Schedule
         day = weekDays[indexPath.row]
-        cell.textLabel?.text = day.fullDaysOfWeek()
+        cell.titleSchedule.text = day.fullDaysOfWeek()
         cell.selectionStyle = .none
         cell.scheduleSwitchAction = { [weak self] switchOn in
             guard let self = self else { return }
@@ -131,14 +131,14 @@ extension ScheduleSelectionViewController: UITableViewDelegate, UITableViewDataS
         
         return cell
     }
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        let isLastCell = indexPath.row == weekDays.count - 1
-//        let defaultInset = tableView.separatorInset
-//
-//        if isLastCell {
-//            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
-//        } else {
-//            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-//        }
-//    }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let isLastCell = indexPath.row == weekDays.count - 1
+        let defaultInset = tableView.separatorInset
+
+        if isLastCell {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
+        } else {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        }
+    }
 }

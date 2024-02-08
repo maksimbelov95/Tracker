@@ -10,12 +10,19 @@ final class CategoryTableViewCell: UITableViewCell {
         imageView.isHidden = true
         return imageView
     }()
+     lazy var titleCategory: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.frame = CGRect(x: 0, y: 0, width: 149, height: 22)
+        label.textColor = .ypBlack
+        label.font = .hugeTitleMedium17
+        label.textAlignment = .center
+        return label
+    }()
 
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupContentView()
-        contentView.addSubview(selectedCategoryImage)
         setupCategoryConstraints()
     }
     
@@ -24,6 +31,8 @@ final class CategoryTableViewCell: UITableViewCell {
     }
     
     private func setupContentView(){
+        contentView.addSubview(selectedCategoryImage)
+        contentView.addSubview(titleCategory)
         contentView.layer.masksToBounds = true
         contentView.backgroundColor = .ypBackgroundDay
         
@@ -34,7 +43,10 @@ final class CategoryTableViewCell: UITableViewCell {
             selectedCategoryImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 26),
             selectedCategoryImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             selectedCategoryImage.heightAnchor.constraint(equalToConstant: 24),
-            selectedCategoryImage.widthAnchor.constraint(equalToConstant: 24)
+            selectedCategoryImage.widthAnchor.constraint(equalToConstant: 24),
+            
+            titleCategory.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleCategory.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 

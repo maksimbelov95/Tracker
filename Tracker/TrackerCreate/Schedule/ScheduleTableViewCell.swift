@@ -12,6 +12,15 @@ final class ScheduleTableViewCell: UITableViewCell {
         scheduleSwitch.addTarget(self, action: #selector(switchAction), for: .valueChanged)
         return scheduleSwitch
     }()
+    lazy var titleSchedule: UILabel = {
+       let label = UILabel()
+       label.translatesAutoresizingMaskIntoConstraints = false
+       label.frame = CGRect(x: 0, y: 0, width: 149, height: 22)
+       label.textColor = .ypBlack
+       label.font = .hugeTitleMedium17
+       label.textAlignment = .center
+       return label
+   }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,7 +35,10 @@ final class ScheduleTableViewCell: UITableViewCell {
     private func setupScheduleConstraints(){
         NSLayoutConstraint.activate([
             scheduleSwitch.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            scheduleSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            scheduleSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            titleSchedule.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleSchedule.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     
@@ -36,6 +48,7 @@ final class ScheduleTableViewCell: UITableViewCell {
     }
     private func addSubScheduleViews(){
         contentView.addSubview(scheduleSwitch)
+        contentView.addSubview(titleSchedule)
     }
     
     @objc func switchAction(_ sender: UISwitch) {

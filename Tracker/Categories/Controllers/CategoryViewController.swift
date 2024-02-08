@@ -7,7 +7,7 @@ protocol CategoryViewControllerDelegate: AnyObject {
 
 final class CategoryViewController: UIViewController {
     
-    private var categories: [String] = ["Важное", "Срочное"]
+    private var categories: [String] = ["Важное", "Срочное", "Неотложенное"]
     
     weak var delegate: CategoryViewControllerDelegate?
 
@@ -17,8 +17,6 @@ final class CategoryViewController: UIViewController {
         tableView.layer.cornerRadius = 16
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.rowHeight = 75
-        tableView.separatorStyle = .singleLine
-        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 0.01))
         tableView.isScrollEnabled = false
         tableView.delegate = self
         tableView.dataSource = self
@@ -32,7 +30,7 @@ final class CategoryViewController: UIViewController {
         label.text = "Категория"
         label.frame = CGRect(x: 0, y: 0, width: 149, height: 22)
         label.textColor = .ypBlack
-        label.font = .hugeTitleMedium16
+        label.font = .hugeTitleMedium17
         label.textAlignment = .center
         return label
     }()
@@ -80,6 +78,11 @@ final class CategoryViewController: UIViewController {
         ])
     }
     @objc private func addCategoryButtonTapped() {
+
+            let createHabitVC = EditCategoriesViewController()
+            let navController = UINavigationController(rootViewController: createHabitVC)
+            present(navController, animated: true, completion: nil)
+        
         }
 }
 
@@ -93,7 +96,7 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryTableViewCell", for: indexPath) as! CategoryTableViewCell
        
-        cell.textLabel?.text = categories[indexPath.row]
+        cell.titleCategory.text = categories[indexPath.row]
         cell.selectionStyle = .none
 
 
@@ -101,5 +104,15 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+    }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let isLastCell = indexPath.row == categories.count - 1
+        let defaultInset = tableView.separatorInset
+        
+        if isLastCell {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
+        } else {
+            cell.separatorInset = defaultInset
+        }
     }
 }
