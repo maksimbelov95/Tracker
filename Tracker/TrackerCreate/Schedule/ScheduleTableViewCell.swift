@@ -15,7 +15,6 @@ final class ScheduleTableViewCell: UITableViewCell {
     lazy var titleSchedule: UILabel = {
        let label = UILabel()
        label.translatesAutoresizingMaskIntoConstraints = false
-       label.frame = CGRect(x: 0, y: 0, width: 149, height: 22)
        label.textColor = .ypBlack
        label.font = .hugeTitleMedium17
        label.textAlignment = .center

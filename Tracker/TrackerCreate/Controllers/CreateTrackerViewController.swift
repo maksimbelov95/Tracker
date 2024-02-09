@@ -89,21 +89,21 @@ class CreateTrackerViewController: UIViewController {
         return stackViewButton
     }()
     
-    private lazy var nameTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Введите название трекера"
-        textField.backgroundColor = .ypBackgroundDay
-        textField.font = .hugeTitleMedium17
-        textField.textColor = .ypBlack
-        textField.layer.cornerRadius = 16
-        textField.layer.borderWidth = 0
-        textField.layer.masksToBounds = true
-        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
-        textField.leftView = paddingView
-        textField.leftViewMode = .always
-        return textField
+    private lazy var nameTrackerTextField: UITextField = {
+        let nameTrackerTextField = UITextField()
+        nameTrackerTextField.translatesAutoresizingMaskIntoConstraints = false
+        nameTrackerTextField.placeholder = "Введите название трекера"
+        nameTrackerTextField.backgroundColor = .ypBackgroundDay
+        nameTrackerTextField.font = .hugeTitleMedium17
+        nameTrackerTextField.textColor = .ypBlack
+        nameTrackerTextField.layer.cornerRadius = 16
+        nameTrackerTextField.layer.borderWidth = 0
+        nameTrackerTextField.layer.masksToBounds = true
+        nameTrackerTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: nameTrackerTextField.frame.height))
+        nameTrackerTextField.leftView = paddingView
+        nameTrackerTextField.leftViewMode = .always
+        return nameTrackerTextField
     }()
     
     private lazy var symbolsLimitLabel: UILabel = {
@@ -157,7 +157,6 @@ class CreateTrackerViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(systemName: "xmark.circle.fill")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .lightGray
-        button.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 12)
         button.contentMode = .scaleAspectFit
         button.isHidden = true
@@ -217,7 +216,7 @@ class CreateTrackerViewController: UIViewController {
     }
 
     private func addViewToStackView(){
-        stackView.addArrangedSubview(nameTextField)
+        stackView.addArrangedSubview(nameTrackerTextField)
         stackView.addArrangedSubview(symbolsLimitLabel)
         stackView.addArrangedSubview(tableView)
         stackView.addArrangedSubview(emojiCollectionView)
@@ -238,7 +237,7 @@ class CreateTrackerViewController: UIViewController {
             stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
             stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -32),
             
-            nameTextField.heightAnchor.constraint(equalToConstant: 75),
+            nameTrackerTextField.heightAnchor.constraint(equalToConstant: 75),
             
             symbolsLimitLabel.heightAnchor.constraint(equalToConstant: 22),
             
@@ -253,7 +252,7 @@ class CreateTrackerViewController: UIViewController {
     }
     
     @objc private func textFieldDidChange() {
-        guard let text = nameTextField.text else { return }
+        guard let text = nameTrackerTextField.text else { return }
 
         clearButton.isHidden = text.isEmpty
         symbolsLimitLabel.isHidden = text.count <= maxCharacterCount
@@ -283,7 +282,9 @@ extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSourc
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 0 {
             let categorySelectionViewController = CategoryViewController()
-            categorySelectionViewController.delegate = self
+            categorySelectionViewController.selectedCategory = {[weak self] selectedCategories in
+                self?.habitDesc = selectedCategories
+                self?.tableView.reloadData()}
             self.navigationController?.pushViewController(categorySelectionViewController, animated: true)
         }
         if indexPath.row == 1 {
@@ -320,9 +321,5 @@ extension CreateTrackerViewController: ScheduleSelectionDelegate{
         }
         tableView.reloadData()
 //        updateCreateButtonState()
-    }
-}
-extension CreateTrackerViewController: CategoryViewControllerDelegate{
-    func category() {
     }
 }

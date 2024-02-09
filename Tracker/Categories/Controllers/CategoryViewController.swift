@@ -1,15 +1,11 @@
 
 import UIKit
 
-protocol CategoryViewControllerDelegate: AnyObject {
-    func category()
-}
-
 final class CategoryViewController: UIViewController {
     
     private var categories: [String] = ["Важное", "Срочное", "Неотложенное"]
     
-    weak var delegate: CategoryViewControllerDelegate?
+    var selectedCategory: ((String) -> ())?
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -78,11 +74,9 @@ final class CategoryViewController: UIViewController {
         ])
     }
     @objc private func addCategoryButtonTapped() {
-
-            let createHabitVC = EditCategoriesViewController()
-            let navController = UINavigationController(rootViewController: createHabitVC)
+            let createVC = EditCategoriesViewController()
+            let navController = UINavigationController(rootViewController: createVC)
             present(navController, animated: true, completion: nil)
-        
         }
 }
 
@@ -98,21 +92,59 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
        
         cell.titleCategory.text = categories[indexPath.row]
         cell.selectionStyle = .none
+        
+        cell.delegate = self
+        cell.indexPath = indexPath
 
 
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let category = categories[indexPath.row]
+        selectedCategory?(category)
+        print("\(category)")
+        navigationController?.popViewController(animated: true)
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let isLastCell = indexPath.row == categories.count - 1
         let defaultInset = tableView.separatorInset
+        var corners: UIRectCorner = []
+        if categories.count == 1 {
+           corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
+          } else {
+           if indexPath.row == 0 {
+            corners = [.topLeft, .topRight]
+           } else if indexPath.row == categories.count - 1 {
+            corners = [.bottomLeft, .bottomRight]
+           }
+          }
+          let radius: CGFloat = 16
+          let path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+          let mask = CAShapeLayer()
+          mask.path = path.cgPath
+          cell.layer.mask = mask
         
         if isLastCell {
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
         } else {
             cell.separatorInset = defaultInset
         }
+    }
+}
+extension CategoryViewController: CategoryTableViewCellDelegate{
+    func edit(indexPath: IndexPath) {
+        let createVC = EditCategoriesViewController()
+        createVC.titleLabel.text = "Редактирование категории"
+        createVC.editText = { [weak self] text in
+            self?.categories[indexPath.row] = text
+            self?.tableView.reloadData()
+        }
+        let navController = UINavigationController(rootViewController: createVC)
+        present(navController, animated: true, completion: nil)
+    }
+    
+    func delete(indexPath: IndexPath) {
+        categories.remove(at: indexPath.row)
+        tableView.reloadData()
     }
 }

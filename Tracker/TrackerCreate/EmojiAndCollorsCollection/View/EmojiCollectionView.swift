@@ -11,7 +11,6 @@ final class EmojiCollectionViewCell: UICollectionViewCell {
     let emojiCellView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.frame = CGRect(x: 0, y: 0, width: 52, height: 52)
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 0
         return view
@@ -22,7 +21,6 @@ final class EmojiCollectionViewCell: UICollectionViewCell {
         label.text = "😊"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 38)
-        label.frame = CGRect(x: 0, y: 0, width: 52, height: 52)
         return label
     }()
     

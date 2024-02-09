@@ -18,8 +18,7 @@ final class ScheduleSelectionViewController: UIViewController {
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.rowHeight = 75
         tableView.separatorStyle = .singleLine
-        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 0.01))
-        tableView.isScrollEnabled = false
+        tableView.isScrollEnabled = true
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: "ScheduleCell")
@@ -30,7 +29,6 @@ final class ScheduleSelectionViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Расписание"
-        label.frame = CGRect(x: 0, y: 0, width: 149, height: 22)
         label.textColor = .ypBlack
         label.font = .hugeTitleMedium16
         label.textAlignment = .center
@@ -47,11 +45,6 @@ final class ScheduleSelectionViewController: UIViewController {
         button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
         return button
     }()
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setInitialToggleStates()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,8 +69,8 @@ final class ScheduleSelectionViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 44),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: 525),
-            
+            tableView.bottomAnchor.constraint(equalTo: readyButton.bottomAnchor, constant: -16),
+
             readyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             readyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             readyButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
@@ -85,19 +78,10 @@ final class ScheduleSelectionViewController: UIViewController {
         ])
     }
     
-    private func setInitialToggleStates() {
-        for day in selectedDays {
-            if let index = Schedule.allCases.firstIndex(of: day) {
-                let indexPath = IndexPath(row: index, section: 0)
-                if let cell = tableView.cellForRow(at: indexPath) as? ScheduleTableViewCell {
-                    cell.scheduleSwitch.isOn = true
-                }
-            }
-        }
-    }
     
     @objc private func doneButtonTapped() {
         let selectedDays = self.selectedDays.map({$0}).sorted(by: {$0.rawValue < $1.rawValue})
+        self.selectedDays.removeAll()
         delegate?.selectedSchedule(selectedDays)
             navigationController?.popViewController(animated: true)
         }
@@ -117,6 +101,7 @@ extension ScheduleSelectionViewController: UITableViewDelegate, UITableViewDataS
         day = weekDays[indexPath.row]
         cell.titleSchedule.text = day.fullDaysOfWeek()
         cell.selectionStyle = .none
+        cell.scheduleSwitch.isOn = self.selectedDays.contains(day)
         cell.scheduleSwitchAction = { [weak self] switchOn in
             guard let self = self else { return }
             
@@ -134,6 +119,21 @@ extension ScheduleSelectionViewController: UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let isLastCell = indexPath.row == weekDays.count - 1
         let defaultInset = tableView.separatorInset
+        var corners: UIRectCorner = []
+        if weekDays.count == 1 {
+           corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
+          } else {
+           if indexPath.row == 0 {
+            corners = [.topLeft, .topRight]
+           } else if indexPath.row == weekDays.count - 1 {
+            corners = [.bottomLeft, .bottomRight]
+           }
+          }
+          let radius: CGFloat = 16
+          let path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+          let mask = CAShapeLayer()
+          mask.path = path.cgPath
+          cell.layer.mask = mask
 
         if isLastCell {
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)

@@ -1,7 +1,16 @@
-
 import UIKit
 
+protocol CategoryTableViewCellDelegate{
+    func edit(indexPath: IndexPath)
+    
+    func delete(indexPath: IndexPath)
+}
+
 final class CategoryTableViewCell: UITableViewCell {
+    
+    var indexPath: IndexPath = IndexPath(index: 0)
+    
+    var delegate: CategoryTableViewCellDelegate?
     
     private lazy var selectedCategoryImage: UIImageView = {
         let imageView = UIImageView(frame: CGRectMake(0, 0, 24, 24))
@@ -24,6 +33,8 @@ final class CategoryTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupContentView()
         setupCategoryConstraints()
+        let interaction = UIContextMenuInteraction(delegate: self)
+        self.addInteraction(interaction)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -50,5 +61,25 @@ final class CategoryTableViewCell: UITableViewCell {
         ])
     }
 
+}
+
+extension CategoryTableViewCell: UIContextMenuInteractionDelegate {
+ 
+ func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+  return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+
+    let edit = UIAction(title: "Редактировать", image: UIImage(systemName: "square.and.pencil")) { [weak self] action in
+        guard let self else {return}
+        self.delegate?.edit(indexPath: self.indexPath)
+    }
+
+    let delete = UIAction(title: "Удалить", image: UIImage(systemName: "trash"), attributes: .destructive) { [weak self] action in
+        guard let self else {return}
+        self.delegate?.delete(indexPath: self.indexPath)
+    }
+      
+    return UIMenu(children: [edit, delete])
+   }
+ }
 }
 

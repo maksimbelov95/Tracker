@@ -1,15 +1,11 @@
 
 import UIKit
 
-protocol EditCategoriesViewControllerDelegate: AnyObject {
-    func category()
-}
-
 final class EditCategoriesViewController: UIViewController {
 
     private var categories: [String] = ["Важное", "Срочное", "Неотложенное"]
-
-    weak var delegate: EditCategoriesViewControllerDelegate?
+    
+    var editText:((String) -> ())?
     
     private lazy var newCategoryTextField: UITextField = {
         let textField = UITextField()
@@ -21,30 +17,16 @@ final class EditCategoriesViewController: UIViewController {
         textField.layer.cornerRadius = 16
         textField.layer.borderWidth = 0
         textField.layer.masksToBounds = true
-        textField.addTarget(self, action: #selector(createCategoryButtonTapped), for: .editingChanged)
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftView = paddingView
         textField.leftViewMode = .always
         return textField
     }()
-//    private lazy var tableView: UITableView = {
-//        let tableView = UITableView()
-//        tableView.translatesAutoresizingMaskIntoConstraints = false
-//        tableView.layer.cornerRadius = 16
-//        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-//        tableView.rowHeight = 75
-//        tableView.isScrollEnabled = false
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//        tableView.register(EditCategoriesTableViewCell.self, forCellReuseIdentifier: "EditCategoriesTableViewCell")
-//        return tableView
-//    }()
 
-    private lazy var titleLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Добавление категории"
-        label.frame = CGRect(x: 0, y: 0, width: 149, height: 22)
         label.textColor = .ypBlack
         label.font = .hugeTitleMedium17
         label.textAlignment = .center
@@ -72,7 +54,6 @@ final class EditCategoriesViewController: UIViewController {
 
     private func addSCategorySubViews(){
         view.addSubview(titleLabel)
-//        view.addSubview(tableView)
         view.addSubview(createCategoryButton)
         view.addSubview(newCategoryTextField)
     }
@@ -87,14 +68,6 @@ final class EditCategoriesViewController: UIViewController {
             newCategoryTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             newCategoryTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             newCategoryTextField.heightAnchor.constraint(equalToConstant: 75),
-            
-            
-            
-//
-//            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 44),
-//            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-//            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-//            tableView.heightAnchor.constraint(equalToConstant: 525),
 
             createCategoryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             createCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -103,36 +76,8 @@ final class EditCategoriesViewController: UIViewController {
         ])
     }
     @objc private func createCategoryButtonTapped() {
+        guard let text = newCategoryTextField.text else {return}
+        editText?(text)
+        dismiss(animated: true)
         }
 }
-
-//MARK: Category TableView DelegateAndDataSource
-
-//extension EditCategoriesViewController: UITableViewDelegate, UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return self.categories.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "EditCategoriesTableViewCell", for: indexPath) as! EditCategoriesTableViewCell
-//
-//        cell.titleCategory.text = categories[indexPath.row]
-//        cell.selectionStyle = .none
-//
-//
-//        return cell
-//    }
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//
-//    }
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        let isLastCell = indexPath.row == categories.count - 1
-//        let defaultInset = tableView.separatorInset
-//
-//        if isLastCell {
-//            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
-//        } else {
-//            cell.separatorInset = defaultInset
-//        }
-//    }
-//}

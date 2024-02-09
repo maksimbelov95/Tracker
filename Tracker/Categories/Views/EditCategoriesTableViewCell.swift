@@ -32,7 +32,6 @@ final class EditCategoriesTableViewCell: UITableViewCell {
     }
     private func setupCategoryConstraints(){
         NSLayoutConstraint.activate([
-            
             titleCategory.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleCategory.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
