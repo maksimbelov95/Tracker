@@ -14,7 +14,6 @@ final class TrackerCellsView: UICollectionViewCell {
     let trackerCellView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.frame = CGRect(x: 0, y: 0, width: 167, height: 90)
         view.backgroundColor = .ypBackgroundDay
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 0
@@ -23,7 +22,6 @@ final class TrackerCellsView: UICollectionViewCell {
     let quantityManagementView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.frame = CGRect(x: 0, y: 0, width: 167, height: 58)
         return view
     }()
     let emojiView: UIView = {
@@ -37,13 +35,11 @@ final class TrackerCellsView: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .hugeTitleMedium16
-        label.frame = CGRect(x: 0, y: 0, width: 16, height: 32)
         return label
     }()
     let trackerLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.frame = CGRect(x: 0, y: 0, width: 143, height: 34)
         label.textColor = .ypWhite
         label.font = .hugeTitleMedium12
         print(label.font.fontName)
@@ -53,7 +49,6 @@ final class TrackerCellsView: UICollectionViewCell {
     let countDaysLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.frame = CGRect(x: 0, y: 0, width: 101, height: 18)
         label.textColor = .ypBlack
         label.font = .hugeTitleMedium12
         return label
@@ -61,7 +56,6 @@ final class TrackerCellsView: UICollectionViewCell {
     let trackerButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         button.setImage(UIImage(named: "plus"), for: .normal)
         button.layer.cornerRadius = 17
         button.tintColor = .ypWhite

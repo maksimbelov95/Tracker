@@ -74,9 +74,14 @@ final class CategoryViewController: UIViewController {
         ])
     }
     @objc private func addCategoryButtonTapped() {
-            let createVC = EditCategoriesViewController()
-            let navController = UINavigationController(rootViewController: createVC)
-            present(navController, animated: true, completion: nil)
+        let createVC = EditCategoriesViewController()
+        createVC.titleLabel.text = "Редактирование категории"
+        createVC.editText = { [weak self] text in
+            self?.categories.append(text)
+            self?.tableView.reloadData()
+        }
+        let navController = UINavigationController(rootViewController: createVC)
+        present(navController, animated: true, completion: nil)
         }
 }
 

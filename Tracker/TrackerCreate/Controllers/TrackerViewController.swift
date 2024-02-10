@@ -73,7 +73,6 @@ final class TrackerViewController: UIViewController {
     private lazy var placeHoldersLabel: UILabel  = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.frame = CGRect(x: 0, y: 0, width: 343, height: 18)
         label.text = "Добавьте первый трекер"
         label.textColor = .ypBlack
         label.font = .hugeTitleMedium12

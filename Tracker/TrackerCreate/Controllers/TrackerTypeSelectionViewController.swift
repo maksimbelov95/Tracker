@@ -7,7 +7,6 @@ final class TrackerTypeSelectionViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Создание трекера"
-        label.frame = CGRect(x: 0, y: 0, width: 149, height: 22)
         label.textColor = .ypBlack
         label.font = .hugeTitleMedium16
         label.textAlignment = .center
@@ -19,7 +18,6 @@ final class TrackerTypeSelectionViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Привычка", for: .normal)
         button.titleLabel?.font = .hugeTitleMedium16
-        button.frame = CGRect(x: 0, y: 0, width: 335, height: 60)
         button.backgroundColor = .ypBlack
         button.layer.cornerRadius = 16
         button.translatesAutoresizingMaskIntoConstraints = false
