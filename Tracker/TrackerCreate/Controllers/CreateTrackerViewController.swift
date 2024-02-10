@@ -2,12 +2,15 @@
 import UIKit
 
 protocol TrackerCreationDelegate: AnyObject {
-    func creatingANewTracker(_ tracker: Tracker, isEvent: Bool)
+    func creatingANewTracker(_ tracker: Tracker)
 }
 
 class CreateTrackerViewController: UIViewController {
     
     var schedule: [Schedule] = []
+    
+    var emojiIndexPath: IndexPath?
+    var colorsIndexPath: IndexPath?
     
     weak var delegate: TrackerCreationDelegate?
     
@@ -172,6 +175,7 @@ class CreateTrackerViewController: UIViewController {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.ypRed.cgColor
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -182,6 +186,7 @@ class CreateTrackerViewController: UIViewController {
         button.titleLabel?.font = .hugeTitleMedium16
         button.layer.cornerRadius = 16
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -257,6 +262,20 @@ class CreateTrackerViewController: UIViewController {
         clearButton.isHidden = text.isEmpty
         symbolsLimitLabel.isHidden = text.count <= maxCharacterCount
     }
+    @objc private func cancelButtonTapped() {
+         dismiss(animated: true)
+     }
+ 
+     @objc private func createButtonTapped() {
+         
+         let newTracker = Tracker(title: nameTrackerTextField.text ?? "",
+                                  color: .ypBlack,
+                                  emoji: "",
+                                  schedule: [.monday, .tuesday, .thursday, .wednesday, .friday, .saturday, .sunday])
+
+         delegate?.creatingANewTracker(newTracker)
+         dismiss(animated: true)
+     }
 }
 
 extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSource {

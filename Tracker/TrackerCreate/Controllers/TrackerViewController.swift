@@ -133,23 +133,35 @@ final class TrackerViewController: UIViewController {
     }
     
     private func reloadPlaceHolders() {
-        if activeCategories.isEmpty {
-            placeHoldersLabel.isHidden = false
-            placeHoldersImageView.isHidden = false
-            trackersCollectionView.isHidden = true
-        } else {
-            if !categories.isEmpty{
-                placeHoldersLabel.isHidden = false
-                placeHoldersLabel.text = "Ничего не найдено"
-                placeHoldersImageView.isHidden = false
-                placeHoldersImageView.image = UIImage(named: "SearchResultPlaceHolderImage")
-                trackersCollectionView.isHidden = true
-            } else {
-                placeHoldersLabel.isHidden = true
-                placeHoldersLabel.isHidden = true
-                trackersCollectionView.isHidden = false
-            }
-        }}
+     if searchTextField.text?.isEmpty == false {
+      if activeCategories.isEmpty {
+       placeHoldersLabel.isHidden = false
+       placeHoldersLabel.text = "Ничего не найдено"
+       placeHoldersImageView.isHidden = false
+       placeHoldersImageView.image = UIImage(named: "SearchResultPlaceHolderImage")
+       trackersCollectionView.isHidden = true
+      } else {
+       // Отображаем категории
+       placeHoldersLabel.isHidden = true
+       placeHoldersImageView.isHidden = true
+       trackersCollectionView.isHidden = false
+      }
+     } else {
+      if activeCategories.isEmpty {
+       // Добавьте первый трекер
+       placeHoldersLabel.isHidden = false
+       placeHoldersLabel.text = "Добавьте первый трекер"
+       placeHoldersImageView.isHidden = false
+       placeHoldersImageView.image = UIImage(named: "TrackerPlaceHolderImage")
+       trackersCollectionView.isHidden = true
+      } else {
+       placeHoldersLabel.isHidden = true
+       placeHoldersImageView.isHidden = true
+       trackersCollectionView.isHidden = false
+      }
+     }
+    }
+
     
     func updateActiveCategories() {
         let calendar = Calendar.current
@@ -193,7 +205,6 @@ final class TrackerViewController: UIViewController {
     }
     
     private func addSubViews() {
-//        view.addSubview(searchController.searchBar)
         view.addSubview(searchTextField)
         view.addSubview(placeHoldersLabel)
         view.addSubview(placeHoldersImageView)
@@ -320,7 +331,7 @@ extension TrackerViewController: TrackerCellDelegate{
 }
 //MARK: TrackerCreationDelegate
 extension TrackerViewController: TrackerCreationDelegate {
-    func creatingANewTracker(_ tracker: Tracker, isEvent: Bool) {
+    func creatingANewTracker(_ tracker: Tracker) {
         let newCategory = TrackerCategory(
             title: "Важное",
             trackers: [tracker]
@@ -379,5 +390,14 @@ extension TrackerViewController: UITextFieldDelegate{
         updateActiveCategories()
         
         return true
+    }
+}
+extension TrackerViewController: EmojiCollectionViewCellCellDelegate{
+    func edit(indexPath: IndexPath) {
+
+    }
+    
+    func delete(indexPath: IndexPath) {
+
     }
 }

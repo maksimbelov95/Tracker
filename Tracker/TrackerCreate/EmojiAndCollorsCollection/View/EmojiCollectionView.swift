@@ -1,12 +1,19 @@
 
 import UIKit
-
+protocol EmojiCollectionViewCellCellDelegate{
+    
+    func edit(indexPath: IndexPath)
+    
+    func delete(indexPath: IndexPath)
+}
 
 final class EmojiCollectionViewCell: UICollectionViewCell {
     
     var indexPath: IndexPath = IndexPath(row: 0, section: 0)
     
     var onTapped: (() -> Void)?
+    
+    var delegate: EmojiCollectionViewCellCellDelegate?
 
     let emojiCellView: UIView = {
         let view = UIView()
@@ -53,6 +60,30 @@ final class EmojiCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+extension EmojiCollectionViewCell: UIContextMenuInteractionDelegate {
+ 
+ func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+  return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+      
+    let pinUnpin = UIAction(title: "Закрепить", image: UIImage(systemName: "square.and.pencil")) { [weak self] action in
+          guard let self else {return}
+          self.delegate?.edit(indexPath: self.indexPath)
+      }
+
+    let edit = UIAction(title: "Редактировать", image: UIImage(systemName: "square.and.pencil")) { [weak self] action in
+        guard let self else {return}
+        self.delegate?.edit(indexPath: self.indexPath)
+    }
+
+    let delete = UIAction(title: "Удалить", image: UIImage(systemName: "trash"), attributes: .destructive) { [weak self] action in
+        guard let self else {return}
+        self.delegate?.delete(indexPath: self.indexPath)
+    }
+      
+    return UIMenu(children: [pinUnpin, edit, delete])
+   }
+ }
 }
 
 
