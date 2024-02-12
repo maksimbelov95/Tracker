@@ -1,15 +1,18 @@
 import UIKit
 
 protocol TrackerCellDelegate: AnyObject{
-    func trackerButtonTapped(at indexPath: IndexPath)
+    func completedTracker(id: UUID, indexPath: IndexPath)
+    func uncompletedTracker(id: UUID, indexPath: IndexPath)
 }
 
 final class TrackerCellsView: UICollectionViewCell {
     
     weak var delegate: TrackerCellDelegate?
     
-    var indexPath: IndexPath = IndexPath(row: 0, section: 0)
-    var trackerCompleted: Bool = false
+    private var isCompletedToday: Bool = false
+    private var trackerId: UUID?
+    private var indexPath: IndexPath?
+    
     
     let trackerCellView: UIView = {
         let view = UIView()
@@ -37,7 +40,7 @@ final class TrackerCellsView: UICollectionViewCell {
         label.font = .hugeTitleMedium16
         return label
     }()
-    let trackerLabel: UILabel = {
+    var trackerLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .ypWhite
@@ -46,7 +49,7 @@ final class TrackerCellsView: UICollectionViewCell {
         label.numberOfLines = 2
         return label
     }()
-    let countDaysLabel: UILabel = {
+    var countDaysLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .ypBlack
@@ -56,16 +59,63 @@ final class TrackerCellsView: UICollectionViewCell {
     let trackerButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "plus"), for: .normal)
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.layer.cornerRadius = 17
         button.tintColor = .ypWhite
+        button.addTarget(self, action: #selector(trackerButtonTapped), for: .touchUpInside)
         return button
     }()
-    @objc private func trackerButtonTapped() {
-        delegate?.trackerButtonTapped(at: indexPath)
-    }
     override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+    @objc private func trackerButtonTapped() {
+        print("trackebuttontapped")
+        guard let trackerId = trackerId, let indexPath = indexPath else {
+            assertionFailure("no tracker id")
+            return}
+        if isCompletedToday{
+            delegate?.uncompletedTracker(id: trackerId, indexPath: indexPath)
+        }else {
+            delegate?.completedTracker(id: trackerId, indexPath: indexPath)
+        }
+    }
+    func configure(with tracker: Tracker, isCompletedToday: Bool, indexPath: IndexPath, completedDays: Int){
+        self.indexPath = indexPath
+        self.trackerId = tracker.id
+        self.isCompletedToday = isCompletedToday
+        let dayAddition = getDayAddition(completedDays)
+        self.countDaysLabel.text = " \(dayAddition)"
+        let color = tracker.color
+        addElements()
+        setupCellConstraint()
+        
+        trackerCellView.backgroundColor = color
+        trackerButton.backgroundColor = color
+        
+        trackerLabel.text = tracker.title
+        emojiLabel.text = tracker.emoji
+        let image = isCompletedToday ? UIImage(systemName: "checkmark") : UIImage(systemName: "plus")
+        trackerButton.setImage(image, for: .normal)
+        
+    }
+    private func getDayAddition(_ day: Int) -> String {
+
+        let preLastDigit = day % 100 / 10;
+
+        if (preLastDigit == 1) {
+            return "\(day) дней";
+        }
+
+        switch (day % 10) {
+            case 1:
+                return "\(day) день";
+            case 2,3,4:
+                return "\(day) дня";
+            default:
+                return "\(day) дней";
+        }
+    }
+    func addElements() {
         contentView.addSubview(trackerCellView)
         contentView.addSubview(quantityManagementView)
         
@@ -75,10 +125,6 @@ final class TrackerCellsView: UICollectionViewCell {
         
         quantityManagementView.addSubview(countDaysLabel)
         quantityManagementView.addSubview(trackerButton)
-        
-        trackerButton.addTarget(self, action: #selector(trackerButtonTapped), for: .touchUpInside)
-        
-        setupCellConstraint()
     }
     func setupCellConstraint(){
         NSLayoutConstraint.activate([

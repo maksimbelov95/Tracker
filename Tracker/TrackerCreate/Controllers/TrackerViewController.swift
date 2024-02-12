@@ -38,6 +38,7 @@ final class TrackerViewController: UIViewController {
             updateActiveCategories()
         }
     }
+    private var dateSelected: Date?
     private var addTrackerButton = UIBarButtonItem()
     
     private lazy var datePicker: UIDatePicker = {
@@ -141,14 +142,12 @@ final class TrackerViewController: UIViewController {
        placeHoldersImageView.image = UIImage(named: "SearchResultPlaceHolderImage")
        trackersCollectionView.isHidden = true
       } else {
-       // Отображаем категории
        placeHoldersLabel.isHidden = true
        placeHoldersImageView.isHidden = true
        trackersCollectionView.isHidden = false
       }
      } else {
       if activeCategories.isEmpty {
-       // Добавьте первый трекер
        placeHoldersLabel.isHidden = false
        placeHoldersLabel.text = "Добавьте первый трекер"
        placeHoldersImageView.isHidden = false
@@ -162,7 +161,6 @@ final class TrackerViewController: UIViewController {
      }
     }
 
-    
     func updateActiveCategories() {
         let calendar = Calendar.current
         let filterWeekDay = calendar.component(.weekday, from: datePicker.date)
@@ -184,24 +182,6 @@ final class TrackerViewController: UIViewController {
         }
         trackersCollectionView.reloadData()
         reloadPlaceHolders()
-    }
-
-    private func getDayAddition(_ day: Int) -> String {
-
-        let preLastDigit = day % 100 / 10;
-
-        if (preLastDigit == 1) {
-            return "\(day) дней";
-        }
-
-        switch (day % 10) {
-            case 1:
-                return "\(day) день";
-            case 2,3,4:
-                return "\(day) дня";
-            default:
-                return "\(day) дней";
-        }
     }
     
     private func addSubViews() {
@@ -263,70 +243,47 @@ extension TrackerViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TrackerCellsView.self)", for: indexPath) as? TrackerCellsView else{return UICollectionViewCell()}
-                
+        
+        let cellData = activeCategories
+        let currentTracker = cellData[indexPath.section].trackers[indexPath.row]
+        
         cell.delegate = self
-        cell.indexPath = indexPath
         
-        let currentTracker = activeCategories[indexPath.section].trackers[indexPath.row]
-        cell.trackerCellView.backgroundColor = currentTracker.color
-        cell.emojiLabel.text = currentTracker.emoji
-        cell.trackerLabel.text = currentTracker.title
-        cell.trackerButton.backgroundColor = currentTracker.color
+        let isCompletedToday = isTrackerCompletedToday(id: currentTracker.id)
+        let completedDays = completedTrackers.filter{
+            $0.id == currentTracker.id}.count
+        cell.configure(with: currentTracker, isCompletedToday: isCompletedToday, indexPath: indexPath, completedDays: completedDays)
         
-        let trackerRecords = completedTrackers.filter { $0.id == currentTracker.id }
-        let daysCount = trackerRecords.count
-        cell.countDaysLabel.text = getDayAddition(daysCount)
-        
-        let trackerIsCompleted = trackerRecords.contains { Calendar.current.isDate($0.date, inSameDayAs: currentDate) }
-        
-        if trackerIsCompleted {
-            cell.trackerCompleted = true
-            cell.trackerButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-            cell.trackerButton.backgroundColor = currentTracker.color?.withAlphaComponent(0.3)
-        } else {
-            cell.trackerCompleted = false
-            cell.trackerButton.setImage(UIImage(systemName: "plus"), for: .normal)
-            cell.trackerButton.backgroundColor = currentTracker.color
-        }
         return cell
+    }
+    private func isTrackerCompletedToday(id: UUID) -> Bool{
+        completedTrackers.contains{ trackerRecord in
+            let isSameDay = Calendar.current.isDate(trackerRecord.date, inSameDayAs: datePicker.date)
+            return trackerRecord.id == id && isSameDay
+        }
     }
 }
 //MARK: UICollectionViewDelegate
 extension TrackerViewController: TrackerCellDelegate{
-    func trackerButtonTapped(at indexPath: IndexPath) {
-        let selectedCategory = activeCategories[indexPath.section]
-        let selectedTracker = selectedCategory.trackers[indexPath.row]
+    func completedTracker(id: UUID, indexPath: IndexPath) {
+        print("\(currentDate)    \(datePicker.date)")
+        if currentDate > datePicker.date {
+            let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
+            completedTrackers.append(trackerRecord)
+            trackersCollectionView.reloadItems(at:[ indexPath] )
+        }else {return}
+    }
         
-        let today = Date()
-        if currentDate > today {return}
-        
-        _ = completedTrackers.filter { $0.id == selectedTracker.id }
-        
-        if let existingRecord = completedTrackers.first(where: { $0.id == selectedTracker.id && Calendar.current.isDate($0.date, inSameDayAs: currentDate) }) {
-            if let index = completedTrackers.firstIndex(where: { $0.id == existingRecord.id }) {
-                completedTrackers.remove(at: index)
-                if let cell = trackersCollectionView.cellForItem(at: indexPath) as? TrackerCellsView {
-                    cell.trackerCompleted = false
-                    cell.trackerButton.setImage(UIImage(systemName: "plus"), for: .normal)
-                    cell.trackerButton.backgroundColor = selectedTracker.color
-                }
-            }
-        } else {
-            let newRecord = TrackerRecord(id: selectedTracker.id, date: currentDate)
-            completedTrackers.append(newRecord)
-            
-            if let cell = trackersCollectionView.cellForItem(at: indexPath) as? TrackerCellsView {
-                cell.trackerCompleted = true
-                cell.trackerButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-                cell.trackerButton.backgroundColor = selectedTracker.color?.withAlphaComponent(0.3)
-            }
-        }
-        
-        let cell = trackersCollectionView.cellForItem(at: indexPath) as! TrackerCellsView
-                let daysCount = completedTrackers.filter { $0.id == selectedTracker.id }.count
-                cell.countDaysLabel.text = getDayAddition(daysCount)
+    func uncompletedTracker(id: UUID, indexPath: IndexPath) {
 
-                trackersCollectionView.reloadData()
+        if currentDate > datePicker.date {
+
+            completedTrackers.removeAll{ trackerRecord in
+                let isSameDay = Calendar.current.isDate(trackerRecord.date, inSameDayAs: datePicker.date)
+                return trackerRecord.id == id && isSameDay
+            }
+            trackersCollectionView.reloadItems(at:[ indexPath] )
+        }else {return}
     }
 }
 //MARK: TrackerCreationDelegate

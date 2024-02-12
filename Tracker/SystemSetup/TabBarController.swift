@@ -26,9 +26,8 @@ class TabBarController: UITabBarController{
     }
     private func setupTabBar(){
         tabBar.backgroundColor = .white
-
-            
-        
+        tabBar.layer.borderWidth = 1
+        tabBar.layer.borderColor = UIColor.systemGray5.cgColor     
     }
     private func setupNavControllers(){
     }

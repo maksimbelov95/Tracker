@@ -33,6 +33,8 @@
 		4B6508C02B6D711F0093A221 /* ColorCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6508BF2B6D711F0093A221 /* ColorCollectionViewController.swift */; };
 		4B6508C22B6D73B70093A221 /* ColorsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6508C12B6D73B70093A221 /* ColorsCollectionView.swift */; };
 		4B679B5F2B7163CD00E70EEC /* EmojiAndColorsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B679B5E2B7163CD00E70EEC /* EmojiAndColorsHeaderView.swift */; };
+		4B68946A2B7A906B00F1B74F /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6894692B7A906B00F1B74F /* OnboardingViewController.swift */; };
+		4B68946C2B7AA00300F1B74F /* UserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B68946B2B7AA00300F1B74F /* UserStorage.swift */; };
 		4B73E6722B654E38009C20DF /* CreateTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B73E6712B654E38009C20DF /* CreateTrackerViewController.swift */; };
 		4B73E6742B68300B009C20DF /* EmojiCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B73E6732B68300B009C20DF /* EmojiCollectionView.swift */; };
 		4B73E6762B6834FA009C20DF /* EmojiCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B73E6752B6834FA009C20DF /* EmojiCollectionViewController.swift */; };
@@ -69,6 +71,8 @@
 		4B6508BF2B6D711F0093A221 /* ColorCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewController.swift; sourceTree = "<group>"; };
 		4B6508C12B6D73B70093A221 /* ColorsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsCollectionView.swift; sourceTree = "<group>"; };
 		4B679B5E2B7163CD00E70EEC /* EmojiAndColorsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiAndColorsHeaderView.swift; sourceTree = "<group>"; };
+		4B6894692B7A906B00F1B74F /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		4B68946B2B7AA00300F1B74F /* UserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStorage.swift; sourceTree = "<group>"; };
 		4B73E6712B654E38009C20DF /* CreateTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerViewController.swift; sourceTree = "<group>"; };
 		4B73E6732B68300B009C20DF /* EmojiCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionView.swift; sourceTree = "<group>"; };
 		4B73E6752B6834FA009C20DF /* EmojiCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +159,8 @@
 			children = (
 				4B5BB92F2B02B19A005EC75D /* AppDelegate.swift */,
 				4B5BB9312B02B19A005EC75D /* SceneDelegate.swift */,
+				4B6894692B7A906B00F1B74F /* OnboardingViewController.swift */,
+				4B68946B2B7AA00300F1B74F /* UserStorage.swift */,
 				4B61003F2B069B7B00A333FB /* TabBarController.swift */,
 			);
 			path = SystemSetup;
@@ -355,6 +361,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B3502F12B597AD50095C874 /* TrackerCategoryModel.swift in Sources */,
+				4B68946C2B7AA00300F1B74F /* UserStorage.swift in Sources */,
 				4B5BB9342B02B19A005EC75D /* TrackerViewController.swift in Sources */,
 				4B3503142B5D8B0B0095C874 /* Extension+Fonts.swift in Sources */,
 				4B3502EB2B597A490095C874 /* Extension+UIColor.swift in Sources */,
@@ -363,6 +370,7 @@
 				4B5BB9302B02B19A005EC75D /* AppDelegate.swift in Sources */,
 				4B35030B2B5BA03E0095C874 /* SchudelViewController.swift in Sources */,
 				4B73E6742B68300B009C20DF /* EmojiCollectionView.swift in Sources */,
+				4B68946A2B7A906B00F1B74F /* OnboardingViewController.swift in Sources */,
 				4B3502F32B597AE00095C874 /* TrackerRecordModel.swift in Sources */,
 				4B35030F2B5D68640095C874 /* TabelViewCell.swift in Sources */,
 				4B3503092B5AB7E40095C874 /* SelectingATrackerTypeController(delete).swift in Sources */,
