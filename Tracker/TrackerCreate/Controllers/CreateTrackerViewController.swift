@@ -11,8 +11,12 @@ class CreateTrackerViewController: UIViewController {
     
     var emojiIndexPath: IndexPath?
     var colorsIndexPath: IndexPath?
+    
+    private var emoji: String?
+    private var color: UIColor?
 
     weak var delegate: TrackerCreationDelegate?
+    
     
     private let maxCharacterCount = 38
     private let state: ViewState
@@ -266,7 +270,7 @@ class CreateTrackerViewController: UIViewController {
         ])
     }
     private func updateCreateButton(){
-        var bool = !(nameTrackerTextField.text?.isEmpty == true) && habitDesc != nil && !schedule.isEmpty
+        let bool = !(nameTrackerTextField.text?.isEmpty == true) && habitDesc != nil && !schedule.isEmpty && color != nil && emoji != nil
         createButton.isEnabled = bool
         createButton.backgroundColor = bool ? .ypBlack : .ypGray
     }
@@ -282,9 +286,10 @@ class CreateTrackerViewController: UIViewController {
      }
  
      @objc private func createButtonTapped() {
+         guard let emoji = self.emoji, let color = self.color else {return}
          let newTracker = Tracker(title: nameTrackerTextField.text ?? "",
-                                  color: .ypBlack,
-                                  emoji: "",
+                                  color: color,
+                                  emoji: emoji,
                                   schedule: schedule)
          delegate?.creatingANewTracker(newTracker)
          dismiss(animated: true)
@@ -348,5 +353,16 @@ extension CreateTrackerViewController: ScheduleSelectionDelegate{
         self.schedule = selectedSchedule
         tableView.reloadData()
         updateCreateButton()
+    }
+}
+
+extension CreateTrackerViewController: EmojiCollectionViewControllerDelegate{
+    func emojiDelegate(emoji: String) {
+        self.emoji = emoji
+    }
+}
+extension CreateTrackerViewController: ColorCollectionViewControllerDelegate{
+    func colorDelegate(color: UIColor) {
+        self.color = color
     }
 }

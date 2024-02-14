@@ -267,7 +267,7 @@ extension TrackerViewController: UICollectionViewDataSource{
 extension TrackerViewController: TrackerCellDelegate{
     func completedTracker(id: UUID, indexPath: IndexPath) {
         let calendar = Calendar.current
-        if calendar.component(.weekday, from: currentDate) >= calendar.component(.weekday, from: datePicker.date){
+        if calendar.component(.day, from: currentDate) >= calendar.component(.day, from: datePicker.date){
             let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
             completedTrackers.append(trackerRecord)
             trackersCollectionView.reloadItems(at:[ indexPath] )
@@ -345,12 +345,4 @@ extension TrackerViewController: UITextFieldDelegate{
         return true
     }
 }
-extension TrackerViewController: EmojiCollectionViewCellCellDelegate{
-    func edit(indexPath: IndexPath) {
 
-    }
-    
-    func delete(indexPath: IndexPath) {
-
-    }
-}

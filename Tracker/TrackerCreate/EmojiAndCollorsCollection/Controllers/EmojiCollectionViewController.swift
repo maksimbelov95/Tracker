@@ -43,6 +43,7 @@ extension EmojiCollectionViewController: UICollectionViewDelegate, UICollectionV
         let emoji = self.emoji[indexPath.row]
         self.indexPath = indexPath
         emojiSelected?.emojiDelegate(emoji: emoji)
+        self.reloadData()
     }
 }
 

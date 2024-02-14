@@ -1,6 +1,13 @@
 import UIKit
 
+protocol ColorCollectionViewControllerDelegate: AnyObject{
+    func colorDelegate(color: UIColor)
+}
 class ColorCollectionViewController: UICollectionView {
+    
+    weak var colorSelected: ColorCollectionViewControllerDelegate?
+    
+    private var indexPath: IndexPath?
     
     private let colorSelection: [UIColor] = [
         UIColor(named: "Color Selection 1") ?? .red,
@@ -36,8 +43,21 @@ extension ColorCollectionViewController: UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCell", for: indexPath) as! ColorCollectionViewCell
         cell.colorsCellView.backgroundColor = colorSelection[indexPath.row]
+        if indexPath == self.indexPath{
+            cell.colorsCellView.layer.borderWidth = 4
+            cell.colorsCellView.layer.borderColor = UIColor.ypGray.cgColor
+        } else {
+            cell.colorsCellView.layer.borderWidth = 0
+        }
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
+        let color = self.colorSelection[indexPath.row]
+        self.indexPath = indexPath
+        colorSelected?.colorDelegate(color: color)
+        self.reloadData()
+    }
+
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "EmojiAndColorsHeaderView", for: indexPath) as? EmojiAndColorsHeaderView else {return UICollectionReusableView()}
         headerView.titleLabel.text = "Цвет"

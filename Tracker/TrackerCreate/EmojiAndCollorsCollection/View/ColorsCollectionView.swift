@@ -4,10 +4,6 @@ import UIKit
 
 final class ColorCollectionViewCell: UICollectionViewCell {
     
-    var indexPath: IndexPath = IndexPath(row: 0, section: 0)
-    
-    var onTapped: (() -> Void)?
-
     let colorsCellView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -17,20 +13,12 @@ final class ColorCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    @objc private func colorTapped() {
-        self.onTapped?()
-    }
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.layer.masksToBounds = false
         contentView.layer.cornerRadius = 16
         addSubview()
         setupCellConstraint()
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(colorTapped))
-        self.addGestureRecognizer(gesture)
-        
-
     }
     
     func setupCellConstraint(){
