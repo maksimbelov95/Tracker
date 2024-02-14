@@ -44,10 +44,10 @@ extension ColorCollectionViewController: UICollectionViewDelegate, UICollectionV
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCell", for: indexPath) as! ColorCollectionViewCell
         cell.colorsCellView.backgroundColor = colorSelection[indexPath.row]
         if indexPath == self.indexPath{
-            cell.colorsCellView.layer.borderWidth = 4
-            cell.colorsCellView.layer.borderColor = UIColor.ypGray.cgColor
+            cell.contentView.layer.borderWidth = 3
+            cell.contentView.layer.borderColor = UIColor.ypGray.cgColor
         } else {
-            cell.colorsCellView.layer.borderWidth = 0
+            cell.contentView.layer.borderWidth = 0
         }
         return cell
     }
