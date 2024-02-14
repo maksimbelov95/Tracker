@@ -13,7 +13,6 @@
 		4B3502F32B597AE00095C874 /* TrackerRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502F22B597AE00095C874 /* TrackerRecordModel.swift */; };
 		4B3502F72B597B030095C874 /* TrackerCellsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502F62B597B030095C874 /* TrackerCellsView.swift */; };
 		4B3502FE2B5A54810095C874 /* TrackerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3502FD2B5A54810095C874 /* TrackerHeaderView.swift */; };
-		4B3503092B5AB7E40095C874 /* SelectingATrackerTypeController(delete).swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3503082B5AB7E40095C874 /* SelectingATrackerTypeController(delete).swift */; };
 		4B35030B2B5BA03E0095C874 /* SchudelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B35030A2B5BA03E0095C874 /* SchudelViewController.swift */; };
 		4B35030D2B5BA06B0095C874 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B35030C2B5BA06B0095C874 /* ScheduleTableViewCell.swift */; };
 		4B35030F2B5D68640095C874 /* TabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B35030E2B5D68640095C874 /* TabelViewCell.swift */; };
@@ -50,7 +49,6 @@
 		4B3502F22B597AE00095C874 /* TrackerRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordModel.swift; sourceTree = "<group>"; };
 		4B3502F62B597B030095C874 /* TrackerCellsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCellsView.swift; sourceTree = "<group>"; };
 		4B3502FD2B5A54810095C874 /* TrackerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerHeaderView.swift; sourceTree = "<group>"; };
-		4B3503082B5AB7E40095C874 /* SelectingATrackerTypeController(delete).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectingATrackerTypeController(delete).swift"; sourceTree = "<group>"; };
 		4B35030A2B5BA03E0095C874 /* SchudelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchudelViewController.swift; sourceTree = "<group>"; };
 		4B35030C2B5BA06B0095C874 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		4B35030E2B5D68640095C874 /* TabelViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabelViewCell.swift; sourceTree = "<group>"; };
@@ -325,7 +323,6 @@
 			children = (
 				4B5BB9332B02B19A005EC75D /* TrackerViewController.swift */,
 				4B3503152B5D94A10095C874 /* TrackerTypeSelectionViewController.swift */,
-				4B3503082B5AB7E40095C874 /* SelectingATrackerTypeController(delete).swift */,
 				4B73E6712B654E38009C20DF /* CreateTrackerViewController.swift */,
 			);
 			path = Controllers;
@@ -415,7 +412,6 @@
 				4B5C9ED72B7C857C0062A500 /* OnboardingPageController.swift in Sources */,
 				4B3502F32B597AE00095C874 /* TrackerRecordModel.swift in Sources */,
 				4B35030F2B5D68640095C874 /* TabelViewCell.swift in Sources */,
-				4B3503092B5AB7E40095C874 /* SelectingATrackerTypeController(delete).swift in Sources */,
 				4B6508C02B6D711F0093A221 /* ColorCollectionViewController.swift in Sources */,
 				4B6508C22B6D73B70093A221 /* ColorsCollectionView.swift in Sources */,
 				4B5BB9322B02B19A005EC75D /* SceneDelegate.swift in Sources */,
