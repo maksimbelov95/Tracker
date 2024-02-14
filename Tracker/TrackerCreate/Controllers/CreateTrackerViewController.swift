@@ -270,7 +270,7 @@ class CreateTrackerViewController: UIViewController {
         ])
     }
     private func updateCreateButton(){
-        let bool = !(nameTrackerTextField.text?.isEmpty == true) && habitDesc != nil && !schedule.isEmpty && color != nil && emoji != nil
+        let bool = !(nameTrackerTextField.text?.isEmpty == true) && habitDesc != nil && !schedule.isEmpty //&& color != nil && emoji != nil
         createButton.isEnabled = bool
         createButton.backgroundColor = bool ? .ypBlack : .ypGray
     }
@@ -359,10 +359,12 @@ extension CreateTrackerViewController: ScheduleSelectionDelegate{
 extension CreateTrackerViewController: EmojiCollectionViewControllerDelegate{
     func emojiDelegate(emoji: String) {
         self.emoji = emoji
+        updateCreateButton()
     }
 }
 extension CreateTrackerViewController: ColorCollectionViewControllerDelegate{
     func colorDelegate(color: UIColor) {
         self.color = color
+        updateCreateButton()
     }
 }

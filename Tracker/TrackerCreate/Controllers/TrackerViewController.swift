@@ -97,6 +97,17 @@ final class TrackerViewController: UIViewController {
         textField.delegate = self
         return textField
     }()
+    private let filterButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Фильтры", for: .normal)
+        button.titleLabel?.textColor = .ypWhite
+        button.backgroundColor = .ypBlue
+        button.titleLabel?.font = .hugeTitleMedium17
+        button.layer.cornerRadius = 16
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
+        return button
+    }()
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,6 +125,12 @@ final class TrackerViewController: UIViewController {
     //MARK: Functions
     @objc private func dateChanged(sender: UIDatePicker) {
        updateActiveCategories()
+    }
+    @objc private func filterButtonTapped(){
+        let createVC = FilterViewController()
+//        createVC.delegate = self
+        let navController = UINavigationController(rootViewController: createVC)
+        present(navController, animated: true, completion: nil)
     }
     
     private func setupNavBar(){
@@ -189,6 +206,7 @@ final class TrackerViewController: UIViewController {
         view.addSubview(placeHoldersLabel)
         view.addSubview(placeHoldersImageView)
         view.addSubview(trackersCollectionView)
+        view.addSubview(filterButton)
     }
     
     private func trackerHeaderAdd(){
@@ -218,7 +236,13 @@ final class TrackerViewController: UIViewController {
             searchTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
             searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            searchTextField.heightAnchor.constraint(equalToConstant: 36)
+            searchTextField.heightAnchor.constraint(equalToConstant: 36),
+            
+            filterButton.heightAnchor.constraint(equalToConstant: 50),
+            filterButton.widthAnchor.constraint(equalToConstant: 114),
+            filterButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 130),
+            filterButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -130),
+            filterButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
         ])
     }
 }

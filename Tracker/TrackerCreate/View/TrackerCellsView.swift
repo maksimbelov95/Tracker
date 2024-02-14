@@ -14,7 +14,7 @@ final class TrackerCellsView: UICollectionViewCell {
     private var indexPath: IndexPath?
     
     
-    let trackerCellView: UIView = {
+    private lazy var trackerCellView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .ypBackgroundDay
@@ -22,25 +22,25 @@ final class TrackerCellsView: UICollectionViewCell {
         view.layer.borderWidth = 0
         return view
     }()
-    let quantityManagementView: UIView = {
+    private lazy var quantityManagementView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    let emojiView: UIView = {
+    private lazy var emojiView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor.white.withAlphaComponent(0.3)
         view.layer.cornerRadius = 12
         return view
     }()
-    let emojiLabel: UILabel = {
+    private lazy var emojiLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .hugeTitleMedium16
         return label
     }()
-    var trackerLabel: UILabel = {
+    private lazy var trackerLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .ypWhite
@@ -49,14 +49,14 @@ final class TrackerCellsView: UICollectionViewCell {
         label.numberOfLines = 2
         return label
     }()
-    var countDaysLabel: UILabel = {
+    private lazy var countDaysLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .ypBlack
         label.font = .hugeTitleMedium12
         return label
     }()
-    let trackerButton: UIButton = {
+    private lazy var trackerButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -65,6 +65,14 @@ final class TrackerCellsView: UICollectionViewCell {
         button.addTarget(self, action: #selector(trackerButtonTapped), for: .touchUpInside)
         return button
     }()
+    private lazy var pinImage: UIImageView = {
+        let pinImage = UIImageView()
+        pinImage.translatesAutoresizingMaskIntoConstraints = false
+        pinImage.image = UIImage(named: "Pin")
+        pinImage.isHidden = true
+        return pinImage
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -119,6 +127,7 @@ final class TrackerCellsView: UICollectionViewCell {
         contentView.addSubview(quantityManagementView)
         
         trackerCellView.addSubview(emojiView)
+        trackerCellView.addSubview(pinImage)
         emojiView.addSubview(emojiLabel)
         trackerCellView.addSubview(trackerLabel)
         
@@ -155,7 +164,12 @@ final class TrackerCellsView: UICollectionViewCell {
             trackerButton.trailingAnchor.constraint(equalTo: quantityManagementView.trailingAnchor, constant: -12),
             trackerButton.topAnchor.constraint(equalTo: quantityManagementView.topAnchor, constant: 8),
             trackerButton.widthAnchor.constraint(equalToConstant: 34),
-            trackerButton.heightAnchor.constraint(equalToConstant: 34)
+            trackerButton.heightAnchor.constraint(equalToConstant: 34),
+            
+            pinImage.heightAnchor.constraint(equalToConstant: 12),
+            pinImage.widthAnchor.constraint(equalToConstant: 8),
+            pinImage.topAnchor.constraint(equalTo: trackerCellView.topAnchor, constant: 18),
+            pinImage.trailingAnchor.constraint(equalTo: trackerCellView.trailingAnchor, constant: -12)
         ])
     }
     
