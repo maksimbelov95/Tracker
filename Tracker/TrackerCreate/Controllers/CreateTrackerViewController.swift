@@ -11,14 +11,23 @@ class CreateTrackerViewController: UIViewController {
     
     var emojiIndexPath: IndexPath?
     var colorsIndexPath: IndexPath?
-    
+
     weak var delegate: TrackerCreationDelegate?
     
     private let maxCharacterCount = 38
     private let state: ViewState
     private var habitDesc: String?
-    private var eventDesc: String?
-
+    private var eventDesc: String {
+        if schedule.count == 7 {
+        return  "Каждый день"
+            
+        } else {
+            
+        return  schedule.map({$0.shortDaysOfWeek()}).joined(separator: ", ")
+            
+        }
+    }
+    
     
     enum ViewState {
         case habit
@@ -192,6 +201,7 @@ class CreateTrackerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateCreateButton()
         addSubViews()
         addViewToStackView()
         setUpConstraints()
@@ -255,12 +265,17 @@ class CreateTrackerViewController: UIViewController {
             stackViewButton.heightAnchor.constraint(equalToConstant: 60),    
         ])
     }
+    private func updateCreateButton(){
+        var bool = !(nameTrackerTextField.text?.isEmpty == true) && habitDesc != nil && !schedule.isEmpty
+        createButton.isEnabled = bool
+        createButton.backgroundColor = bool ? .ypBlack : .ypGray
+    }
     
     @objc private func textFieldDidChange() {
         guard let text = nameTrackerTextField.text else { return }
-
         clearButton.isHidden = text.isEmpty
         symbolsLimitLabel.isHidden = text.count <= maxCharacterCount
+        updateCreateButton()
     }
     @objc private func cancelButtonTapped() {
          dismiss(animated: true)
@@ -270,8 +285,7 @@ class CreateTrackerViewController: UIViewController {
          let newTracker = Tracker(title: nameTrackerTextField.text ?? "",
                                   color: .ypBlack,
                                   emoji: "",
-                                  schedule: [.monday, .tuesday, .thursday, .wednesday, .friday, .saturday, .sunday])
-
+                                  schedule: schedule)
          delegate?.creatingANewTracker(newTracker)
          dismiss(animated: true)
      }
@@ -332,12 +346,7 @@ extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSourc
 extension CreateTrackerViewController: ScheduleSelectionDelegate{
     func selectedSchedule(_ selectedSchedule: [Schedule]) {
         self.schedule = selectedSchedule
-        if selectedSchedule.count == 7 {
-            self.eventDesc = "Каждый день"}
-        else {
-            self.eventDesc = selectedSchedule.map({$0.shortDaysOfWeek()}).joined(separator: ", ")
-        }
         tableView.reloadData()
-//        updateCreateButtonState()
+        updateCreateButton()
     }
 }

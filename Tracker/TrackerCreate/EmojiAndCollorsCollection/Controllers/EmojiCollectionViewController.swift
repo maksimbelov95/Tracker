@@ -1,7 +1,16 @@
 import UIKit
 
+protocol EmojiCollectionViewControllerDelegate: AnyObject{
+    func emojiDelegate(emoji: String)
+}
+
 class EmojiCollectionViewController: UICollectionView {
     private let emoji = ["🙂", "😻","🌺","🐶","❤️","😱","😇","😡","🥶","🤔","🙌","🍔","🥦","🏓","🥇","🎸","🌴","😪"]
+    
+    weak var emojiSelected: EmojiCollectionViewControllerDelegate?
+    
+    private var indexPath: IndexPath?
+    
 }
 
 extension EmojiCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -17,6 +26,11 @@ extension EmojiCollectionViewController: UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath) as! EmojiCollectionViewCell
         cell.emojiLabel.text = emoji[indexPath.row]
+        if indexPath == self.indexPath{
+            cell.emojiCellView.backgroundColor = .ypGray
+        } else {
+            cell.emojiCellView.backgroundColor = .clear
+        }
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -26,7 +40,9 @@ extension EmojiCollectionViewController: UICollectionViewDelegate, UICollectionV
             return headerView
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-        let indexPath = indexPath
+        let emoji = self.emoji[indexPath.row]
+        self.indexPath = indexPath
+        emojiSelected?.emojiDelegate(emoji: emoji)
     }
 }
 
