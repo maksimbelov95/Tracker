@@ -267,7 +267,6 @@ class CreateTrackerViewController: UIViewController {
      }
  
      @objc private func createButtonTapped() {
-         
          let newTracker = Tracker(title: nameTrackerTextField.text ?? "",
                                   color: .ypBlack,
                                   emoji: "",

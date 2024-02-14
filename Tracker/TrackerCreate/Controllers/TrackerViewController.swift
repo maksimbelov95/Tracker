@@ -266,8 +266,8 @@ extension TrackerViewController: UICollectionViewDataSource{
 //MARK: UICollectionViewDelegate
 extension TrackerViewController: TrackerCellDelegate{
     func completedTracker(id: UUID, indexPath: IndexPath) {
-        print("\(currentDate)    \(datePicker.date)")
-        if currentDate > datePicker.date {
+        let calendar = Calendar.current
+        if calendar.component(.weekday, from: currentDate) >= calendar.component(.weekday, from: datePicker.date){
             let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
             completedTrackers.append(trackerRecord)
             trackersCollectionView.reloadItems(at:[ indexPath] )
@@ -275,15 +275,11 @@ extension TrackerViewController: TrackerCellDelegate{
     }
         
     func uncompletedTracker(id: UUID, indexPath: IndexPath) {
-
-        if currentDate > datePicker.date {
-
             completedTrackers.removeAll{ trackerRecord in
                 let isSameDay = Calendar.current.isDate(trackerRecord.date, inSameDayAs: datePicker.date)
                 return trackerRecord.id == id && isSameDay
             }
             trackersCollectionView.reloadItems(at:[ indexPath] )
-        }else {return}
     }
 }
 //MARK: TrackerCreationDelegate

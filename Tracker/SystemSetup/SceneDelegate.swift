@@ -18,7 +18,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = OnboardingViewController()
         window.makeKeyAndVisible()
         self.window = window
-        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -51,46 +50,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
-//
-//import UIKit
-//
-//class FirstLaunchViewController: UIViewController {
-//override func viewDidLoad() {
-//super.viewDidLoad()
-//// Здесь можно добавить настройки для экрана первого запуска
-//view.backgroundColor = .white
-//let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
-//label.text = "Экран первого запуска"
-//label.center = view.center
-//view.addSubview(label)
-//}
-//}
-//
-//class AppDelegate: UIResponder, UIApplicationDelegate {
-//var window: UIWindow?
-//
-//func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-//// Проверяем, запущено ли приложение впервые
-//let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
-//if !launchedBefore {
-//// Если приложение запущено впервые, создаем экран первого запуска и показываем его
-//window = UIWindow(frame: UIScreen.main.bounds)
-//window?.rootViewController = FirstLaunchViewController()
-//window?.makeKeyAndVisible()
-//// Устанавливаем значение, чтобы знать, что приложение уже было запущено
-//UserDefaults.standard.set(true, forKey: "launchedBefore")
-//} else {
-//// Если приложение уже запускалось, можно перейти к основному экрану
-//// Здесь можно установить ваш основной экран или перейти на другой экран
-//}
-//return true
-//}
-//}
-//
-//// Запуск приложения
-//UIApplicationMain(
-//CommandLine.argc,
-//CommandLine.unsafeArgv,
-//nil,
-//NSStringFromClass(AppDelegate.self)
-//)

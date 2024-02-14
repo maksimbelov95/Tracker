@@ -69,7 +69,6 @@ final class TrackerCellsView: UICollectionViewCell {
         super.init(frame: frame)
     }
     @objc private func trackerButtonTapped() {
-        print("trackebuttontapped")
         guard let trackerId = trackerId, let indexPath = indexPath else {
             assertionFailure("no tracker id")
             return}
