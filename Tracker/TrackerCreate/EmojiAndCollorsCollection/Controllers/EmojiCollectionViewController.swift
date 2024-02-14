@@ -1,7 +1,7 @@
 import UIKit
 
 protocol EmojiCollectionViewControllerDelegate: AnyObject{
-    func emojiDelegate(emoji: String)
+    func emojiDelegate(_ emoji: String)
 }
 
 class EmojiCollectionViewController: UICollectionView {
@@ -42,7 +42,7 @@ extension EmojiCollectionViewController: UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
         let emoji = self.emoji[indexPath.row]
         self.indexPath = indexPath
-        emojiSelected?.emojiDelegate(emoji: emoji)
+        emojiSelected?.emojiDelegate(emoji)
         self.reloadData()
     }
 }

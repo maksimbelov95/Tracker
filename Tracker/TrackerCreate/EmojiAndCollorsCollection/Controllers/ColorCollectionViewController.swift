@@ -1,7 +1,7 @@
 import UIKit
 
 protocol ColorCollectionViewControllerDelegate: AnyObject{
-    func colorDelegate(color: UIColor)
+    func colorDelegate(_ color: UIColor)
 }
 class ColorCollectionViewController: UICollectionView {
     
@@ -54,7 +54,7 @@ extension ColorCollectionViewController: UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
         let color = self.colorSelection[indexPath.row]
         self.indexPath = indexPath
-        colorSelected?.colorDelegate(color: color)
+        colorSelected?.colorDelegate(color)
         self.reloadData()
     }
 

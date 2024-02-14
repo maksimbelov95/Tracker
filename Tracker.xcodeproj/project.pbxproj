@@ -98,7 +98,6 @@
 		4B3502EC2B597A790095C874 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				4B5C9EDB2B7D47C50062A500 /* Filter */,
 				4B5747452B75709900C056F5 /* TrackerHeader */,
 				4B3502F62B597B030095C874 /* TrackerCellsView.swift */,
 				4B35030E2B5D68640095C874 /* TabelViewCell.swift */,
@@ -175,6 +174,7 @@
 			children = (
 				4B5747402B756F6D00C056F5 /* EmojiAndCollorsCollection */,
 				4B57473B2B756ECC00C056F5 /* Schedule */,
+				4B5C9EDB2B7D47C50062A500 /* Filter */,
 				4B3502EC2B597A790095C874 /* View */,
 				4B6100412B069B8500A333FB /* Controllers */,
 			);
