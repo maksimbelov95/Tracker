@@ -305,8 +305,13 @@ extension TrackerViewController: UICollectionViewDataSource{
 //MARK: UICollectionViewDelegate
 extension TrackerViewController: TrackerCellDelegate{
     func completedTracker(id: UUID, indexPath: IndexPath) {
-        let calendar = Calendar.current
-        if calendar.component(.day, from: currentDate) >= calendar.component(.day, from: datePicker.date){
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yy"
+        let currentDate = dateFormatter.string(from: currentDate)
+        let datePickerDate = dateFormatter.string(from: datePicker.date)
+        
+        if currentDate >= datePickerDate{
             let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
             completedTrackers.append(trackerRecord)
             trackersCollectionView.reloadItems(at:[ indexPath] )
@@ -389,10 +394,36 @@ extension TrackerViewController{
         
     }
     func allTrackerShow(){
-        filteredCategories = categories
-        
-        print(activeCategories)
+//        print(activeCategories)
+//        filteredCategories = categories.map{ category in
+//            let trackers = category.trackers.filter {tracker in
+//                if tracker.schedule == [.monday, .friday, .saturday, .sunday, .thursday, .tuesday, .wednesday]{
+//
+//                    return
+//                }
+//            }
+//
+//        }
+
+//            activeCategories = categories.compactMap { category in
+//                let trackers = category.trackers.filter { tracker in
+//                    let textCondition = filterText.isEmpty ||
+//                    tracker.title.lowercased().contains(filterText)
+//                    let dateCondition = tracker.schedule.contains{ weekDay in
+//                        weekDay.rawValue == filterWeekDay} == true
+//                     return textCondition && dateCondition
+//                }
+//
+//                if trackers.isEmpty{ return nil }
+//
+//                return TrackerCategory(
+//                    title: category.title, trackers: trackers)
+//            }
+//            trackersCollectionView.reloadData()
+//            reloadPlaceHolders()
         trackersCollectionView.reloadData()
+        reloadPlaceHolders()
+//        }
     }
     func completedTrackerShow(){
         
