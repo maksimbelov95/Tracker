@@ -2,7 +2,7 @@
 import UIKit
 
 protocol TrackerCreationDelegate: AnyObject {
-    func creatingANewTracker(_ tracker: Tracker)
+    func creatingANewTracker(tracker: Tracker, category: String)
 }
 
 class CreateTrackerViewController: UIViewController {
@@ -17,7 +17,6 @@ class CreateTrackerViewController: UIViewController {
 
     weak var delegate: TrackerCreationDelegate?
     
-    
     private let maxCharacterCount = 38
     private let state: ViewState
     private var habitDesc: String?
@@ -31,7 +30,6 @@ class CreateTrackerViewController: UIViewController {
             
         }
     }
-    
     
     enum ViewState {
         case habit
@@ -154,6 +152,7 @@ class CreateTrackerViewController: UIViewController {
         emojiCollectionView.backgroundColor = .ypWhite
         emojiCollectionView.delegate = emojiCollectionView
         emojiCollectionView.dataSource = emojiCollectionView
+        emojiCollectionView.emojiSelected = self
         return emojiCollectionView
     }()
     
@@ -166,6 +165,7 @@ class CreateTrackerViewController: UIViewController {
         colorCollectionView.backgroundColor = .ypWhite
         colorCollectionView.delegate = colorCollectionView
         colorCollectionView.dataSource = colorCollectionView
+        colorCollectionView.colorSelected = self
         return colorCollectionView
     }()
 
@@ -179,7 +179,7 @@ class CreateTrackerViewController: UIViewController {
         return button
     }()
     
-    private let cancelButton: UIButton = {
+    private lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.setTitle("Отменить", for: .normal)
         button.setTitleColor(UIColor.ypRed, for: .normal)
@@ -192,7 +192,7 @@ class CreateTrackerViewController: UIViewController {
         return button
     }()
 
-    private let createButton: UIButton = {
+    private lazy var createButton: UIButton = {
         let button = UIButton()
         button.setTitle("Создать", for: .normal)
         button.backgroundColor = .ypGray
@@ -270,7 +270,7 @@ class CreateTrackerViewController: UIViewController {
         ])
     }
     private func updateCreateButton(){
-        let bool = !(nameTrackerTextField.text?.isEmpty == true) && habitDesc != nil && !schedule.isEmpty // && emoji != nil//&& color != nil
+        let bool = !(nameTrackerTextField.text?.isEmpty == true) && habitDesc != nil && !schedule.isEmpty && emoji != nil && color != nil
         createButton.isEnabled = bool
         createButton.backgroundColor = bool ? .ypBlack : .ypGray
     }
@@ -287,11 +287,12 @@ class CreateTrackerViewController: UIViewController {
  
      @objc private func createButtonTapped() {
          guard let emoji = self.emoji, let color = self.color else {return}
+         guard let category = habitDesc else {return}
          let newTracker = Tracker(title: nameTrackerTextField.text ?? "",
                                   color: color,
                                   emoji: emoji,
                                   schedule: schedule)
-         delegate?.creatingANewTracker(newTracker)
+         delegate?.creatingANewTracker(tracker: newTracker,category: category)
          dismiss(animated: true)
      }
 }

@@ -32,6 +32,7 @@ final class TrackerViewController: UIViewController {
     ]
     private var activeCategories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
+    private var filteredCategories: [TrackerCategory] = []
     
     private var currentDate: Date = Date() {
         didSet {
@@ -112,7 +113,6 @@ final class TrackerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
-//        setupSearchController()
         addSubViews()
         trackerHeaderAdd()
         setupTrackersConstraint()
@@ -128,10 +128,25 @@ final class TrackerViewController: UIViewController {
     }
     @objc private func filterButtonTapped(){
         let createVC = FilterViewController()
-//        createVC.delegate = self
+        createVC.selectedFilter = {[weak self] selectedFilter in
+            switch selectedFilter{
+            case "Все трекеры":
+                print("Все трекеры")
+                self!.allTrackerShow()
+            case "Трекеры на сегодня":
+                print("Трекеры на сегодня")
+            case "Завершенные":
+                print("Завершенные")
+            case "Не завершенные":
+                print("Не завершенные")
+            default:
+                print("Категория не выбрана")
+            }
+        }
         let navController = UINavigationController(rootViewController: createVC)
         present(navController, animated: true, completion: nil)
     }
+    
     
     private func setupNavBar(){
         addTrackerButton = UIBarButtonItem(image: UIImage(named: "AddTrackerButton"), style: .plain, target: self, action: #selector(addTapped))
@@ -308,9 +323,9 @@ extension TrackerViewController: TrackerCellDelegate{
 }
 //MARK: TrackerCreationDelegate
 extension TrackerViewController: TrackerCreationDelegate {
-    func creatingANewTracker(_ tracker: Tracker) {
+    func creatingANewTracker(tracker: Tracker, category: String) {
         let newCategory = TrackerCategory(
-            title: "Важное",
+            title: category,
             trackers: [tracker]
         )
         
@@ -369,4 +384,23 @@ extension TrackerViewController: UITextFieldDelegate{
         return true
     }
 }
-
+extension TrackerViewController{
+    func updateFiltredCategories() {
+        
+    }
+    func allTrackerShow(){
+        filteredCategories = categories
+        
+        print(activeCategories)
+        trackersCollectionView.reloadData()
+    }
+    func completedTrackerShow(){
+        
+    }
+    func uncompletedTrackerShow(){
+        
+    }
+    func trackersOnDay(){
+        
+    }
+}

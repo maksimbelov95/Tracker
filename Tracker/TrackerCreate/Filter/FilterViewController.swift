@@ -6,7 +6,7 @@ final class FilterViewController: UIViewController {
     
     private var filterCategories: [String] = ["Все трекеры", "Трекеры на сегодня", "Завершенные", "Не завершенные"]
     
-    var selectedCategory: ((String) -> ())?
+    var selectedFilter: ((String) -> ())?
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -17,7 +17,7 @@ final class FilterViewController: UIViewController {
         tableView.isScrollEnabled = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: "CategoryTableViewCell")
+        tableView.register(FilterTableViewCell.self, forCellReuseIdentifier: "FilterTableViewCell")
         return tableView
     }()
     
@@ -57,16 +57,6 @@ final class FilterViewController: UIViewController {
             tableView.heightAnchor.constraint(equalToConstant: 525),
         ])
     }
-    @objc private func addCategoryButtonTapped() {
-        let createVC = EditCategoriesViewController()
-        createVC.titleLabel.text = "Редактирование категории"
-        createVC.editText = { [weak self] text in
-            self?.filterCategories.append(text)
-            self?.tableView.reloadData()
-        }
-        let navController = UINavigationController(rootViewController: createVC)
-        present(navController, animated: true, completion: nil)
-        }
 }
 
 //MARK: Filter TableView DelegateAndDataSource
@@ -77,7 +67,7 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryTableViewCell", for: indexPath) as! CategoryTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FilterTableViewCell", for: indexPath) as! FilterTableViewCell
        
         cell.titleCategory.text = filterCategories[indexPath.row]
         cell.selectionStyle = .none
@@ -87,7 +77,7 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let category = filterCategories[indexPath.row]
-        selectedCategory?(category)
+        selectedFilter?(category)
         dismiss(animated: true)
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

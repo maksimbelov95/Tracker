@@ -4,8 +4,6 @@ final class FilterTableViewCell: UITableViewCell {
     
     var indexPath: IndexPath = IndexPath(index: 0)
     
-    var delegate: CategoryTableViewCellDelegate?
-    
     private lazy var selectedCategoryImage: UIImageView = {
         let imageView = UIImageView(frame: CGRectMake(0, 0, 24, 24))
         imageView.translatesAutoresizingMaskIntoConstraints = false
