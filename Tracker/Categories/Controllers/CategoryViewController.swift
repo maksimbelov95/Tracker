@@ -41,6 +41,29 @@ final class CategoryViewController: UIViewController {
         button.addTarget(self, action: #selector(addCategoryButtonTapped), for: .touchUpInside)
         return button
     }()
+    private lazy var placeHoldersImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "PlaceHolder")
+        imageView.contentMode = .scaleAspectFit
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    private lazy var placeHoldersLabel: UILabel  = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        label.text = """
+           Привычки и события можно  объединить по смыслу
+           """
+        label.textColor = .ypBlack
+        label.font = .hugeTitleMedium12
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
+    } ()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +77,8 @@ final class CategoryViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(tableView)
         view.addSubview(addCategoryButton)
+        view.addSubview(placeHoldersLabel)
+        view.addSubview(placeHoldersImageView)
     }
     
     private func setupConstraints() {
@@ -70,8 +95,32 @@ final class CategoryViewController: UIViewController {
             addCategoryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             addCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             addCategoryButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            addCategoryButton.heightAnchor.constraint(equalToConstant: 60)
+            addCategoryButton.heightAnchor.constraint(equalToConstant: 60),
+            
+            placeHoldersImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 402),
+            placeHoldersImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -330),
+            placeHoldersImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            placeHoldersImageView.widthAnchor.constraint(equalToConstant: 80),
+            placeHoldersImageView.heightAnchor.constraint(equalToConstant: 80),
+            
+            placeHoldersLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 490),
+            placeHoldersLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -304),
+            placeHoldersLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            placeHoldersLabel.widthAnchor.constraint(equalToConstant: 343),
+            placeHoldersLabel.heightAnchor.constraint(equalToConstant: 18),
         ])
+    }
+    private func reloadPlaceHolders() {
+        if categories.isEmpty{
+            placeHoldersImageView.isHidden = false
+            placeHoldersLabel.isHidden = false
+            tableView.isHidden = true
+        } else {
+            placeHoldersImageView.isHidden = true
+            placeHoldersLabel.isHidden = true
+            tableView.isHidden = false
+        }
+ 
     }
     @objc private func addCategoryButtonTapped() {
         let createVC = EditCategoriesViewController()
@@ -100,7 +149,7 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.delegate = self
         cell.indexPath = indexPath
-
+        reloadPlaceHolders()
 
         return cell
     }
@@ -143,6 +192,7 @@ extension CategoryViewController: CategoryTableViewCellDelegate{
         createVC.editText = { [weak self] text in
             self?.categories[indexPath.row] = text
             self?.tableView.reloadData()
+            self?.reloadPlaceHolders()
         }
         let navController = UINavigationController(rootViewController: createVC)
         present(navController, animated: true, completion: nil)
@@ -151,5 +201,6 @@ extension CategoryViewController: CategoryTableViewCellDelegate{
     func delete(indexPath: IndexPath) {
         categories.remove(at: indexPath.row)
         tableView.reloadData()
+        reloadPlaceHolders()
     }
 }

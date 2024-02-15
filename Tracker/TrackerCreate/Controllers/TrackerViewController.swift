@@ -181,9 +181,9 @@ final class TrackerViewController: UIViewController {
      } else {
       if activeCategories.isEmpty {
        placeHoldersLabel.isHidden = false
-       placeHoldersLabel.text = "Добавьте первый трекер"
+       placeHoldersLabel.text = "Что будем отслеживать?"
        placeHoldersImageView.isHidden = false
-       placeHoldersImageView.image = UIImage(named: "TrackerPlaceHolderImage")
+       placeHoldersImageView.image = UIImage(named: "PlaceHolder")
        trackersCollectionView.isHidden = true
       } else {
        placeHoldersLabel.isHidden = true
