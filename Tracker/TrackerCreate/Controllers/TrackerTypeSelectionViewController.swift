@@ -28,6 +28,7 @@ final class TrackerTypeSelectionViewController: UIViewController {
     private let eventButton: UIButton = {
         let button = UIButton()
         button.setTitle("Нерегулярное событие", for: .normal)
+        button.titleLabel?.textColor = .ypWhite
         button.titleLabel?.font = .hugeTitleMedium16
         button.frame = CGRect(x: 0, y: 0, width: 335, height: 60)
         button.backgroundColor = .ypBlack
@@ -39,7 +40,7 @@ final class TrackerTypeSelectionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .ypWhite
         
         view.addSubview(titleLabel)
         view.addSubview(habitButton)

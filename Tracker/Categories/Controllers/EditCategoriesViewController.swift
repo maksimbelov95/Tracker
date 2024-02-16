@@ -46,7 +46,7 @@ final class EditCategoriesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .ypWhite
         navigationItem.hidesBackButton = true
         addSCategorySubViews()
         setupConstraints()
@@ -77,7 +77,7 @@ final class EditCategoriesViewController: UIViewController {
     }
     @objc private func createCategoryButtonTapped() {
         guard let text = newCategoryTextField.text else {return}
-        editText?(text)
+        if text.isEmpty{} else {editText?(text)}
         dismiss(animated: true)
         }
 }

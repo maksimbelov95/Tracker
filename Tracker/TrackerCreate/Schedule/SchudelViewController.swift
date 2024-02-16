@@ -16,6 +16,7 @@ final class ScheduleSelectionViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.cornerRadius = 16
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        tableView.separatorColor = .ypGray
         tableView.rowHeight = 75
         tableView.separatorStyle = .singleLine
         tableView.isScrollEnabled = true
@@ -48,7 +49,7 @@ final class ScheduleSelectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .ypWhite
         navigationItem.hidesBackButton = true
         addScheduleSubViews()
         setupConstraints()

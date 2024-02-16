@@ -140,6 +140,7 @@ class CreateTrackerViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.cornerRadius = 16
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        tableView.separatorColor = .ypGray
         tableView.layer.masksToBounds = true
         tableView.isScrollEnabled = false
         tableView.delegate = self
@@ -209,6 +210,7 @@ class CreateTrackerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .ypWhite
         updateCreateButton()
         addSubViews()
         addViewToStackView()

@@ -8,8 +8,8 @@ class OnboardingPageController: UIViewController {
     private lazy var startButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .ypBlack
-        button.setTitle("Начать", for: .normal)
+        button.backgroundColor = .black
+        button.setTitle("Вот это технологии!", for: .normal)
         button.titleLabel?.font = .hugeTitleMedium16
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
@@ -28,8 +28,8 @@ class OnboardingPageController: UIViewController {
         let pageControl = UIPageControl()
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.numberOfPages = 2
-        pageControl.pageIndicatorTintColor = .ypGray
-        pageControl.currentPageIndicatorTintColor = .ypBlack
+        pageControl.pageIndicatorTintColor = .gray
+        pageControl.currentPageIndicatorTintColor = .black
         
         return pageControl
     }()

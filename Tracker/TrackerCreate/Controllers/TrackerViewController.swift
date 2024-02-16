@@ -56,6 +56,8 @@ final class TrackerViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
+        datePicker.backgroundColor = .ypBGDatePickerDay
+        datePicker.layer.cornerRadius = 8
         datePicker.locale = Locale(identifier: "ru_RU")
         datePicker.calendar = Calendar(identifier: .gregorian)
         datePicker.calendar.firstWeekday = 1
@@ -168,7 +170,7 @@ final class TrackerViewController: UIViewController {
     private func setupNavBar(){
         addTrackerButton = UIBarButtonItem(image: UIImage(named: "AddTrackerButton"), style: .plain, target: self, action: #selector(addTapped))
         addTrackerButton.tintColor = UIColor.ypBlack
-        view.backgroundColor = .white
+        view.backgroundColor = .ypWhite
         navigationItem.leftBarButtonItem = addTrackerButton
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Трекеры"

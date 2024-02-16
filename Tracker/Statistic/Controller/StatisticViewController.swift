@@ -20,7 +20,7 @@ class StatisticViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .ypWhite
         setupNavBar()
         addSubVIews()
         setupConstraints()
@@ -29,9 +29,10 @@ class StatisticViewController: UIViewController {
         view.addSubview(tableView)
     }
     private func setupNavBar(){
-        view.backgroundColor = .white
+        view.backgroundColor = .ypWhite
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Статистика"
+        navigationItem.titleView?.backgroundColor = .ypBlack
     }
     private func setupConstraints() {
         NSLayoutConstraint.activate([

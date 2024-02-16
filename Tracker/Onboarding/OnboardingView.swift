@@ -12,7 +12,7 @@ class OnboardingView: UIView{
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = .hugeTitleBold32
-        titleLabel.textColor = .ypBlack
+        titleLabel.textColor = .black
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 2
         titleLabel.lineBreakMode = .byCharWrapping

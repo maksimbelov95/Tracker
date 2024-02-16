@@ -12,6 +12,7 @@ final class CategoryViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.cornerRadius = 16
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        tableView.separatorColor = .ypGray
         tableView.rowHeight = 75
         tableView.isScrollEnabled = false
         tableView.delegate = self
@@ -67,7 +68,7 @@ final class CategoryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .ypWhite
         navigationItem.hidesBackButton = true
         addSCategorySubViews()
         setupConstraints()
