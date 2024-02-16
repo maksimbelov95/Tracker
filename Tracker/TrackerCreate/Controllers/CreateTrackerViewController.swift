@@ -7,7 +7,7 @@ protocol TrackerCreationDelegate: AnyObject {
 
 class CreateTrackerViewController: UIViewController {
     
-    var schedule: [Schedule] = []
+    var schedule: [Schedule]
     
     var emojiIndexPath: IndexPath?
     var colorsIndexPath: IndexPath?
@@ -66,6 +66,10 @@ class CreateTrackerViewController: UIViewController {
     
     init(state: ViewState) {
         self.state = state
+        switch state{
+        case .habit : schedule = []
+        case .irregularEvent : schedule = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+        }
         super.init(nibName: nil, bundle: nil)
     }
     

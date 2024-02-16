@@ -40,6 +40,7 @@
 		4B73E6742B68300B009C20DF /* EmojiCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B73E6732B68300B009C20DF /* EmojiCollectionView.swift */; };
 		4B73E6762B6834FA009C20DF /* EmojiCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B73E6752B6834FA009C20DF /* EmojiCollectionViewController.swift */; };
 		4B7454F22B7E868700DBA91B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7454F12B7E868700DBA91B /* OnboardingView.swift */; };
+		4B7454F42B7EADA200DBA91B /* StatisticTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7454F32B7EADA200DBA91B /* StatisticTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		4B73E6732B68300B009C20DF /* EmojiCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionView.swift; sourceTree = "<group>"; };
 		4B73E6752B6834FA009C20DF /* EmojiCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewController.swift; sourceTree = "<group>"; };
 		4B7454F12B7E868700DBA91B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		4B7454F32B7EADA200DBA91B /* StatisticTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 		4B57473E2B756F0100C056F5 /* Statistic */ = {
 			isa = PBXGroup;
 			children = (
+				4B7454F52B7EADA900DBA91B /* View */,
 				4B57473F2B756F0A00C056F5 /* Controller */,
 			);
 			path = Statistic;
@@ -328,6 +331,14 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		4B7454F52B7EADA900DBA91B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4B7454F32B7EADA200DBA91B /* StatisticTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -416,6 +427,7 @@
 				4B5BB9322B02B19A005EC75D /* SceneDelegate.swift in Sources */,
 				4B6100402B069B7B00A333FB /* TabBarController.swift in Sources */,
 				4B3503162B5D94A10095C874 /* TrackerTypeSelectionViewController.swift in Sources */,
+				4B7454F42B7EADA200DBA91B /* StatisticTableViewCell.swift in Sources */,
 				4B3502F72B597B030095C874 /* TrackerCellsView.swift in Sources */,
 				4B35030D2B5BA06B0095C874 /* ScheduleTableViewCell.swift in Sources */,
 				4B7454F22B7E868700DBA91B /* OnboardingView.swift in Sources */,

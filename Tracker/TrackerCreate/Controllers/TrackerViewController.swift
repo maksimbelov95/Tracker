@@ -32,7 +32,16 @@ final class TrackerViewController: UIViewController {
     ]
     private var activeCategories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
-    private var filteredCategories: [TrackerCategory] = []
+    
+    private var typeFilter: TypeFilter = .textAndDatePickerTrackers
+    
+    private enum TypeFilter{
+        case allTrackers
+        case todayTrackers
+        case completedTrackers
+        case uncompletedTrackers
+        case textAndDatePickerTrackers
+    }
     
     private var currentDate: Date = Date() {
         didSet {
@@ -124,7 +133,8 @@ final class TrackerViewController: UIViewController {
     }
     //MARK: Functions
     @objc private func dateChanged(sender: UIDatePicker) {
-       updateActiveCategories()
+        typeFilter = .textAndDatePickerTrackers
+        updateActiveCategories()
     }
     @objc private func filterButtonTapped(){
         let createVC = FilterViewController()
@@ -132,21 +142,28 @@ final class TrackerViewController: UIViewController {
             switch selectedFilter{
             case "Все трекеры":
                 print("Все трекеры")
-                self!.allTrackerShow()
+                self?.typeFilter = .allTrackers
+
             case "Трекеры на сегодня":
                 print("Трекеры на сегодня")
+                self?.typeFilter = .todayTrackers
+                
             case "Завершенные":
                 print("Завершенные")
+                self?.typeFilter = .completedTrackers
+                
             case "Не завершенные":
                 print("Не завершенные")
+                self?.typeFilter = .uncompletedTrackers
+                
             default:
-                print("Категория не выбрана")
+                self?.typeFilter = .allTrackers
             }
+            self?.updateActiveCategories()
         }
         let navController = UINavigationController(rootViewController: createVC)
         present(navController, animated: true, completion: nil)
     }
-    
     
     private func setupNavBar(){
         addTrackerButton = UIBarButtonItem(image: UIImage(named: "AddTrackerButton"), style: .plain, target: self, action: #selector(addTapped))
@@ -194,11 +211,30 @@ final class TrackerViewController: UIViewController {
     }
 
     func updateActiveCategories() {
+        switch typeFilter {
+        case .textAndDatePickerTrackers : activeCategories = textAndDataFilter(categories: self.categories)
+    
+        case .allTrackers:
+            activeCategories = textAndDataFilter(categories: self.categories)
+        case .todayTrackers:
+            datePicker.date = Date()
+            activeCategories = textAndDataFilter(categories: self.categories)
+            
+        case .completedTrackers:
+            activeCategories = completeTrackerFilter(categories: self.categories)
+        case .uncompletedTrackers:
+            activeCategories = uncompleteTrackerFilter(categories: self.categories)
+        }
+        trackersCollectionView.reloadData()
+        reloadPlaceHolders()
+    }
+    
+    private func textAndDataFilter(categories: [TrackerCategory]) -> [TrackerCategory] {
         let calendar = Calendar.current
         let filterWeekDay = calendar.component(.weekday, from: datePicker.date)
         let filterText = (searchTextField.text ?? "").lowercased()
         
-        activeCategories = categories.compactMap { category in
+         return categories.compactMap { category in
             let trackers = category.trackers.filter { tracker in
                 let textCondition = filterText.isEmpty ||
                 tracker.title.lowercased().contains(filterText)
@@ -212,9 +248,28 @@ final class TrackerViewController: UIViewController {
             return TrackerCategory(
                 title: category.title, trackers: trackers)
         }
-        trackersCollectionView.reloadData()
-        reloadPlaceHolders()
     }
+    
+    private func completeTrackerFilter(categories: [TrackerCategory]) -> [TrackerCategory]{
+        let completeTrackers = self.completedTrackers.filter({ $0.date == datePicker.date}).map({$0.id})
+        var filtredCompleteTrackers: [TrackerCategory] = []
+        for category in categories {
+            let filtredTrackers = category.trackers.filter({ tracker in
+                completeTrackers.contains(where: {$0 == tracker.id})})
+            if filtredTrackers.isEmpty{
+                continue
+            } else {
+                filtredCompleteTrackers.append(.init(title: category.title, trackers: filtredTrackers))
+            }
+        }
+        return filtredCompleteTrackers
+    }
+    
+//    private func uncompletedTrackerFilter(categories: [TrackerCategory]) -> [TrackerCategory]{
+//        let filtredCompleteTrackers = completeTrackerFilter(categories: self.categories)
+//        
+//        return
+//    }
     
     private func addSubViews() {
         view.addSubview(searchTextField)
@@ -242,7 +297,6 @@ final class TrackerViewController: UIViewController {
             placeHoldersLabel.widthAnchor.constraint(equalToConstant: 343),
             placeHoldersLabel.heightAnchor.constraint(equalToConstant: 18),
             
-
             trackersCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 236),
             trackersCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             trackersCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -295,6 +349,7 @@ extension TrackerViewController: UICollectionViewDataSource{
         
         return cell
     }
+    
     private func isTrackerCompletedToday(id: UUID) -> Bool{
         completedTrackers.contains{ trackerRecord in
             let isSameDay = Calendar.current.isDate(trackerRecord.date, inSameDayAs: datePicker.date)
@@ -305,7 +360,6 @@ extension TrackerViewController: UICollectionViewDataSource{
 //MARK: UICollectionViewDelegate
 extension TrackerViewController: TrackerCellDelegate{
     func completedTracker(id: UUID, indexPath: IndexPath) {
-        let date = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yy"
         let currentDate = dateFormatter.string(from: currentDate)
@@ -315,7 +369,7 @@ extension TrackerViewController: TrackerCellDelegate{
             let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
             completedTrackers.append(trackerRecord)
             trackersCollectionView.reloadItems(at:[ indexPath] )
-        }else {return}
+        }else { return }
     }
         
     func uncompletedTracker(id: UUID, indexPath: IndexPath) {
@@ -372,8 +426,6 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
         return 9
     }
     
-    
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 18)
     }
@@ -383,55 +435,8 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
 extension TrackerViewController: UITextFieldDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        
+        typeFilter = .textAndDatePickerTrackers
         updateActiveCategories()
-        
         return true
-    }
-}
-extension TrackerViewController{
-    func updateFiltredCategories() {
-        
-    }
-    func allTrackerShow(){
-//        print(activeCategories)
-//        filteredCategories = categories.map{ category in
-//            let trackers = category.trackers.filter {tracker in
-//                if tracker.schedule == [.monday, .friday, .saturday, .sunday, .thursday, .tuesday, .wednesday]{
-//
-//                    return
-//                }
-//            }
-//
-//        }
-
-//            activeCategories = categories.compactMap { category in
-//                let trackers = category.trackers.filter { tracker in
-//                    let textCondition = filterText.isEmpty ||
-//                    tracker.title.lowercased().contains(filterText)
-//                    let dateCondition = tracker.schedule.contains{ weekDay in
-//                        weekDay.rawValue == filterWeekDay} == true
-//                     return textCondition && dateCondition
-//                }
-//
-//                if trackers.isEmpty{ return nil }
-//
-//                return TrackerCategory(
-//                    title: category.title, trackers: trackers)
-//            }
-//            trackersCollectionView.reloadData()
-//            reloadPlaceHolders()
-        trackersCollectionView.reloadData()
-        reloadPlaceHolders()
-//        }
-    }
-    func completedTrackerShow(){
-        
-    }
-    func uncompletedTrackerShow(){
-        
-    }
-    func trackersOnDay(){
-        
     }
 }
