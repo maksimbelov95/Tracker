@@ -222,8 +222,8 @@ final class TrackerViewController: UIViewController {
             
         case .completedTrackers:
             activeCategories = completeTrackerFilter(categories: self.categories)
-        case .uncompletedTrackers:
-            activeCategories = uncompleteTrackerFilter(categories: self.categories)
+        case .uncompletedTrackers: break
+//            activeCategories = uncompleteTrackerFilter(categories: self.categories)
         }
         trackersCollectionView.reloadData()
         reloadPlaceHolders()
