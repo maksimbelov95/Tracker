@@ -12,4 +12,6 @@ extension UIColor {
     static var ypWhite: UIColor { UIColor(named: "YP White") ?? UIColor.white}
     static var ypBGDatePickerDay: UIColor { UIColor(named: "DataPickerColorDay") ?? UIColor.lightGray}
     static var ypBGDatePickerNight: UIColor { UIColor(named: "DataPickerColorNight") ?? UIColor.lightGray}
+    static var ypTBDay: UIColor { UIColor(named: "TabBarBorderDay") ?? UIColor.lightGray}
+    static var ypTBNight: UIColor { UIColor(named: "TabBarBorderNight") ?? UIColor.black}
 }

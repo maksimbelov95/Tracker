@@ -175,6 +175,7 @@ final class TrackerViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Трекеры"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
+        navigationItem.rightBarButtonItem?.customView?.backgroundColor = .ypWhite
     }
     
     @objc func addTapped(){
