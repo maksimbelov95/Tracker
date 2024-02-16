@@ -15,11 +15,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else {return}
         let window = UIWindow(windowScene: windowScene)
-        if !UserStorage.isOnboardingShow{
+        if UserStorage.isOnboardingShow{
             window.rootViewController = TabBarController()
+
             
         }else{
             window.rootViewController = OnboardingPageController()
+            UserStorage.isOnboardingShow = true
         }
         window.makeKeyAndVisible()
         self.window = window

@@ -12,15 +12,7 @@ final class UserStorage{
         get {
             return UserDefaults.standard.bool(forKey: SettingsKeys.onboardingKey.rawValue)
         }
-        set {
-            let defaults = UserDefaults.standard
-            let key = SettingsKeys.onboardingKey.rawValue
-            if let isShow = newValue {
-                defaults.set(isShow, forKey: key)
-                print("new value \(isShow)")
-            } else {
-                defaults.removeObject(forKey: key)
-            }
+        set {  UserDefaults.standard.set(newValue, forKey: SettingsKeys.onboardingKey.rawValue)
         }
     }
 }

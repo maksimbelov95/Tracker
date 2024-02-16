@@ -89,7 +89,6 @@ class OnboardingPageController: UIViewController {
             let tabBarVC = TabBarController()
             guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
             window.rootViewController = tabBarVC
-            UserStorage.isOnboardingShow = true
             }
 
     private func addSubViews(){
