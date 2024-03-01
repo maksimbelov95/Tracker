@@ -3,7 +3,7 @@ import UIKit
 
 final class EmojiCollectionViewCell: UICollectionViewCell {
     
-
+    
     let emojiCellView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +20,6 @@ final class EmojiCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview()

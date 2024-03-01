@@ -8,24 +8,24 @@ import UIKit
 
 
 final class StatisticTableViewCell: UITableViewCell {
-
-     lazy var statisticTitle: UILabel = {
+    
+    lazy var statisticTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .ypBlack
-         label.font = .hugeTitleBold32
+        label.font = .hugeTitleBold32
         label.textAlignment = .center
         return label
     }()
     lazy var statisticDescription: UILabel = {
-       let label = UILabel()
-       label.translatesAutoresizingMaskIntoConstraints = false
-       label.textColor = .ypBlack
-       label.font = .hugeTitleMedium12
-       label.textAlignment = .center
-       return label
-   }()
-
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .ypBlack
+        label.font = .hugeTitleMedium12
+        label.textAlignment = .center
+        return label
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupContentView()
@@ -42,7 +42,7 @@ final class StatisticTableViewCell: UITableViewCell {
         contentView.addSubview(statisticDescription)
         contentView.backgroundColor = .ypWhite
         
-      
+        
     }
     private func setupCategoryConstraints(){
         NSLayoutConstraint.activate([

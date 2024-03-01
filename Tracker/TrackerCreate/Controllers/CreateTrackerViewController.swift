@@ -14,7 +14,7 @@ class CreateTrackerViewController: UIViewController {
     
     private var emoji: String?
     private var color: UIColor?
-
+    
     weak var delegate: TrackerCreationDelegate?
     
     private let maxCharacterCount = 38
@@ -22,11 +22,11 @@ class CreateTrackerViewController: UIViewController {
     private var habitDesc: String?
     private var eventDesc: String {
         if schedule.count == 7 {
-        return  "Каждый день"
+            return  "Каждый день"
             
         } else {
             
-        return  schedule.map({$0.shortDaysOfWeek()}).joined(separator: ", ")
+            return  schedule.map({$0.shortDaysOfWeek()}).joined(separator: ", ")
             
         }
     }
@@ -54,8 +54,10 @@ class CreateTrackerViewController: UIViewController {
     var cellData: [TrackerCategoryCells]  {
         switch self.state {
         case .habit :
+            updateCreateButton()
             return [.init(title: "Категория", description: self.habitDesc), .init(title: "Расписание", description: self.eventDesc)]
         case .irregularEvent :
+            updateCreateButton()
             return [.init(title: "Категория", description: self.habitDesc)]
         }
     }
@@ -83,7 +85,7 @@ class CreateTrackerViewController: UIViewController {
         scrollView.backgroundColor = .ypWhite
         return scrollView
     }()
- 
+    
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -173,7 +175,7 @@ class CreateTrackerViewController: UIViewController {
         colorCollectionView.colorSelected = self
         return colorCollectionView
     }()
-
+    
     private lazy var clearButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(systemName: "xmark.circle.fill")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -196,7 +198,7 @@ class CreateTrackerViewController: UIViewController {
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    
     private lazy var createButton: UIButton = {
         let button = UIButton()
         button.setTitle("Создать", for: .normal)
@@ -239,7 +241,7 @@ class CreateTrackerViewController: UIViewController {
         emojiHeaderAdd()
         colorsHeaderAdd()
     }
-
+    
     private func addViewToStackView(){
         stackView.addArrangedSubview(nameTrackerTextField)
         stackView.addArrangedSubview(symbolsLimitLabel)
@@ -288,19 +290,19 @@ class CreateTrackerViewController: UIViewController {
         updateCreateButton()
     }
     @objc private func cancelButtonTapped() {
-         dismiss(animated: true)
-     }
- 
-     @objc private func createButtonTapped() {
-         guard let emoji = self.emoji, let color = self.color else {return}
-         guard let category = habitDesc else {return}
-         let newTracker = Tracker(title: nameTrackerTextField.text ?? "",
-                                  color: color,
-                                  emoji: emoji,
-                                  schedule: schedule)
-         delegate?.creatingANewTracker(tracker: newTracker,category: category)
-         dismiss(animated: true)
-     }
+        dismiss(animated: true)
+    }
+    
+    @objc private func createButtonTapped() {
+        guard let emoji = self.emoji, let color = self.color else {return}
+        guard let category = habitDesc else {return}
+        let newTracker = Tracker(title: nameTrackerTextField.text ?? "",
+                                 color: color,
+                                 emoji: emoji,
+                                 schedule: schedule)
+        delegate?.creatingANewTracker(tracker: newTracker,category: category)
+        dismiss(animated: true)
+    }
 }
 
 extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSource {
@@ -315,9 +317,9 @@ extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
         let cellData = cellData[indexPath.row]
-
+        
         cell.settingStrings(title: cellData.title, description: cellData.description)
-
+        
         return cell
         
     }

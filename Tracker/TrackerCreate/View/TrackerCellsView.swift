@@ -106,20 +106,20 @@ final class TrackerCellsView: UICollectionViewCell {
         
     }
     private func getDayAddition(_ day: Int) -> String {
-
+        
         let preLastDigit = day % 100 / 10;
-
+        
         if (preLastDigit == 1) {
             return "\(day) дней";
         }
-
+        
         switch (day % 10) {
-            case 1:
-                return "\(day) день";
-            case 2,3,4:
-                return "\(day) дня";
-            default:
-                return "\(day) дней";
+        case 1:
+            return "\(day) день";
+        case 2,3,4:
+            return "\(day) дня";
+        default:
+            return "\(day) дней";
         }
     }
     func addElements() {
@@ -157,7 +157,7 @@ final class TrackerCellsView: UICollectionViewCell {
             trackerLabel.leadingAnchor.constraint(equalTo: trackerCellView.leadingAnchor, constant: 12),
             trackerLabel.bottomAnchor.constraint(equalTo: trackerCellView.bottomAnchor, constant: -12),
             trackerLabel.widthAnchor.constraint(equalToConstant: 143),
-        
+            
             countDaysLabel.leadingAnchor.constraint(equalTo: quantityManagementView.leadingAnchor, constant: 12),
             countDaysLabel.centerYAnchor.constraint(equalTo: trackerButton.centerYAnchor),
             

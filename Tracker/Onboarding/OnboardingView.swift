@@ -35,17 +35,16 @@ class OnboardingView: UIView{
     
     private func setupConstraints(){
         NSLayoutConstraint.activate([
-                onboardingImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-                onboardingImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-                onboardingImageView.topAnchor.constraint(equalTo: topAnchor),
-                onboardingImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                onboardingImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-                
-                
-                titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-                titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-                titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 432),
-                titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -304)
+            onboardingImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            onboardingImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            onboardingImageView.topAnchor.constraint(equalTo: topAnchor),
+            onboardingImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            onboardingImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 432),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -304)
         ])
     }
     

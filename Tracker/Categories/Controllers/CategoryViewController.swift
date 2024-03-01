@@ -3,10 +3,16 @@ import UIKit
 
 final class CategoryViewController: UIViewController {
     
-    private var categories: [String] = ["Важное", "Срочное", "Неотложенное"]
+    private var categories: [String] {
+        let categories = trackerCategoryStore.getAllTrackersCategory()
+        return categories.map { $0.title }
+    }
+    
+    private let trackerCategoryStore = TrackerCategoryStore()
+    
     
     var selectedCategory: ((String) -> ())?
-
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +71,7 @@ final class CategoryViewController: UIViewController {
         label.isHidden = true
         return label
     } ()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
@@ -121,18 +127,18 @@ final class CategoryViewController: UIViewController {
             placeHoldersLabel.isHidden = true
             tableView.isHidden = false
         }
- 
+        
     }
     @objc private func addCategoryButtonTapped() {
         let createVC = EditCategoriesViewController()
         createVC.titleLabel.text = "Редактирование категории"
         createVC.editText = { [weak self] text in
-            self?.categories.append(text)
+            self?.trackerCategoryStore.addNewTrackerCategory(title: text, trackers: [])
             self?.tableView.reloadData()
         }
         let navController = UINavigationController(rootViewController: createVC)
         present(navController, animated: true, completion: nil)
-        }
+    }
 }
 
 //MARK: Category TableView DelegateAndDataSource
@@ -144,14 +150,14 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryTableViewCell", for: indexPath) as! CategoryTableViewCell
-       
+        
         cell.titleCategory.text = categories[indexPath.row]
         cell.selectionStyle = .none
         
         cell.delegate = self
         cell.indexPath = indexPath
         reloadPlaceHolders()
-
+        
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -165,19 +171,19 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
         let defaultInset = tableView.separatorInset
         var corners: UIRectCorner = []
         if categories.count == 1 {
-           corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
-          } else {
-           if indexPath.row == 0 {
-            corners = [.topLeft, .topRight]
-           } else if indexPath.row == categories.count - 1 {
-            corners = [.bottomLeft, .bottomRight]
-           }
-          }
-          let radius: CGFloat = 16
-          let path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-          let mask = CAShapeLayer()
-          mask.path = path.cgPath
-          cell.layer.mask = mask
+            corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
+        } else {
+            if indexPath.row == 0 {
+                corners = [.topLeft, .topRight]
+            } else if indexPath.row == categories.count - 1 {
+                corners = [.bottomLeft, .bottomRight]
+            }
+        }
+        let radius: CGFloat = 16
+        let path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        cell.layer.mask = mask
         
         if isLastCell {
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
@@ -186,12 +192,17 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
+
+//MARK: CategoryCoreDataAndCellDelegate
 extension CategoryViewController: CategoryTableViewCellDelegate{
+    
     func edit(indexPath: IndexPath) {
         let createVC = EditCategoriesViewController()
         createVC.titleLabel.text = "Редактирование категории"
         createVC.editText = { [weak self] text in
-            self?.categories[indexPath.row] = text
+            if let titleCategory = self?.categories[indexPath.row] {
+                self?.trackerCategoryStore.updateTrackerCategoryCoreData(for: titleCategory, newTitle: text)
+            }
             self?.tableView.reloadData()
             self?.reloadPlaceHolders()
         }
@@ -200,8 +211,10 @@ extension CategoryViewController: CategoryTableViewCellDelegate{
     }
     
     func delete(indexPath: IndexPath) {
-        categories.remove(at: indexPath.row)
+        let deleteTitleCategory = self.categories[indexPath.row]
+        self.trackerCategoryStore.deleteTrackerCategoryCoreData(for: deleteTitleCategory)
         tableView.reloadData()
         reloadPlaceHolders()
     }
 }
+

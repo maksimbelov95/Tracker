@@ -2,7 +2,7 @@
 import UIKit
 
 struct Tracker{
-    let id = UUID()
+    var id = UUID()
     let title: String
     let color: UIColor?
     let emoji: String

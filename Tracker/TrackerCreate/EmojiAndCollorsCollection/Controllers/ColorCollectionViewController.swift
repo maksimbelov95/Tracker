@@ -58,7 +58,7 @@ extension ColorCollectionViewController: UICollectionViewDelegate, UICollectionV
         colorSelected?.colorDelegate(color)
         self.reloadData()
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "EmojiAndColorsHeaderView", for: indexPath) as? EmojiAndColorsHeaderView else {return UICollectionReusableView()}
         headerView.titleLabel.text = "Цвет"

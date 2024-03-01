@@ -4,7 +4,7 @@ import Foundation
 final class UserStorage{
     
     private enum SettingsKeys: String {
-
+        
         case onboardingKey
     }
     
