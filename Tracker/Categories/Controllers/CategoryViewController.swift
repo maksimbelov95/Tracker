@@ -133,7 +133,7 @@ final class CategoryViewController: UIViewController {
         let createVC = EditCategoriesViewController()
         createVC.titleLabel.text = "Редактирование категории"
         createVC.editText = { [weak self] text in
-            self?.trackerCategoryStore.addNewTrackerCategory(title: text, trackers: [])
+            self?.trackerCategoryStore.addNewTrackerCategory(title: text)
             self?.tableView.reloadData()
         }
         let navController = UINavigationController(rootViewController: createVC)

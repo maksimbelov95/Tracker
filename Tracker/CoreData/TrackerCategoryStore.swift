@@ -47,21 +47,9 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
         }
     }
     
-    func addNewTrackerCategory(title: String, trackers: [Tracker]) {
+    func addNewTrackerCategory(title: String) {
         let categoryCoreData = TrackerCategoryCoreData(context: context)
         categoryCoreData.title = title
-        
-        trackers.forEach { tracker in
-            let trackerCoreData = TrackerCoreData(context: context)
-            trackerCoreData.id = tracker.id
-            trackerCoreData.title = tracker.title
-            trackerCoreData.color = tracker.color
-            trackerCoreData.emoji = tracker.emoji
-            trackerCoreData.schedule = tracker.schedule as NSObject
-            
-            categoryCoreData.addToTrackers(trackerCoreData)
-        }
-        
         do {
             try context.save()
         } catch {
@@ -95,28 +83,5 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
             print("Error fetching TrackerCoreData: \(error)")
         }
     }
-    func tracker(from trackerCoreData: TrackerCoreData) -> Tracker? {
-        guard let id = trackerCoreData.id else {
-            return nil
-        }
-        guard let title = trackerCoreData.title else {
-            return nil
-        }
-        guard let color = trackerCoreData.color else {
-            return nil
-        }
-        guard let emoji = trackerCoreData.emoji else {
-            return nil
-        }
-        guard let schedule = trackerCoreData.schedule else {
-            return nil
-        }
-        return Tracker(
-            id: id,
-            title: title,
-            color: color as? UIColor,
-            emoji: emoji,
-            schedule: schedule as! [Schedule])
-    }
-    
+ 
 }

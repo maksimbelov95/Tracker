@@ -177,3 +177,4 @@ final class TrackerCellsView: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+

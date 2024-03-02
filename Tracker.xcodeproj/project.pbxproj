@@ -18,6 +18,7 @@
 		4B35030F2B5D68640095C874 /* TabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B35030E2B5D68640095C874 /* TabelViewCell.swift */; };
 		4B3503142B5D8B0B0095C874 /* Extension+Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3503132B5D8B0B0095C874 /* Extension+Fonts.swift */; };
 		4B3503162B5D94A10095C874 /* TrackerTypeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3503152B5D94A10095C874 /* TrackerTypeSelectionViewController.swift */; };
+		4B56AF672B93ACA600E67D3D /* ScheduleTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B56AF662B93ACA600E67D3D /* ScheduleTransformer.swift */; };
 		4B57472F2B74117C00C056F5 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B57472E2B74117C00C056F5 /* CategoryTableViewCell.swift */; };
 		4B5747312B74122500C056F5 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5747302B74122500C056F5 /* CategoryViewController.swift */; };
 		4B5747332B756D5C00C056F5 /* EditCategoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5747322B756D5C00C056F5 /* EditCategoriesTableViewCell.swift */; };
@@ -61,6 +62,7 @@
 		4B3503122B5D8A7C0095C874 /* YS-Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS-Display-Medium.ttf"; sourceTree = "<group>"; };
 		4B3503132B5D8B0B0095C874 /* Extension+Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Fonts.swift"; sourceTree = "<group>"; };
 		4B3503152B5D94A10095C874 /* TrackerTypeSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTypeSelectionViewController.swift; sourceTree = "<group>"; };
+		4B56AF662B93ACA600E67D3D /* ScheduleTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTransformer.swift; sourceTree = "<group>"; };
 		4B57472E2B74117C00C056F5 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		4B5747302B74122500C056F5 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		4B5747322B756D5C00C056F5 /* EditCategoriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategoriesTableViewCell.swift; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 				4B74555F2B8663EB00DBA91B /* TrackerStore.swift */,
 				4B7455612B86641900DBA91B /* TrackerCategoryStore.swift */,
 				4B7455632B86642600DBA91B /* TrackerRecordStore.swift */,
+				4B56AF662B93ACA600E67D3D /* ScheduleTransformer.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				4B3502F32B597AE00095C874 /* TrackerRecordModel.swift in Sources */,
 				4B35030F2B5D68640095C874 /* TabelViewCell.swift in Sources */,
 				4B6508C02B6D711F0093A221 /* ColorCollectionViewController.swift in Sources */,
+				4B56AF672B93ACA600E67D3D /* ScheduleTransformer.swift in Sources */,
 				4B6508C22B6D73B70093A221 /* ColorsCollectionView.swift in Sources */,
 				4B5BB9322B02B19A005EC75D /* SceneDelegate.swift in Sources */,
 				4B7455672B86644900DBA91B /* TrackerCoreDataModels.xcdatamodeld in Sources */,

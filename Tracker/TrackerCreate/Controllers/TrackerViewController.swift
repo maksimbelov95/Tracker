@@ -370,7 +370,7 @@ extension TrackerViewController: TrackerCellDelegate{
         if currentDate + 3600 >= datePicker.date{
             let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
             completedTrackers.append(trackerRecord)
-            trackersCollectionView.reloadItems(at:[ indexPath] )
+            trackersCollectionView.reloadItems(at:[indexPath])
         }else { return }
     }
     
@@ -379,7 +379,7 @@ extension TrackerViewController: TrackerCellDelegate{
             let isSameDay = Calendar.current.isDate(trackerRecord.date, inSameDayAs: datePicker.date)
             return trackerRecord.id == id && isSameDay
         }
-        trackersCollectionView.reloadItems(at:[ indexPath] )
+        trackersCollectionView.reloadItems(at:[indexPath])
     }
 }
 //MARK: TrackerCreationDelegate
@@ -412,6 +412,21 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 18)
     }
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+            let action1 = UIAction(title: "Закрепить") { action in
+                // Обработка действия 1
+            }
+            let edit = UIAction(title: "Редактировать") { action in
+                // Обработка действия 2
+            }
+            let delete = UIAction(title: "Удалить", attributes: .destructive) { action in
+                print(indexPaths)
+                
+            }
+            return UIMenu(children: [action1, edit, delete])
+        }
+    }
 }
 
 //MARK: UITextFieldDelegate
@@ -431,3 +446,85 @@ extension TrackerViewController: TrackerStoreDelegate{
         reloadPlaceHolders()
     }
 }
+
+//import UIKit
+//
+//class YourCollectionViewController: UICollectionViewController {
+//
+//// Ваш источник данных, предположим, у вас есть массив секций
+//var sections: [[String]] = [["Ячейка 1", "Ячейка 2", "Ячейка 3"], ["Закрепленная ячейка 1", "Закрепленная ячейка 2"]]
+//
+//override func viewDidLoad() {
+//super.viewDidLoad()
+//
+//// Добавляем долгое нажатие для отображения контекстного меню
+//let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+//collectionView.addGestureRecognizer(longPressGesture)
+//}
+//
+//@objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+//guard gesture.state == .began else { return }
+//
+//let touchPoint = gesture.location(in: collectionView)
+//
+//guard let indexPath = collectionView.indexPathForItem(at: touchPoint) else { return }
+//
+//let cell = collectionView.cellForItem(at: indexPath)
+//
+//if let section = indexPath.section, let item = indexPath.item {
+//if section == 1 {
+//// Если ячейка уже в закрепленной секции, показываем вариант открепить
+//let unpinAction = UIAction(title: "Открепить") { action in
+//// Перемещаем ячейку обратно в исходную секцию
+//self.unpinItem(at: indexPath)
+//}
+//
+//let menu = UIMenu(title: nil, children: [unpinAction])
+//let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in menu }
+//let interaction = UIContextMenuInteraction(delegate: nil)
+//
+//cell?.addInteraction(interaction)
+//cell?.becomeFirstResponder()
+//
+//// Отображаем контекстное меню
+//let controller = UIMenuController.shared
+//controller.showMenu(from: collectionView, rect: cell?.frame ?? .zero)
+//} else {
+//// Если ячейка в обычной секции, показываем вариант закрепить
+//let pinAction = UIAction(title: "Закрепить") { action in
+//// Перемещаем ячейку в закрепленную секцию
+//self.pinItem(at: indexPath)
+//}
+//
+//let menu = UIMenu(title: nil, children: [pinAction])
+//let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in menu }
+//let interaction = UIContextMenuInteraction(delegate: nil)
+//
+//cell?.addInteraction(interaction)
+//cell?.becomeFirstResponder()
+//
+//// Отображаем контекстное меню
+//let controller = UIMenuController.shared
+//controller.showMenu(from: collectionView, rect: cell?.frame ?? .zero)
+//}
+//}
+//}
+//
+//func pinItem(at indexPath: IndexPath) {
+//// Удаляем ячейку из текущей секции
+//let item = sections[0].remove(at: indexPath.item)
+//// Добавляем ячейку в закрепленную секцию
+//sections[1].append(item)
+//// Перезагружаем данные коллекции
+//collectionView.reloadData()
+//}
+//
+//func unpinItem(at indexPath: IndexPath) {
+//// Удаляем ячейку из текущей секции
+//let item = sections[1].remove(at: indexPath.item)
+//// Добавляем ячейку в исходную секцию
+//sections[0].append(item)
+//// Перезагружаем данные коллекции
+//collectionView.reloadData()
+//}
+//}

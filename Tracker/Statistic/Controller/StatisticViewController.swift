@@ -17,15 +17,14 @@ class StatisticViewController: UIViewController {
         return tableView
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
         setupNavBar()
-        addSubVIews()
+        addSubViews()
         setupConstraints()
     }
-    private func addSubVIews(){
+    private func addSubViews(){
         view.addSubview(tableView)
     }
     private func setupNavBar(){
@@ -40,6 +39,7 @@ class StatisticViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(equalToConstant: 525),
+            
         ])
     }
 }
@@ -54,10 +54,7 @@ extension StatisticViewController: UITableViewDelegate, UITableViewDataSource {
         cell.statisticTitle.text = "sdfwe"
         cell.backgroundColor = .ypBlack
         cell.selectionStyle = .none
-        
-        
         //        reloadPlaceHolders()
-        
         return cell
     }
 }
