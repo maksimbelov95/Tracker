@@ -30,7 +30,7 @@ class StatisticViewController: UIViewController {
     private func setupNavBar(){
         view.backgroundColor = .ypWhite
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Статистика"
+        navigationItem.title = "statistics".localized()
         navigationItem.titleView?.backgroundColor = .ypBlack
     }
     private func setupConstraints() {

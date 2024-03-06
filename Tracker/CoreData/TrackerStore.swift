@@ -146,7 +146,7 @@ final class TrackerStore: NSObject {
         
         do {
             guard let result = try context.fetch(fetchRequest).first else {return}
-                context.delete(result)
+            context.delete(result)
             try context.save()
         } catch {
             print("Error fetching TrackerCoreData: \(error)")

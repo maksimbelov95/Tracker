@@ -14,8 +14,8 @@ class TabBarController: UITabBarController{
         let trackerNav = UINavigationController(rootViewController: trackerView)
         let statisticNav = UINavigationController(rootViewController: statisticView)
         viewControllers = [
-            generateVC(viewController: trackerNav, title: "Трекеры", image: UIImage(named:"TabBarTracker")),
-            generateVC(viewController: statisticNav, title: "Статистика", image: UIImage(named: "TabBarStatistic"))]
+            generateVC(viewController: trackerNav, title: "trackers".localized(), image: UIImage(named:"TabBarTracker")),
+            generateVC(viewController: statisticNav, title: "statistics".localized(), image: UIImage(named: "TabBarStatistic"))]
     }
     private func generateVC(viewController: UINavigationController, title: String, image: UIImage?) -> UINavigationController{
         viewController.tabBarItem.title = title

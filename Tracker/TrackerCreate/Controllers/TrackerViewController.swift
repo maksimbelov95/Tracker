@@ -83,7 +83,7 @@ final class TrackerViewController: UIViewController {
         textField.heightAnchor.constraint(equalToConstant: 36).isActive = true
         
         let attributes = [ NSAttributedString.Key.foregroundColor: UIColor.ypGray]
-        let attributesPlaceHolder = NSAttributedString(string: "Поиск", attributes: attributes)
+        let attributesPlaceHolder = NSAttributedString(string: "search".localized(), attributes: attributes)
         
         textField.attributedPlaceholder = attributesPlaceHolder
         textField.delegate = self
@@ -91,7 +91,7 @@ final class TrackerViewController: UIViewController {
     }()
     private let filterButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Фильтры", for: .normal)
+        button.setTitle("filters".localized(), for: .normal)
         button.titleLabel?.textColor = .ypWhite
         button.backgroundColor = .ypBlue
         button.titleLabel?.font = .hugeTitleMedium17
@@ -154,7 +154,7 @@ final class TrackerViewController: UIViewController {
         view.backgroundColor = .ypWhite
         navigationItem.leftBarButtonItem = addTrackerButton
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Трекеры"
+        navigationItem.title = "trackers".localized()
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         navigationItem.rightBarButtonItem?.customView?.backgroundColor = .ypWhite
     }
@@ -170,7 +170,7 @@ final class TrackerViewController: UIViewController {
         if searchTextField.text?.isEmpty == false {
             if activeCategories.isEmpty {
                 placeHoldersLabel.isHidden = false
-                placeHoldersLabel.text = "Ничего не найдено"
+                placeHoldersLabel.text = "nothing_found".localized()
                 placeHoldersImageView.isHidden = false
                 placeHoldersImageView.image = UIImage(named: "SearchResultPlaceHolderImage")
                 trackersCollectionView.isHidden = true
@@ -182,7 +182,7 @@ final class TrackerViewController: UIViewController {
         } else {
             if activeCategories.isEmpty {
                 placeHoldersLabel.isHidden = false
-                placeHoldersLabel.text = "Что будем отслеживать?"
+                placeHoldersLabel.text = "what_we_will_track".localized()
                 placeHoldersImageView.isHidden = false
                 placeHoldersImageView.image = UIImage(named: "PlaceHolder")
                 trackersCollectionView.isHidden = true
