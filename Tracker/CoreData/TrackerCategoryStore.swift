@@ -22,7 +22,9 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
             let results = try context.fetch(fetchRequest)
             for section in results {
                 if let trackersSet = section.trackers, let categoryTitle = section.title {
-                    let tracersArray = trackersSet.allObjects as? [Tracker] ?? []
+                    let tracersArray = (trackersSet.allObjects as! [TrackerCoreData]).compactMap { trackerCoreData in
+                        return tracker(from:trackerCoreData)
+                    }
                     let category = TrackerCategory(title: categoryTitle, trackers: tracersArray)
                     allCategories.append(category)
                 }
@@ -47,15 +49,28 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
         }
     }
     
-    func addNewTrackerCategory(title: String) {
+    func addNewTrackerCategory(title: String, trackers: [Tracker]) {
         let categoryCoreData = TrackerCategoryCoreData(context: context)
         categoryCoreData.title = title
+        
+        trackers.forEach { tracker in
+            let trackerCoreData = TrackerCoreData(context: context)
+            trackerCoreData.id = tracker.id
+            trackerCoreData.title = tracker.title
+            trackerCoreData.color = tracker.color?.toHexString() ?? "#FF0000"
+            trackerCoreData.emoji = tracker.emoji
+            trackerCoreData.schedule = tracker.schedule.compactMap( { String($0.rawValue) } ).joined(separator: ",")
+            
+            categoryCoreData.addToTrackers(trackerCoreData)
+        }
+        
         do {
             try context.save()
         } catch {
             print("Error saving context: \(error)")
         }
     }
+    
     func deleteTrackerCategoryCoreData(for title: String) {
         let fetchRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
         fetchRequest.predicate = NSPredicate(format: "title == %@", title)
@@ -83,5 +98,32 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
             print("Error fetching TrackerCoreData: \(error)")
         }
     }
- 
+    func tracker(from trackerCoreData: TrackerCoreData) -> Tracker? {
+        guard let id = trackerCoreData.id else {
+            return nil
+        }
+        guard let title = trackerCoreData.title else {
+            return nil
+        }
+        guard let color = trackerCoreData.color else {
+            return nil
+        }
+        guard let emoji = trackerCoreData.emoji else {
+            return nil
+        }
+        guard let schedule = trackerCoreData.schedule else {
+            return nil
+        }
+        return Tracker(
+            id: id,
+            title: title,
+            color: color.toUIColor(),
+            emoji: emoji,
+            schedule: schedule.split(separator: ",").compactMap { sch in
+                guard let int = Int(sch) else { return nil }
+                return Schedule(rawValue: int)
+            }
+        )
+    }
+    
 }

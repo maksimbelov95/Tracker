@@ -14,9 +14,10 @@ final class TrackerTypeSelectionViewController: UIViewController {
         return label
     }()
     
-    private let habitButton: UIButton = {
+    private lazy var habitButton: UIButton = {
         let button = UIButton()
         button.setTitle("Привычка", for: .normal)
+        button.setTitleColor(UIColor.ypWhite, for: .normal)
         button.titleLabel?.font = .hugeTitleMedium16
         button.backgroundColor = .ypBlack
         button.layer.cornerRadius = 16
@@ -25,10 +26,10 @@ final class TrackerTypeSelectionViewController: UIViewController {
         return button
     }()
     
-    private let eventButton: UIButton = {
+    private lazy var eventButton: UIButton = {
         let button = UIButton()
         button.setTitle("Нерегулярное событие", for: .normal)
-        button.titleLabel?.textColor = .ypWhite
+        button.setTitleColor(UIColor.ypWhite, for: .normal)
         button.titleLabel?.font = .hugeTitleMedium16
         button.frame = CGRect(x: 0, y: 0, width: 335, height: 60)
         button.backgroundColor = .ypBlack

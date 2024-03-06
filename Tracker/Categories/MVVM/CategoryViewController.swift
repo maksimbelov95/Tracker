@@ -3,15 +3,23 @@ import UIKit
 
 final class CategoryViewController: UIViewController {
     
-    private var categories: [String] {
-        let categories = trackerCategoryStore.getAllTrackersCategory()
-        return categories.map { $0.title }
-    }
-    
     private let trackerCategoryStore = TrackerCategoryStore()
     
+    private var lastSelectedIndexPath: IndexPath?
     
     var selectedCategory: ((String) -> ())?
+    var viewModel: CategorySelectionViewModelProtocol
+
+    init(viewModel: CategorySelectionViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    var savedCategory: String?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -43,6 +51,7 @@ final class CategoryViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .ypBlack
         button.setTitle("Добавить категорию", for: .normal)
+        button.setTitleColor(UIColor.ypWhite, for: .normal)
         button.titleLabel?.font = .hugeTitleMedium16
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(addCategoryButtonTapped), for: .touchUpInside)
@@ -71,13 +80,19 @@ final class CategoryViewController: UIViewController {
         label.isHidden = true
         return label
     } ()
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchCategoryTitles()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
         navigationItem.hidesBackButton = true
         addSCategorySubViews()
         setupConstraints()
+        viewModel.categoryTitlesUpdated = { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
     
     private func addSCategorySubViews(){
@@ -118,7 +133,7 @@ final class CategoryViewController: UIViewController {
         ])
     }
     private func reloadPlaceHolders() {
-        if categories.isEmpty{
+        if viewModel.categoryTitles.isEmpty{
             placeHoldersImageView.isHidden = false
             placeHoldersLabel.isHidden = false
             tableView.isHidden = true
@@ -133,8 +148,8 @@ final class CategoryViewController: UIViewController {
         let createVC = EditCategoriesViewController()
         createVC.titleLabel.text = "Редактирование категории"
         createVC.editText = { [weak self] text in
-            self?.trackerCategoryStore.addNewTrackerCategory(title: text)
-            self?.tableView.reloadData()
+            self?.trackerCategoryStore.addNewTrackerCategory(title: text, trackers: [])
+            self?.viewModel.fetchCategoryTitles()
         }
         let navController = UINavigationController(rootViewController: createVC)
         present(navController, animated: true, completion: nil)
@@ -145,14 +160,19 @@ final class CategoryViewController: UIViewController {
 
 extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.categories.count
+        return self.viewModel.categoryTitles.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryTableViewCell", for: indexPath) as! CategoryTableViewCell
         
-        cell.titleCategory.text = categories[indexPath.row]
-        cell.selectionStyle = .none
+        cell.titleCategory.text = viewModel.categoryTitles[indexPath.row]
+        if cell.titleCategory.text == savedCategory {
+            cell.accessoryType = .checkmark
+            cell.tintColor = .ypBlue
+        } else {
+            cell.accessoryType = .none
+        }
         
         cell.delegate = self
         cell.indexPath = indexPath
@@ -161,21 +181,30 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let category = categories[indexPath.row]
+        let category = viewModel.categoryTitles[indexPath.row]
         selectedCategory?(category)
-        print("\(category)")
+        if let lastIndexPath = lastSelectedIndexPath,
+           let lastCell = tableView.cellForRow(at: lastIndexPath) as? CategoryTableViewCell {
+            lastCell.accessoryType = .none
+        }
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? CategoryTableViewCell {
+            cell.accessoryType = .checkmark
+            cell.tintColor = .systemBlue
+        }
+        lastSelectedIndexPath = indexPath
         navigationController?.popViewController(animated: true)
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let isLastCell = indexPath.row == categories.count - 1
+        let isLastCell = indexPath.row == viewModel.categoryTitles.count - 1
         let defaultInset = tableView.separatorInset
         var corners: UIRectCorner = []
-        if categories.count == 1 {
+        if viewModel.categoryTitles.count == 1 {
             corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
         } else {
             if indexPath.row == 0 {
                 corners = [.topLeft, .topRight]
-            } else if indexPath.row == categories.count - 1 {
+            } else if indexPath.row == viewModel.categoryTitles.count - 1 {
                 corners = [.bottomLeft, .bottomRight]
             }
         }
@@ -200,10 +229,10 @@ extension CategoryViewController: CategoryTableViewCellDelegate{
         let createVC = EditCategoriesViewController()
         createVC.titleLabel.text = "Редактирование категории"
         createVC.editText = { [weak self] text in
-            if let titleCategory = self?.categories[indexPath.row] {
+            if let titleCategory = self?.viewModel.categoryTitles[indexPath.row] {
                 self?.trackerCategoryStore.updateTrackerCategoryCoreData(for: titleCategory, newTitle: text)
             }
-            self?.tableView.reloadData()
+            self?.viewModel.fetchCategoryTitles()
             self?.reloadPlaceHolders()
         }
         let navController = UINavigationController(rootViewController: createVC)
@@ -211,9 +240,9 @@ extension CategoryViewController: CategoryTableViewCellDelegate{
     }
     
     func delete(indexPath: IndexPath) {
-        let deleteTitleCategory = self.categories[indexPath.row]
+        let deleteTitleCategory = self.viewModel.categoryTitles[indexPath.row]
         self.trackerCategoryStore.deleteTrackerCategoryCoreData(for: deleteTitleCategory)
-        tableView.reloadData()
+        self.viewModel.fetchCategoryTitles()
         reloadPlaceHolders()
     }
 }

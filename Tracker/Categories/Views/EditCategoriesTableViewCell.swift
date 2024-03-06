@@ -35,6 +35,5 @@ final class EditCategoriesTableViewCell: UITableViewCell {
             titleCategory.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
-    
 }
 

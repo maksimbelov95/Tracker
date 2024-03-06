@@ -203,6 +203,7 @@ class CreateTrackerViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Создать", for: .normal)
         button.backgroundColor = .ypGray
+        button.setTitleColor(UIColor.ypWhite, for: .normal)
         button.titleLabel?.font = .hugeTitleMedium16
         button.layer.cornerRadius = 16
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -327,7 +328,9 @@ extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 0 {
-            let categorySelectionViewController = CategoryViewController()
+            let categorySelectionViewModel = CategorySelectionViewModel(categoryStore: TrackerCategoryStore())
+            let categorySelectionViewController = CategoryViewController(viewModel: categorySelectionViewModel )
+            categorySelectionViewController.savedCategory = habitDesc
             categorySelectionViewController.selectedCategory = {[weak self] selectedCategories in
                 self?.habitDesc = selectedCategories
                 self?.tableView.reloadData()}
@@ -354,7 +357,6 @@ extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSourc
             cell.separatorInset = defaultInset
         }
     }
-    
 }
 //MARK: CategoryAndSchedule delegate
 extension CreateTrackerViewController: ScheduleSelectionDelegate{
