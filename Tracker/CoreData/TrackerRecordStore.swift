@@ -20,7 +20,7 @@ final class TrackerRecordStore {
         let trackerRecordCoreData = TrackerRecordCoreData(context: context)
         trackerRecordCoreData.date = trackerRecord.date
         trackerRecordCoreData.id = trackerRecord.id
-        
+        trackerRecordCoreData.daysSince1970 = trackerRecord.daysSince1970
         do {
             try context.save()
             print("Saving TrackerRecord for \(trackerRecord.id) on \(trackerRecord.date)")
@@ -31,7 +31,7 @@ final class TrackerRecordStore {
     
     func deleteTrackerRecordCoreData(for trackerRecord: TrackerRecord) {
         let fetchRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
-        fetchRequest.predicate = NSPredicate(format: "id == %@ AND date == %@", trackerRecord.id as CVarArg, trackerRecord.date as CVarArg)
+        fetchRequest.predicate = NSPredicate(format: "id == %@ AND daysSince1970 == %id", trackerRecord.id as CVarArg, trackerRecord.daysSince1970 as CVarArg)
         
         do {
             let results = try context.fetch(fetchRequest)
@@ -49,8 +49,9 @@ final class TrackerRecordStore {
         do {
             let results = try context.fetch(fetchRequest)
             return results.compactMap{ result in
-                guard let id = result.id, let date = result.date else {return nil}
-                return TrackerRecord(id: id, date: date)
+                guard let id = result.id, let date = result.date  else {return nil}
+                let daysSince1970 = result.daysSince1970
+                return TrackerRecord(id: id, date: date, daysSince1970: daysSince1970)
             }
         } catch {
             print("Error fetching TrackerCoreData: \(error)")

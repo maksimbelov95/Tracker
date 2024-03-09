@@ -371,20 +371,26 @@ extension TrackerViewController: UICollectionViewDataSource{
 //MARK: UICollectionViewDelegate
 extension TrackerViewController: TrackerCellDelegate{
     func completedTracker(id: UUID, indexPath: IndexPath) {
-      let secondsInDay: TimeInterval = 60 * 60 * 24
-      let daysCurrentDate = Int(currentDate.timeIntervalSince1970 / secondsInDay)
-      let daysDatePicker = Int(datePicker.date.timeIntervalSince1970 / secondsInDay)
+      let daysCurrentDate = daysSince1970Recalculate(date: currentDate)
+        let daysDatePicker = daysSince1970Recalculate(date: datePicker.date)
             if daysCurrentDate >= daysDatePicker {
-                let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
+                let trackerRecord = TrackerRecord(id: id, date: datePicker.date, daysSince1970: daysSince1970Recalculate(date: datePicker.date))
                 trackerRecordStore.addNewTrackerRecord(trackerRecord)
                 trackersCollectionView.reloadItems(at:[indexPath] )
+                print(trackerRecord.daysSince1970)
             }else { return }
+      
         }
     
     func uncompletedTracker(id: UUID, indexPath: IndexPath) {
-        let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
+        let trackerRecord = TrackerRecord(id: id, date: datePicker.date, daysSince1970: daysSince1970Recalculate(date: datePicker.date) )
         trackerRecordStore.deleteTrackerRecordCoreData(for: trackerRecord)
         trackersCollectionView.reloadItems(at:[indexPath])
+        print(trackerRecord.daysSince1970)
+    }
+    func daysSince1970Recalculate(date: Date) -> Int64{
+        let secondsInDay: TimeInterval = 60 * 60 * 24
+        return Int64(date.timeIntervalSince1970/secondsInDay)
     }
 }
 //MARK: TrackerCreationDelegate
