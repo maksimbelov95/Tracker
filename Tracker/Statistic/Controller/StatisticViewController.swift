@@ -10,6 +10,7 @@ class StatisticViewController: UIViewController {
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.rowHeight = 75
         tableView.isScrollEnabled = false
+        tableView.backgroundColor = .ypRed
         tableView.delegate = self
         tableView.dataSource = self
         tableView.sectionHeaderHeight = 12
@@ -38,8 +39,7 @@ class StatisticViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: 44),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: 525),
-            
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
     }
 }

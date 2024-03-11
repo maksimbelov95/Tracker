@@ -118,7 +118,7 @@ final class TrackerStore: NSObject {
         let categoryCoreData = self.fetchedResultsController.fetchedObjects?.first(where: {elem in
             elem.title == category
         })
-        updateTracker(trackerCoreData, with: tracker, category: categoryCoreData)
+        saveTracker(trackerCoreData, with: tracker, category: categoryCoreData)
         
         if let categoryCoreData = categoryCoreData {
             categoryCoreData.addToTrackers(trackerCoreData)
@@ -130,13 +130,29 @@ final class TrackerStore: NSObject {
         }
     }
     
-    func updateTracker(_ trackerCoreData: TrackerCoreData, with tracker: Tracker, category: TrackerCategoryCoreData?) {
+  private func saveTracker(_ trackerCoreData: TrackerCoreData, with tracker: Tracker, category: TrackerCategoryCoreData?) {
         trackerCoreData.id = tracker.id
         trackerCoreData.title = tracker.title
         trackerCoreData.color = tracker.color?.toHexString() ?? "#FF0000"
         trackerCoreData.emoji = tracker.emoji
         trackerCoreData.schedule = tracker.schedule.compactMap( { String($0.rawValue) } ).joined(separator: ",")
         category?.addToTrackers(trackerCoreData)
+    }
+    func updateTracker(for tracker: Tracker){
+        let fetchRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", tracker.id as CVarArg)
+        
+        do {
+            guard let trackerCoreData = try context.fetch(fetchRequest).first else {return}
+            trackerCoreData.title = tracker.title
+            trackerCoreData.color = tracker.color?.toHexString() ?? "#FF0000"
+            trackerCoreData.emoji = tracker.emoji
+            trackerCoreData.schedule = tracker.schedule.compactMap( { String($0.rawValue) } ).joined(separator: ",")
+           
+            try context.save()
+        } catch {
+            print("Error fetching TrackerCoreData: \(error)")
+        }
     }
     
     

@@ -30,6 +30,7 @@ final class TrackerViewController: UIViewController {
     }
     private var dateSelected: Date?
     private var addTrackerButton = UIBarButtonItem()
+    private let yandexMetric: YandexMetrics = YandexMetrics()
     
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -89,7 +90,7 @@ final class TrackerViewController: UIViewController {
         textField.delegate = self
         return textField
     }()
-    private let filterButton: UIButton = {
+    private lazy var filterButton: UIButton = {
         let button = UIButton()
         button.setTitle("filters".localized(), for: .normal)
         button.titleLabel?.textColor = .ypWhite
@@ -120,7 +121,9 @@ final class TrackerViewController: UIViewController {
         updateActiveCategories()
     }
     @objc private func filterButtonTapped(){
+        yandexMetric.clickedFilterButton()
         let createVC = FilterViewController()
+        
         createVC.selectedFilter = {[weak self] selectedFilter in
             switch selectedFilter{
             case "Все трекеры":
@@ -160,6 +163,7 @@ final class TrackerViewController: UIViewController {
     }
     
     @objc func addTapped(){
+        yandexMetric.clickedTrackerCreateButton()
         let trackerTypeSelectionVC = TrackerTypeSelectionViewController()
         trackerTypeSelectionVC.delegate = self
         let navController = UINavigationController(rootViewController: trackerTypeSelectionVC)
@@ -349,7 +353,7 @@ extension TrackerViewController: UICollectionViewDataSource{
         
         let cellData = activeCategories
         let currentTracker = cellData[indexPath.section].trackers[indexPath.row]
-
+        
         cell.delegate = self
         cell.contextMenuDelegate = self
         
@@ -371,18 +375,20 @@ extension TrackerViewController: UICollectionViewDataSource{
 //MARK: UICollectionViewDelegate
 extension TrackerViewController: TrackerCellDelegate{
     func completedTracker(id: UUID, indexPath: IndexPath) {
-      let daysCurrentDate = daysSince1970Recalculate(date: currentDate)
+        yandexMetric.reportTrackerCompleteButton()
+        let daysCurrentDate = daysSince1970Recalculate(date: currentDate)
         let daysDatePicker = daysSince1970Recalculate(date: datePicker.date)
-            if daysCurrentDate >= daysDatePicker {
-                let trackerRecord = TrackerRecord(id: id, date: datePicker.date, daysSince1970: daysSince1970Recalculate(date: datePicker.date))
-                trackerRecordStore.addNewTrackerRecord(trackerRecord)
-                trackersCollectionView.reloadItems(at:[indexPath] )
-                print(trackerRecord.daysSince1970)
-            }else { return }
-      
-        }
+        if daysCurrentDate >= daysDatePicker {
+            let trackerRecord = TrackerRecord(id: id, date: datePicker.date, daysSince1970: daysSince1970Recalculate(date: datePicker.date))
+            trackerRecordStore.addNewTrackerRecord(trackerRecord)
+            trackersCollectionView.reloadItems(at:[indexPath] )
+            print(trackerRecord.daysSince1970)
+        }else { return }
+        
+    }
     
     func uncompletedTracker(id: UUID, indexPath: IndexPath) {
+        yandexMetric.reportTrackerUnCompleteButton()
         let trackerRecord = TrackerRecord(id: id, date: datePicker.date, daysSince1970: daysSince1970Recalculate(date: datePicker.date) )
         trackerRecordStore.deleteTrackerRecordCoreData(for: trackerRecord)
         trackersCollectionView.reloadItems(at:[indexPath])
@@ -395,8 +401,15 @@ extension TrackerViewController: TrackerCellDelegate{
 }
 //MARK: TrackerCreationDelegate
 extension TrackerViewController: TrackerCreationDelegate {
-    func creatingANewTracker(tracker: Tracker, category: String) {
-        categoriesStore.creatingANewTracker(tracker, to: category)
+    func creatingANewTracker(createTrackerType: CreateTrackerType) {
+        switch createTrackerType {
+        case .create(let tracker, let category) :
+            categoriesStore.creatingANewTracker(tracker, to: category)
+        case .update(let tracker, let category) :
+            categoriesStore.deleteTrackerCoreData(for: tracker)
+            categoriesStore.creatingANewTracker(tracker, to: category)
+        }
+        
         updateActiveCategories()
         trackersCollectionView.reloadData()
         reloadPlaceHolders()
@@ -448,12 +461,31 @@ extension TrackerViewController: TrackerContextMenuDelegate{
     }
     
     func edit(indexPath: IndexPath) {
-        
+        yandexMetric.reportTrackerEdit()
+        let createEditTrackerVC = CreateTrackerViewController(state: .trackerEdit(
+            tracker: activeCategories[indexPath.section].trackers[indexPath.row],
+            trackerCategory: activeCategories[indexPath.section]))
+        createEditTrackerVC.delegate = self
+        let navController = UINavigationController(rootViewController: createEditTrackerVC)
+        present(navController, animated: true, completion: nil)
     }
     
     func delete(indexPath: IndexPath) {
+        yandexMetric.reportTrackerDelete()
         let tracker = activeCategories[indexPath.section].trackers[indexPath.row]
-        categoriesStore.deleteTrackerCoreData(for: tracker)
-        updateActiveCategories()
+
+        let alertController = UIAlertController(title: "", message: "Уверены что хотите удалить трекер?", preferredStyle: .actionSheet)
+        
+        let delete = UIAlertAction(title: "Удалить", style: .destructive) { _ in
+            self.categoriesStore.deleteTrackerCoreData(for: tracker)
+            self.updateActiveCategories()
+        }
+        
+        let cancel = UIAlertAction(title: "Отменить", style: .cancel)
+        
+        alertController.addAction(delete)
+        alertController.addAction(cancel)
+        
+        self.present(alertController, animated: true)
     }
 }

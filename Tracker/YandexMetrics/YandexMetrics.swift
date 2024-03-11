@@ -1,9 +1,10 @@
+
 import Foundation
 import YandexMobileMetrica
 
 struct YandexMetrics {
 
-    func report(event: String, screen: String, item: String?) {
+    func reportYandexMetric(event: String, screen: String, item: String?) {
         var params: [String: Any] = ["event": event, "screen": screen]
         if let itemValue = item {
             params["item"] = itemValue
@@ -14,33 +15,26 @@ struct YandexMetrics {
         })
     }
     
-    func didOpenMain() {
-        report(event: "open", screen: "Main", item: nil)
-    }
-    
-    func closedMain() {
-        report(event: "close", screen: "Main", item: nil)
-    }
-    
-    func clickedAddButton() {
-        report(event: "click", screen: "Main", item: "add_track")
+    func clickedTrackerCreateButton() {
+        reportYandexMetric(event: "click", screen: "Main", item: "add_tracker")
     }
     
     func clickedFilterButton() {
-        report(event: "click", screen: "Main", item: "filter")
+        reportYandexMetric(event: "click", screen: "Main", item: "selected_filter")
     }
     
-    func reportEditEventOnMain() {
-        report(event: "click", screen: "Main", item: "edit")
+    func reportTrackerEdit() {
+        reportYandexMetric(event: "click", screen: "Main", item: "edit")
     }
 
-    func reportDeleteEventOnMain() {
-        report(event: "click", screen: "Main", item: "delete")
+    func reportTrackerDelete() {
+        reportYandexMetric(event: "click", screen: "Main", item: "delete")
     }
 
-    func reportTrackEventOnMain() {
-        report(event: "click", screen: "Main", item: "track")
+    func reportTrackerCompleteButton() {
+        reportYandexMetric(event: "click", screen: "Main", item: "tracker_complete")
     }
-    
-    
+    func reportTrackerUnCompleteButton() {
+        reportYandexMetric(event: "click", screen: "Main", item: "tracker_uncomplete")
+    } 
 }

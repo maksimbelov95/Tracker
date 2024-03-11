@@ -2,7 +2,12 @@
 import UIKit
 
 protocol TrackerCreationDelegate: AnyObject {
-    func creatingANewTracker(tracker: Tracker, category: String)
+    func creatingANewTracker(createTrackerType: CreateTrackerType)
+}
+
+enum CreateTrackerType{
+    case update(tracker: Tracker, category: String)
+    case create(tracker: Tracker, category: String)
 }
 
 class CreateTrackerViewController: UIViewController {
@@ -25,20 +30,20 @@ class CreateTrackerViewController: UIViewController {
             return  "Каждый день"
             
         } else {
-            
             return  schedule.map({$0.shortDaysOfWeek()}).joined(separator: ", ")
-            
         }
     }
     
     enum ViewState {
         case habit
         case irregularEvent
+        case trackerEdit(tracker: Tracker, trackerCategory: TrackerCategory)
         
         var title: String {
             switch self{
             case .habit : return "Создание привычки"
             case .irregularEvent : return "Нерегулярное событие"
+            case .trackerEdit: return "Редактирование трекера"
             }
         }
         
@@ -59,6 +64,8 @@ class CreateTrackerViewController: UIViewController {
         case .irregularEvent :
             updateCreateButton()
             return [.init(title: "Категория", description: self.habitDesc)]
+        case .trackerEdit(_,_):
+            return [.init(title: "Категория", description: self.habitDesc), .init(title: "Расписание", description: self.eventDesc)]
         }
     }
     struct TrackerCategoryCells {
@@ -68,11 +75,19 @@ class CreateTrackerViewController: UIViewController {
     
     init(state: ViewState) {
         self.state = state
+        schedule = []
+        super.init(nibName: nil, bundle: nil)
+        
         switch state{
         case .habit : schedule = []
         case .irregularEvent : schedule = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+        case .trackerEdit(let tracker, let trackerCategory) :
+            schedule = tracker.schedule
+            emoji = tracker.emoji
+            color = tracker.color
+            nameTrackerTextField.text = tracker.title
+            self.habitDesc = trackerCategory.title
         }
-        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -159,6 +174,7 @@ class CreateTrackerViewController: UIViewController {
         emojiCollectionView.backgroundColor = .ypWhite
         emojiCollectionView.delegate = emojiCollectionView
         emojiCollectionView.dataSource = emojiCollectionView
+        emojiCollectionView.setEmoji(editEmoji: self.emoji)
         emojiCollectionView.emojiSelected = self
         return emojiCollectionView
     }()
@@ -172,6 +188,7 @@ class CreateTrackerViewController: UIViewController {
         colorCollectionView.backgroundColor = .ypWhite
         colorCollectionView.delegate = colorCollectionView
         colorCollectionView.dataSource = colorCollectionView
+        colorCollectionView.setColor(color: self.color)
         colorCollectionView.colorSelected = self
         return colorCollectionView
     }()
@@ -301,7 +318,12 @@ class CreateTrackerViewController: UIViewController {
                                  color: color,
                                  emoji: emoji,
                                  schedule: schedule)
-        delegate?.creatingANewTracker(tracker: newTracker,category: category)
+        switch self.state{
+        case .trackerEdit(_,_) :
+            delegate?.creatingANewTracker(createTrackerType: .update(tracker: newTracker, category: category))
+        case .habit, .irregularEvent :
+            delegate?.creatingANewTracker(createTrackerType: .create(tracker: newTracker, category: category))
+        }
         dismiss(animated: true)
     }
 }

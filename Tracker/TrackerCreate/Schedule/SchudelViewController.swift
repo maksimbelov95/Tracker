@@ -40,6 +40,7 @@ final class ScheduleSelectionViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .ypBlack
+        button.setTitleColor(UIColor.ypWhite, for: .normal)
         button.setTitle("Готово", for: .normal)
         button.titleLabel?.font = .hugeTitleMedium16
         button.layer.cornerRadius = 16

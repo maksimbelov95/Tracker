@@ -98,7 +98,7 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
             print("Error fetching TrackerCoreData: \(error)")
         }
     }
-    func tracker(from trackerCoreData: TrackerCoreData) -> Tracker? {
+   private func tracker(from trackerCoreData: TrackerCoreData) -> Tracker? {
         guard let id = trackerCoreData.id else {
             return nil
         }

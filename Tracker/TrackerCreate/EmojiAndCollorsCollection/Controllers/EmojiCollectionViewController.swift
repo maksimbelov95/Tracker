@@ -11,6 +11,10 @@ class EmojiCollectionViewController: UICollectionView {
     
     private var indexPath: IndexPath?
     
+    func setEmoji(editEmoji: String?){
+        guard let index = emoji.firstIndex(where: {$0 == editEmoji}) else {return}
+        self.indexPath = IndexPath(row: Int(index), section: 0)
+    }
 }
 
 extension EmojiCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {

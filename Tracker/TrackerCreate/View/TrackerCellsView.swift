@@ -199,6 +199,8 @@ extension TrackerCellsView: UIContextMenuInteractionDelegate {
             
             let edit = UIAction(title: "Редактировать") { [weak self] action in
                 guard let self else {return}
+                guard let indexPath = self.indexPath else {return}
+                self.contextMenuDelegate?.edit(indexPath: indexPath)
 
             }
             
