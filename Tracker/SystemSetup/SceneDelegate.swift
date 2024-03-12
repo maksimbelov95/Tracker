@@ -17,8 +17,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         if UserStorage.isOnboardingShow{
             window.rootViewController = TabBarController()
-            
-            
         }else{
             window.rootViewController = OnboardingPageController()
             UserStorage.isOnboardingShow = true
@@ -52,6 +50,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
-    
-    
 }

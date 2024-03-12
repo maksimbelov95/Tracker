@@ -1,9 +1,24 @@
 
 import UIKit
 
-class OnboardingPageController: UIViewController {
+final class OnboardingPageController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
-    private var slides = [OnboardingView]()
+    private lazy var pages: [UIViewController] = {
+        let FirstOnboardingVC = FirstOnboardingVC()
+        let SecondOnboardingVC = SecondOnboardingVC()
+        
+        return [FirstOnboardingVC, SecondOnboardingVC]
+    }()
+    
+    private lazy var pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.numberOfPages = pages.count
+        pageControl.currentPage = 0
+        pageControl.currentPageIndicatorTintColor = .black
+        pageControl.pageIndicatorTintColor = .ypGray
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        return pageControl
+    }()
     
     private lazy var startButton: UIButton = {
         let button = UIButton()
@@ -16,93 +31,31 @@ class OnboardingPageController: UIViewController {
         return button
     }()
     
-    private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.isPagingEnabled = true
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.bounces = false
-        return scrollView
-    }()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    private lazy var pageControl: UIPageControl = {
-        let pageControl = UIPageControl()
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
-        pageControl.numberOfPages = 2
-        pageControl.pageIndicatorTintColor = .gray
-        pageControl.currentPageIndicatorTintColor = .black
-        
-        return pageControl
-    }()
+    override init(transitionStyle style: UIPageViewController.TransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation, options: [UIPageViewController.OptionsKey : Any]? = nil) {
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+    }
     override func viewDidLoad() {
-        addSubViews()
-        setupConstraints()
-        setDelegates()
-        slides = createSlides()
-        setupSlidesScrollView(slide: slides)
-    }
-    
-    private func createSlides() -> [OnboardingView]{
+        super.viewDidLoad()
         
-        guard let firstOnboardingImage = UIImage(named: "FirstOnboardingImage") else { return [] }
-        guard let secondOnboardingImage = UIImage(named: "SecondOnboardingImage") else { return [] }
+        dataSource = self
+        delegate = self
         
-        let firstOnboardingText = """
-           Отслеживайте только
-           то, что хотит
-           """
-        
-        let secondOnboardingText = """
-           Даже если это
-           не литры воды и йога
-           """
-        
-        let firstOnboardingView = OnboardingView()
-        firstOnboardingView.setImage(image: firstOnboardingImage)
-        firstOnboardingView.setTitleLabelText(text: firstOnboardingText)
-        
-        
-        let secondOnboardingView = OnboardingView()
-        secondOnboardingView.setImage(image: secondOnboardingImage)
-        secondOnboardingView.setTitleLabelText(text: secondOnboardingText)
-        
-        return [firstOnboardingView, secondOnboardingView]
-    }
-    
-    private func setupSlidesScrollView(slide: [OnboardingView]){
-        scrollView.contentSize = CGSize(width: view.frame.width * CGFloat(slide.count),
-                                        height: view.frame.height)
-        
-        for i in 0..<slides.count {
-            slides[i].frame = CGRect(x: view.frame.width * CGFloat(i),
-                                     y: 0,
-                                     width: view.frame.width,
-                                     height: view.frame.height)
-            scrollView.addSubview(slides[i])
+        if let first = pages.first {
+            setViewControllers([first], direction: .forward, animated: true, completion: nil)
         }
+        addSubviews()
+        setupConstraints()
     }
-    
-    private func setDelegates(){
-        scrollView.delegate = self
-    }
-    
-    @objc private func startButtonTapped (){
-        let tabBarVC = TabBarController()
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
-        window.rootViewController = tabBarVC
-    }
-    
-    private func addSubViews(){
-        view.addSubview(scrollView)
+    private func addSubviews(){
         view.addSubview(pageControl)
         view.addSubview(startButton)
     }
     private func setupConstraints(){
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            
             pageControl.bottomAnchor.constraint(equalTo: startButton.topAnchor, constant: -24),
             pageControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             pageControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
@@ -112,14 +65,46 @@ class OnboardingPageController: UIViewController {
             startButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -84),
             startButton.heightAnchor.constraint(equalToConstant: 60),
-            
         ])
     }
-}
-//MARK: UIScrollViewDelegate
-extension OnboardingPageController: UIScrollViewDelegate{
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
-        pageControl.currentPage = Int(pageIndex)
+    
+    @objc private func startButtonTapped (){
+        let tabBarVC = TabBarController()
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        window.rootViewController = tabBarVC
+    }
+    
+    // MARK: - UIPageViewControllerDataSource
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard let viewControllerIndex = pages.firstIndex(of: viewController) else {
+            return nil
+        }
+        
+        let index = viewControllerIndex - 1
+        guard index >= 0 else {return nil}
+        
+        return pages[index]
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let viewControllerIndex = pages.firstIndex(of: viewController) else {
+            return nil
+        }
+        
+        let nextIndex = viewControllerIndex + 1
+        guard nextIndex < pages.count else {return nil}
+        
+        return pages[nextIndex]
+    }
+    
+    // MARK: - UPPageViewControllerDelegate
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        
+        if let viewController = pageViewController.viewControllers?.first,
+           let pageIndex = pages.firstIndex(of: viewController) {
+            pageControl.currentPage = pageIndex
+        }
     }
 }
