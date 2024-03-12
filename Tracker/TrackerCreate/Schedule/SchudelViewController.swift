@@ -40,6 +40,7 @@ final class ScheduleSelectionViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .ypBlack
+        button.setTitleColor(UIColor.ypWhite, for: .normal)
         button.setTitle("Готово", for: .normal)
         button.titleLabel?.font = .hugeTitleMedium16
         button.layer.cornerRadius = 16
@@ -71,7 +72,7 @@ final class ScheduleSelectionViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.bottomAnchor.constraint(equalTo: readyButton.bottomAnchor, constant: -16),
-
+            
             readyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             readyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             readyButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
@@ -84,8 +85,8 @@ final class ScheduleSelectionViewController: UIViewController {
         let selectedDays = self.selectedDays.map({$0}).sorted(by: {$0.rawValue < $1.rawValue})
         self.selectedDays.removeAll()
         delegate?.selectedSchedule(selectedDays)
-            navigationController?.popViewController(animated: true)
-        }
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 //MARK: Schedule TableView DelegateAndDataSource
@@ -122,20 +123,20 @@ extension ScheduleSelectionViewController: UITableViewDelegate, UITableViewDataS
         let defaultInset = tableView.separatorInset
         var corners: UIRectCorner = []
         if weekDays.count == 1 {
-           corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
-          } else {
-           if indexPath.row == 0 {
-            corners = [.topLeft, .topRight]
-           } else if indexPath.row == weekDays.count - 1 {
-            corners = [.bottomLeft, .bottomRight]
-           }
-          }
-          let radius: CGFloat = 16
-          let path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-          let mask = CAShapeLayer()
-          mask.path = path.cgPath
-          cell.layer.mask = mask
-
+            corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
+        } else {
+            if indexPath.row == 0 {
+                corners = [.topLeft, .topRight]
+            } else if indexPath.row == weekDays.count - 1 {
+                corners = [.bottomLeft, .bottomRight]
+            }
+        }
+        let radius: CGFloat = 16
+        let path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        cell.layer.mask = mask
+        
         if isLastCell {
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
         } else {

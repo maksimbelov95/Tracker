@@ -2,7 +2,12 @@
 import UIKit
 
 protocol TrackerCreationDelegate: AnyObject {
-    func creatingANewTracker(tracker: Tracker, category: String)
+    func creatingANewTracker(createTrackerType: CreateTrackerType)
+}
+
+enum CreateTrackerType{
+    case update(tracker: Tracker, category: String)
+    case create(tracker: Tracker, category: String)
 }
 
 class CreateTrackerViewController: UIViewController {
@@ -14,7 +19,7 @@ class CreateTrackerViewController: UIViewController {
     
     private var emoji: String?
     private var color: UIColor?
-
+    
     weak var delegate: TrackerCreationDelegate?
     
     private let maxCharacterCount = 38
@@ -22,23 +27,23 @@ class CreateTrackerViewController: UIViewController {
     private var habitDesc: String?
     private var eventDesc: String {
         if schedule.count == 7 {
-        return  "Каждый день"
+            return  "Каждый день"
             
         } else {
-            
-        return  schedule.map({$0.shortDaysOfWeek()}).joined(separator: ", ")
-            
+            return  schedule.map({$0.shortDaysOfWeek()}).joined(separator: ", ")
         }
     }
     
     enum ViewState {
         case habit
         case irregularEvent
+        case trackerEdit(tracker: Tracker, trackerCategory: TrackerCategory)
         
         var title: String {
             switch self{
             case .habit : return "Создание привычки"
             case .irregularEvent : return "Нерегулярное событие"
+            case .trackerEdit: return "Редактирование трекера"
             }
         }
         
@@ -54,9 +59,13 @@ class CreateTrackerViewController: UIViewController {
     var cellData: [TrackerCategoryCells]  {
         switch self.state {
         case .habit :
+            updateCreateButton()
             return [.init(title: "Категория", description: self.habitDesc), .init(title: "Расписание", description: self.eventDesc)]
         case .irregularEvent :
+            updateCreateButton()
             return [.init(title: "Категория", description: self.habitDesc)]
+        case .trackerEdit(_,_):
+            return [.init(title: "Категория", description: self.habitDesc), .init(title: "Расписание", description: self.eventDesc)]
         }
     }
     struct TrackerCategoryCells {
@@ -66,11 +75,19 @@ class CreateTrackerViewController: UIViewController {
     
     init(state: ViewState) {
         self.state = state
+        schedule = []
+        super.init(nibName: nil, bundle: nil)
+        
         switch state{
         case .habit : schedule = []
         case .irregularEvent : schedule = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+        case .trackerEdit(let tracker, let trackerCategory) :
+            schedule = tracker.schedule
+            emoji = tracker.emoji
+            color = tracker.color
+            nameTrackerTextField.text = tracker.title
+            self.habitDesc = trackerCategory.title
         }
-        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -83,7 +100,7 @@ class CreateTrackerViewController: UIViewController {
         scrollView.backgroundColor = .ypWhite
         return scrollView
     }()
- 
+    
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -157,6 +174,7 @@ class CreateTrackerViewController: UIViewController {
         emojiCollectionView.backgroundColor = .ypWhite
         emojiCollectionView.delegate = emojiCollectionView
         emojiCollectionView.dataSource = emojiCollectionView
+        emojiCollectionView.setEmoji(editEmoji: self.emoji)
         emojiCollectionView.emojiSelected = self
         return emojiCollectionView
     }()
@@ -170,10 +188,11 @@ class CreateTrackerViewController: UIViewController {
         colorCollectionView.backgroundColor = .ypWhite
         colorCollectionView.delegate = colorCollectionView
         colorCollectionView.dataSource = colorCollectionView
+        colorCollectionView.setColor(color: self.color)
         colorCollectionView.colorSelected = self
         return colorCollectionView
     }()
-
+    
     private lazy var clearButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(systemName: "xmark.circle.fill")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -196,11 +215,12 @@ class CreateTrackerViewController: UIViewController {
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    
     private lazy var createButton: UIButton = {
         let button = UIButton()
         button.setTitle("Создать", for: .normal)
         button.backgroundColor = .ypGray
+        button.setTitleColor(UIColor.ypWhite, for: .normal)
         button.titleLabel?.font = .hugeTitleMedium16
         button.layer.cornerRadius = 16
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -239,7 +259,7 @@ class CreateTrackerViewController: UIViewController {
         emojiHeaderAdd()
         colorsHeaderAdd()
     }
-
+    
     private func addViewToStackView(){
         stackView.addArrangedSubview(nameTrackerTextField)
         stackView.addArrangedSubview(symbolsLimitLabel)
@@ -288,19 +308,24 @@ class CreateTrackerViewController: UIViewController {
         updateCreateButton()
     }
     @objc private func cancelButtonTapped() {
-         dismiss(animated: true)
-     }
- 
-     @objc private func createButtonTapped() {
-         guard let emoji = self.emoji, let color = self.color else {return}
-         guard let category = habitDesc else {return}
-         let newTracker = Tracker(title: nameTrackerTextField.text ?? "",
-                                  color: color,
-                                  emoji: emoji,
-                                  schedule: schedule)
-         delegate?.creatingANewTracker(tracker: newTracker,category: category)
-         dismiss(animated: true)
-     }
+        dismiss(animated: true)
+    }
+    
+    @objc private func createButtonTapped() {
+        guard let emoji = self.emoji, let color = self.color else {return}
+        guard let category = habitDesc else {return}
+        let newTracker = Tracker(title: nameTrackerTextField.text ?? "",
+                                 color: color,
+                                 emoji: emoji,
+                                 schedule: schedule)
+        switch self.state{
+        case .trackerEdit(_,_) :
+            delegate?.creatingANewTracker(createTrackerType: .update(tracker: newTracker, category: category))
+        case .habit, .irregularEvent :
+            delegate?.creatingANewTracker(createTrackerType: .create(tracker: newTracker, category: category))
+        }
+        dismiss(animated: true)
+    }
 }
 
 extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSource {
@@ -315,9 +340,9 @@ extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
         let cellData = cellData[indexPath.row]
-
+        
         cell.settingStrings(title: cellData.title, description: cellData.description)
-
+        
         return cell
         
     }
@@ -325,7 +350,9 @@ extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 0 {
-            let categorySelectionViewController = CategoryViewController()
+            let categorySelectionViewModel = CategorySelectionViewModel(categoryStore: TrackerCategoryStore())
+            let categorySelectionViewController = CategoryViewController(viewModel: categorySelectionViewModel )
+            categorySelectionViewController.savedCategory = habitDesc
             categorySelectionViewController.selectedCategory = {[weak self] selectedCategories in
                 self?.habitDesc = selectedCategories
                 self?.tableView.reloadData()}
@@ -352,7 +379,6 @@ extension CreateTrackerViewController: UITableViewDelegate, UITableViewDataSourc
             cell.separatorInset = defaultInset
         }
     }
-    
 }
 //MARK: CategoryAndSchedule delegate
 extension CreateTrackerViewController: ScheduleSelectionDelegate{

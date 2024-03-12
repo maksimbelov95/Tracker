@@ -7,7 +7,7 @@ final class FilterViewController: UIViewController {
     private var filterCategories: [String] = ["Все трекеры", "Трекеры на сегодня", "Завершенные", "Не завершенные"]
     
     var selectedFilter: ((String) -> ())?
-
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +32,7 @@ final class FilterViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -69,11 +69,11 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FilterTableViewCell", for: indexPath) as! FilterTableViewCell
-       
+        
         cell.titleCategory.text = filterCategories[indexPath.row]
         cell.selectionStyle = .none
         cell.indexPath = indexPath
-
+        
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -86,19 +86,19 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
         let defaultInset = tableView.separatorInset
         var corners: UIRectCorner = []
         if filterCategories.count == 1 {
-           corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
-          } else {
-           if indexPath.row == 0 {
-            corners = [.topLeft, .topRight]
-           } else if indexPath.row == filterCategories.count - 1 {
-            corners = [.bottomLeft, .bottomRight]
-           }
-          }
-          let radius: CGFloat = 16
-          let path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-          let mask = CAShapeLayer()
-          mask.path = path.cgPath
-          cell.layer.mask = mask
+            corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
+        } else {
+            if indexPath.row == 0 {
+                corners = [.topLeft, .topRight]
+            } else if indexPath.row == filterCategories.count - 1 {
+                corners = [.bottomLeft, .bottomRight]
+            }
+        }
+        let radius: CGFloat = 16
+        let path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        cell.layer.mask = mask
         
         if isLastCell {
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)

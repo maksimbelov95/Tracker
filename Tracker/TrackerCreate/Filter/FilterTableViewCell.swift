@@ -11,7 +11,7 @@ final class FilterTableViewCell: UITableViewCell {
         imageView.isHidden = true
         return imageView
     }()
-     lazy var titleCategory: UILabel = {
+    lazy var titleCategory: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .ypBlack
@@ -19,7 +19,7 @@ final class FilterTableViewCell: UITableViewCell {
         label.textAlignment = .center
         return label
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupContentView()
@@ -36,7 +36,7 @@ final class FilterTableViewCell: UITableViewCell {
         contentView.layer.masksToBounds = true
         contentView.backgroundColor = .ypBackgroundDay
         
-      
+        
     }
     private func setupCategoryConstraints(){
         NSLayoutConstraint.activate([
@@ -49,7 +49,7 @@ final class FilterTableViewCell: UITableViewCell {
             titleCategory.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
-
+    
 }
 
 

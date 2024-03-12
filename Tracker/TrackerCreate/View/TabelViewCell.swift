@@ -55,7 +55,7 @@ final class TableViewCell: UITableViewCell {
     private func addTableViewSubview(){
         addSubview(titleLabel)
         addSubview(descriptionLabel)}
-
+    
     func settingStrings(title: String, description: String?) {
         titleLabel.text = title
         descriptionLabel.text = description

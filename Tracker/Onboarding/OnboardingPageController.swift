@@ -59,7 +59,7 @@ class OnboardingPageController: UIViewController {
         let firstOnboardingView = OnboardingView()
         firstOnboardingView.setImage(image: firstOnboardingImage)
         firstOnboardingView.setTitleLabelText(text: firstOnboardingText)
-
+        
         
         let secondOnboardingView = OnboardingView()
         secondOnboardingView.setImage(image: secondOnboardingImage)
@@ -86,11 +86,11 @@ class OnboardingPageController: UIViewController {
     }
     
     @objc private func startButtonTapped (){
-            let tabBarVC = TabBarController()
-            guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
-            window.rootViewController = tabBarVC
-            }
-
+        let tabBarVC = TabBarController()
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        window.rootViewController = tabBarVC
+    }
+    
     private func addSubViews(){
         view.addSubview(scrollView)
         view.addSubview(pageControl)
@@ -107,12 +107,12 @@ class OnboardingPageController: UIViewController {
             pageControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             pageControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             pageControl.heightAnchor.constraint(equalToConstant: 50),
-    
+            
             startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             startButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -84),
             startButton.heightAnchor.constraint(equalToConstant: 60),
-
+            
         ])
     }
 }

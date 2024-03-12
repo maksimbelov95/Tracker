@@ -2,7 +2,7 @@
 import UIKit
 
 final class EditCategoriesViewController: UIViewController {
-
+    
     private var categories: [String] = ["Важное", "Срочное", "Неотложенное"]
     
     var editText:((String) -> ())?
@@ -22,7 +22,7 @@ final class EditCategoriesViewController: UIViewController {
         textField.leftViewMode = .always
         return textField
     }()
-
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -32,18 +32,19 @@ final class EditCategoriesViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
-
+    
     private lazy var createCategoryButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .ypBlack
         button.setTitle("Готово", for: .normal)
+        button.setTitleColor(UIColor.ypWhite, for: .normal)
         button.titleLabel?.font = .hugeTitleMedium16
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(createCategoryButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
@@ -51,13 +52,13 @@ final class EditCategoriesViewController: UIViewController {
         addSCategorySubViews()
         setupConstraints()
     }
-
+    
     private func addSCategorySubViews(){
         view.addSubview(titleLabel)
         view.addSubview(createCategoryButton)
         view.addSubview(newCategoryTextField)
     }
-
+    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalToConstant: 375),
@@ -68,7 +69,7 @@ final class EditCategoriesViewController: UIViewController {
             newCategoryTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             newCategoryTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             newCategoryTextField.heightAnchor.constraint(equalToConstant: 75),
-
+            
             createCategoryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             createCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             createCategoryButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
@@ -79,5 +80,5 @@ final class EditCategoriesViewController: UIViewController {
         guard let text = newCategoryTextField.text else {return}
         if text.isEmpty{} else {editText?(text)}
         dismiss(animated: true)
-        }
+    }
 }

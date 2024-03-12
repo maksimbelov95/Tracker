@@ -29,6 +29,10 @@ class ColorCollectionViewController: UICollectionView {
         UIColor(named: "Color Selection 17") ?? .purple,
         UIColor(named: "Color Selection 18") ?? .green
     ]
+    func setColor(color: UIColor?){
+        guard let index = colorSelection.firstIndex(where: {$0 == color}) else {return}
+        self.indexPath = IndexPath(row: Int(index), section: 0)
+    }
 }
 extension ColorCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -58,7 +62,7 @@ extension ColorCollectionViewController: UICollectionViewDelegate, UICollectionV
         colorSelected?.colorDelegate(color)
         self.reloadData()
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "EmojiAndColorsHeaderView", for: indexPath) as? EmojiAndColorsHeaderView else {return UICollectionReusableView()}
         headerView.titleLabel.text = "Цвет"

@@ -10,6 +10,7 @@ class StatisticViewController: UIViewController {
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.rowHeight = 75
         tableView.isScrollEnabled = false
+        tableView.backgroundColor = .ypRed
         tableView.delegate = self
         tableView.dataSource = self
         tableView.sectionHeaderHeight = 12
@@ -17,21 +18,20 @@ class StatisticViewController: UIViewController {
         return tableView
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
         setupNavBar()
-        addSubVIews()
+        addSubViews()
         setupConstraints()
     }
-    private func addSubVIews(){
+    private func addSubViews(){
         view.addSubview(tableView)
     }
     private func setupNavBar(){
         view.backgroundColor = .ypWhite
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Статистика"
+        navigationItem.title = "statistics".localized()
         navigationItem.titleView?.backgroundColor = .ypBlack
     }
     private func setupConstraints() {
@@ -39,7 +39,7 @@ class StatisticViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: 44),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: 525),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
     }
 }
@@ -54,10 +54,7 @@ extension StatisticViewController: UITableViewDelegate, UITableViewDataSource {
         cell.statisticTitle.text = "sdfwe"
         cell.backgroundColor = .ypBlack
         cell.selectionStyle = .none
-        
-        
         //        reloadPlaceHolders()
-        
         return cell
     }
 }

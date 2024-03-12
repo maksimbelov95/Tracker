@@ -1,5 +1,13 @@
 import UIKit
 
+protocol TrackerContextMenuDelegate: AnyObject{
+    func action(indexPath: IndexPath)
+    
+    func edit(indexPath: IndexPath)
+    
+    func delete(indexPath: IndexPath)
+}
+
 protocol TrackerCellDelegate: AnyObject{
     func completedTracker(id: UUID, indexPath: IndexPath)
     func uncompletedTracker(id: UUID, indexPath: IndexPath)
@@ -8,11 +16,11 @@ protocol TrackerCellDelegate: AnyObject{
 final class TrackerCellsView: UICollectionViewCell {
     
     weak var delegate: TrackerCellDelegate?
+    weak var contextMenuDelegate: TrackerContextMenuDelegate?
     
     private var isCompletedToday: Bool = false
     private var trackerId: UUID?
     private var indexPath: IndexPath?
-    
     
     private lazy var trackerCellView: UIView = {
         let view = UIView()
@@ -20,6 +28,8 @@ final class TrackerCellsView: UICollectionViewCell {
         view.backgroundColor = .ypBackgroundDay
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 0
+        let interaction = UIContextMenuInteraction(delegate: self)
+        view.addInteraction(interaction)
         return view
     }()
     private lazy var quantityManagementView: UIView = {
@@ -106,20 +116,20 @@ final class TrackerCellsView: UICollectionViewCell {
         
     }
     private func getDayAddition(_ day: Int) -> String {
-
+        
         let preLastDigit = day % 100 / 10;
-
+        
         if (preLastDigit == 1) {
             return "\(day) дней";
         }
-
+        
         switch (day % 10) {
-            case 1:
-                return "\(day) день";
-            case 2,3,4:
-                return "\(day) дня";
-            default:
-                return "\(day) дней";
+        case 1:
+            return "\(day) день";
+        case 2,3,4:
+            return "\(day) дня";
+        default:
+            return "\(day) дней";
         }
     }
     func addElements() {
@@ -157,7 +167,7 @@ final class TrackerCellsView: UICollectionViewCell {
             trackerLabel.leadingAnchor.constraint(equalTo: trackerCellView.leadingAnchor, constant: 12),
             trackerLabel.bottomAnchor.constraint(equalTo: trackerCellView.bottomAnchor, constant: -12),
             trackerLabel.widthAnchor.constraint(equalToConstant: 143),
-        
+            
             countDaysLabel.leadingAnchor.constraint(equalTo: quantityManagementView.leadingAnchor, constant: 12),
             countDaysLabel.centerYAnchor.constraint(equalTo: trackerButton.centerYAnchor),
             
@@ -177,3 +187,32 @@ final class TrackerCellsView: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+extension TrackerCellsView: UIContextMenuInteractionDelegate {
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+            
+            let action = UIAction(title: "Закрепить") { [weak self] action in
+                guard let self else {return}
+
+            }
+            
+            let edit = UIAction(title: "Редактировать") { [weak self] action in
+                guard let self else {return}
+                guard let indexPath = self.indexPath else {return}
+                self.contextMenuDelegate?.edit(indexPath: indexPath)
+
+            }
+            
+            let delete = UIAction(title: "Удалить", attributes: .destructive) { [weak self] action in
+                guard let self else {return}
+                guard let indexPath = self.indexPath else {return}
+                self.contextMenuDelegate?.delete(indexPath: indexPath)
+            }
+            
+            return UIMenu(children: [action, edit, delete])
+        }
+    }
+}
+
+

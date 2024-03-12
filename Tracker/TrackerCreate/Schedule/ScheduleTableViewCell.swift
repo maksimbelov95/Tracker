@@ -5,7 +5,7 @@ final class ScheduleTableViewCell: UITableViewCell {
     
     var scheduleSwitchAction: ((Bool) -> Void)?
     
-     lazy var scheduleSwitch: UISwitch = {
+    lazy var scheduleSwitch: UISwitch = {
         let scheduleSwitch = UISwitch()
         scheduleSwitch.translatesAutoresizingMaskIntoConstraints = false
         scheduleSwitch.onTintColor = .ypBlue
@@ -13,13 +13,13 @@ final class ScheduleTableViewCell: UITableViewCell {
         return scheduleSwitch
     }()
     lazy var titleSchedule: UILabel = {
-       let label = UILabel()
-       label.translatesAutoresizingMaskIntoConstraints = false
-       label.textColor = .ypBlack
-       label.font = .hugeTitleMedium17
-       label.textAlignment = .center
-       return label
-   }()
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .ypBlack
+        label.font = .hugeTitleMedium17
+        label.textAlignment = .center
+        return label
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -14,4 +14,22 @@ extension UIColor {
     static var ypBGDatePickerNight: UIColor { UIColor(named: "DataPickerColorNight") ?? UIColor.lightGray}
     static var ypTBDay: UIColor { UIColor(named: "TabBarBorderDay") ?? UIColor.lightGray}
     static var ypTBNight: UIColor { UIColor(named: "TabBarBorderNight") ?? UIColor.black}
+    
+    /// Преобразует UIColor в String, представляющую собой шестнадцатеричное значение цвета.
+    ///
+    /// - Возвращает: String в формате "#RRGGBB", где RR, GG, BB - шестнадцатеричные значения красного, зеленого и синего компонентов цвета соответственно.
+    func toHexString() -> String {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        
+        let redHex = String(format: "%02X", Int(red * 255))
+        let greenHex = String(format: "%02X", Int(green * 255))
+        let blueHex = String(format: "%02X", Int(blue * 255))
+        
+        return "#" + redHex + greenHex + blueHex
+    }
 }

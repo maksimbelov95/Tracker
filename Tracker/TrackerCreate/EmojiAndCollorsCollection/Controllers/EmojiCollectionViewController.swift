@@ -11,6 +11,10 @@ class EmojiCollectionViewController: UICollectionView {
     
     private var indexPath: IndexPath?
     
+    func setEmoji(editEmoji: String?){
+        guard let index = emoji.firstIndex(where: {$0 == editEmoji}) else {return}
+        self.indexPath = IndexPath(row: Int(index), section: 0)
+    }
 }
 
 extension EmojiCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -34,10 +38,10 @@ extension EmojiCollectionViewController: UICollectionViewDelegate, UICollectionV
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-
+        
         guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "EmojiAndColorsHeaderView", for: indexPath) as? EmojiAndColorsHeaderView else {return UICollectionReusableView()}
-            headerView.titleLabel.text = "Emoji"
-            return headerView
+        headerView.titleLabel.text = "Emoji"
+        return headerView
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
         let emoji = self.emoji[indexPath.row]

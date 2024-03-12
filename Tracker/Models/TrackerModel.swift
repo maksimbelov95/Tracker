@@ -2,14 +2,14 @@
 import UIKit
 
 struct Tracker{
-    let id = UUID()
+    var id = UUID()
     let title: String
     let color: UIColor?
     let emoji: String
     let schedule: [Schedule]
 }
 
-enum Schedule: Int, CaseIterable {
+enum Schedule: Int, CaseIterable, Codable {
     case monday = 2
     case tuesday = 3
     case wednesday = 4
