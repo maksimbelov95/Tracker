@@ -7,7 +7,7 @@ protocol CategorySelectionViewModelProtocol {
     var сategoryChoice: ((String) -> Void)? { get set }
     
     var delegate: CategorySelectionDelegate? { get set }
-
+    
     func fetchCategoryTitles()
     func selectCategory(at index: Int)
 }
@@ -29,11 +29,11 @@ final class CategorySelectionViewModel: CategorySelectionViewModelProtocol {
     }
     var categoryTitlesUpdated: (() -> Void)?
     var сategoryChoice: ((String) -> Void)?
-        
+    
     init(categoryStore: TrackerCategoryStore) {
         self.categoryStore = categoryStore
     }
-
+    
     func fetchCategoryTitles() {
         categoryTitles = categoryStore.getAllTrackersCategory().compactMap{ $0.title }
     }
