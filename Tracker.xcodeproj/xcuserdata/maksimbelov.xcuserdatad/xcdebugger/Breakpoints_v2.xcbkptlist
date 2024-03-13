@@ -14,8 +14,8 @@
             filePath = "Tracker/TrackerCreate/Controllers/CreateTrackerViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "299"
-            endingLineNumber = "299"
+            startingLineNumber = "308"
+            endingLineNumber = "308"
             landmarkName = "updateCreateButton()"
             landmarkType = "7">
             <Locations>

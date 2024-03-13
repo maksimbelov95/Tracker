@@ -22,14 +22,12 @@ final class TrackerCellsView: UICollectionViewCell {
     private var trackerId: UUID?
     private var indexPath: IndexPath?
     
-    private lazy var trackerCellView: UIView = {
+    lazy var trackerCellView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .ypBackgroundDay
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 0
-        let interaction = UIContextMenuInteraction(delegate: self)
-        view.addInteraction(interaction)
         return view
     }()
     private lazy var quantityManagementView: UIView = {
@@ -187,32 +185,4 @@ final class TrackerCellsView: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-extension TrackerCellsView: UIContextMenuInteractionDelegate {
-    
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
-            
-            let action = UIAction(title: "Закрепить") { [weak self] action in
-                guard let self else {return}
-
-            }
-            
-            let edit = UIAction(title: "Редактировать") { [weak self] action in
-                guard let self else {return}
-                guard let indexPath = self.indexPath else {return}
-                self.contextMenuDelegate?.edit(indexPath: indexPath)
-
-            }
-            
-            let delete = UIAction(title: "Удалить", attributes: .destructive) { [weak self] action in
-                guard let self else {return}
-                guard let indexPath = self.indexPath else {return}
-                self.contextMenuDelegate?.delete(indexPath: indexPath)
-            }
-            
-            return UIMenu(children: [action, edit, delete])
-        }
-    }
-}
-
 

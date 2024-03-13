@@ -7,6 +7,7 @@ struct Tracker{
     let color: UIColor?
     let emoji: String
     let schedule: [Schedule]
+    let isPinned: Bool
 }
 
 enum Schedule: Int, CaseIterable, Codable {

@@ -22,6 +22,8 @@ class CreateTrackerViewController: UIViewController {
     
     weak var delegate: TrackerCreationDelegate?
     
+    private var editTracker: Tracker?
+    
     private let maxCharacterCount = 38
     private let state: ViewState
     private var habitDesc: String?
@@ -49,6 +51,12 @@ class CreateTrackerViewController: UIViewController {
         
         var heightCell: CGFloat {
             return 75
+        }
+        var buttonLabel: String{
+            switch self{
+            case .habit, .irregularEvent  : return "Создать"
+            case .trackerEdit: return "Сохранить"
+            }
         }
     }
     
@@ -82,6 +90,7 @@ class CreateTrackerViewController: UIViewController {
         case .habit : schedule = []
         case .irregularEvent : schedule = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
         case .trackerEdit(let tracker, let trackerCategory) :
+            editTracker = tracker
             schedule = tracker.schedule
             emoji = tracker.emoji
             color = tracker.color
@@ -218,7 +227,7 @@ class CreateTrackerViewController: UIViewController {
     
     private lazy var createButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Создать", for: .normal)
+        button.setTitle(state.buttonLabel, for: .normal)
         button.backgroundColor = .ypGray
         button.setTitleColor(UIColor.ypWhite, for: .normal)
         button.titleLabel?.font = .hugeTitleMedium16
@@ -292,7 +301,7 @@ class CreateTrackerViewController: UIViewController {
             
             colorCollectionView.heightAnchor.constraint(equalToConstant: 228),
             
-            stackViewButton.heightAnchor.constraint(equalToConstant: 60),    
+            stackViewButton.heightAnchor.constraint(equalToConstant: 60),
         ])
     }
     private func updateCreateButton(){
@@ -314,14 +323,23 @@ class CreateTrackerViewController: UIViewController {
     @objc private func createButtonTapped() {
         guard let emoji = self.emoji, let color = self.color else {return}
         guard let category = habitDesc else {return}
-        let newTracker = Tracker(title: nameTrackerTextField.text ?? "",
-                                 color: color,
-                                 emoji: emoji,
-                                 schedule: schedule)
         switch self.state{
         case .trackerEdit(_,_) :
+            guard let id = editTracker?.id else {return}
+            let newTracker = Tracker(
+                id: id,
+                title: nameTrackerTextField.text ?? "",
+                color: color,
+                emoji: emoji,
+                schedule: schedule,
+                isPinned: editTracker?.isPinned == true)
             delegate?.creatingANewTracker(createTrackerType: .update(tracker: newTracker, category: category))
         case .habit, .irregularEvent :
+            let newTracker = Tracker(title: nameTrackerTextField.text ?? "",
+                                     color: color,
+                                     emoji: emoji,
+                                     schedule: schedule,
+                                     isPinned: false)
             delegate?.creatingANewTracker(createTrackerType: .create(tracker: newTracker, category: category))
         }
         dismiss(animated: true)

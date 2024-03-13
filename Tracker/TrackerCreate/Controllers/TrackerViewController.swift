@@ -4,7 +4,10 @@ import UIKit
 final class TrackerViewController: UIViewController {
     
     private var categories: [TrackerCategory] {
-        categoriesStore.fetchAllTrackers()
+        let allCategories = categoriesStore.fetchAllTrackers()
+        let pinnedCategories = searchPinnedTrackers(categories: allCategories)
+        let deletePinnedCategories = deletePinnedTrackers(categories: allCategories)
+        return [pinnedCategories] + deletePinnedCategories
     }
     private let trackerRecordStore = TrackerRecordStore()
     private let categoriesStore = TrackerStore()
@@ -285,6 +288,21 @@ final class TrackerViewController: UIViewController {
         }
     }
     
+    private func searchPinnedTrackers(categories: [TrackerCategory]) -> TrackerCategory{
+        let pinnedTrackers = categories.map({$0.trackers}).flatMap({$0}).filter({$0.isPinned})
+        let pinnedCategory = TrackerCategory(title: "Закрепленные", trackers: pinnedTrackers)
+        return pinnedCategory
+    }
+    
+    private func deletePinnedTrackers(categories: [TrackerCategory]) -> [TrackerCategory]{
+        var filteredCategories: [TrackerCategory] = []
+        for category in categories {
+            let notPinnedTrackers = category.trackers.filter({ !$0.isPinned })
+            filteredCategories.append(TrackerCategory(title: category.title, trackers: notPinnedTrackers))
+        }
+        return filteredCategories
+    }
+    
     private func addSubViews() {
         view.addSubview(searchTextField)
         view.addSubview(placeHoldersLabel)
@@ -355,7 +373,6 @@ extension TrackerViewController: UICollectionViewDataSource{
         let currentTracker = cellData[indexPath.section].trackers[indexPath.row]
         
         cell.delegate = self
-        cell.contextMenuDelegate = self
         
         let isCompletedToday = isTrackerCompletedToday(id: currentTracker.id)
         let completedDays = completedTrackers.filter{
@@ -398,6 +415,7 @@ extension TrackerViewController: TrackerCellDelegate{
         let secondsInDay: TimeInterval = 60 * 60 * 24
         return Int64(date.timeIntervalSince1970/secondsInDay)
     }
+    
 }
 //MARK: TrackerCreationDelegate
 extension TrackerViewController: TrackerCreationDelegate {
@@ -436,6 +454,7 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 18)
     }
+    
 }
 
 //MARK: UITextFieldDelegate
@@ -455,11 +474,11 @@ extension TrackerViewController: TrackerStoreDelegate{
         reloadPlaceHolders()
     }
 }
-extension TrackerViewController: TrackerContextMenuDelegate{
+extension TrackerViewController {
     func action(indexPath: IndexPath) {
-        
+
     }
-    
+
     func edit(indexPath: IndexPath) {
         yandexMetric.reportTrackerEdit()
         let createEditTrackerVC = CreateTrackerViewController(state: .trackerEdit(
@@ -469,23 +488,63 @@ extension TrackerViewController: TrackerContextMenuDelegate{
         let navController = UINavigationController(rootViewController: createEditTrackerVC)
         present(navController, animated: true, completion: nil)
     }
-    
+
     func delete(indexPath: IndexPath) {
         yandexMetric.reportTrackerDelete()
         let tracker = activeCategories[indexPath.section].trackers[indexPath.row]
-        
+
         let alertController = UIAlertController(title: "", message: "Уверены что хотите удалить трекер?", preferredStyle: .actionSheet)
-        
+
         let delete = UIAlertAction(title: "Удалить", style: .destructive) { _ in
             self.categoriesStore.deleteTrackerCoreData(for: tracker)
             self.updateActiveCategories()
         }
-        
+
         let cancel = UIAlertAction(title: "Отменить", style: .cancel)
-        
+
         alertController.addAction(delete)
         alertController.addAction(cancel)
-        
+
         self.present(alertController, animated: true)
+    }
+}
+
+extension TrackerViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+            guard
+//                let indexPath = configuration.identifier as? IndexPath,
+                let cell = collectionView.visibleCells.first as? TrackerCellsView
+            else { return nil }
+        return UITargetedPreview(view: cell.trackerCellView)
+        }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        guard indexPaths.count > 0 else {
+            return nil
+        }
+        
+        let indexPath = indexPaths[0]
+        
+        return UIContextMenuConfiguration(actionProvider:{ suggestedActions in
+            let tracker = self.activeCategories[indexPath.section].trackers[indexPath.row]
+            let title = tracker.isPinned ? "Открепить" : "Закрепить"
+            let action = UIAction(title: title) { [weak self] action in
+                guard let self else {return}
+                self.categoriesStore.toggleTracker(for: tracker)
+                self.updateActiveCategories()
+            }
+            
+            let edit = UIAction(title: "Редактировать") { [weak self] action in
+                guard let self else {return}
+                self.edit(indexPath: indexPath)
+                
+            }
+            
+            let delete = UIAction(title: "Удалить", attributes: .destructive) { [weak self] action in
+                guard let self else {return}
+                self.delete(indexPath: indexPath)
+            }
+            return UIMenu(children: [action, edit, delete])
+        })
     }
 }

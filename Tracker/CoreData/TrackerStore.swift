@@ -91,7 +91,8 @@ final class TrackerStore: NSObject {
             schedule: schedule.split(separator: ",").compactMap { sch in
                 guard let int = Int(sch) else { return nil }
                 return Schedule(rawValue: int)
-            }
+            },
+            isPinned: trackerCoreData.isPinned
         )
     }
     
@@ -130,7 +131,7 @@ final class TrackerStore: NSObject {
         }
     }
     
-  private func saveTracker(_ trackerCoreData: TrackerCoreData, with tracker: Tracker, category: TrackerCategoryCoreData?) {
+    private func saveTracker(_ trackerCoreData: TrackerCoreData, with tracker: Tracker, category: TrackerCategoryCoreData?) {
         trackerCoreData.id = tracker.id
         trackerCoreData.title = tracker.title
         trackerCoreData.color = tracker.color?.toHexString() ?? "#FF0000"
@@ -148,7 +149,7 @@ final class TrackerStore: NSObject {
             trackerCoreData.color = tracker.color?.toHexString() ?? "#FF0000"
             trackerCoreData.emoji = tracker.emoji
             trackerCoreData.schedule = tracker.schedule.compactMap( { String($0.rawValue) } ).joined(separator: ",")
-           
+            
             try context.save()
         } catch {
             print("Error fetching TrackerCoreData: \(error)")
@@ -163,6 +164,17 @@ final class TrackerStore: NSObject {
         do {
             guard let result = try context.fetch(fetchRequest).first else {return}
             context.delete(result)
+            try context.save()
+        } catch {
+            print("Error fetching TrackerCoreData: \(error)")
+        }
+    }
+    func toggleTracker(for tracker: Tracker){
+        let fetchRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", tracker.id as CVarArg)
+        do {
+            guard let result = try context.fetch(fetchRequest).first else {return}
+            result.isPinned.toggle()
             try context.save()
         } catch {
             print("Error fetching TrackerCoreData: \(error)")

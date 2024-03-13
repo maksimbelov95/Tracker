@@ -122,7 +122,8 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
             schedule: schedule.split(separator: ",").compactMap { sch in
                 guard let int = Int(sch) else { return nil }
                 return Schedule(rawValue: int)
-            }
+            },
+            isPinned: trackerCoreData.isPinned
         )
     }
     
