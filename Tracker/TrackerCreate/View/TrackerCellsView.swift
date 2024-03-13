@@ -118,16 +118,16 @@ final class TrackerCellsView: UICollectionViewCell {
         let preLastDigit = day % 100 / 10;
         
         if (preLastDigit == 1) {
-            return "\(day) дней";
+            return "\(day)" + "days".localized();
         }
         
         switch (day % 10) {
         case 1:
-            return "\(day) день";
+            return "\(day)" + "day".localized();
         case 2,3,4:
-            return "\(day) дня";
+            return "\(day)" + "one_day".localized();
         default:
-            return "\(day) дней";
+            return "\(day)" + "more_day".localized();
         }
     }
     func addElements() {
