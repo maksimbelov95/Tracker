@@ -37,6 +37,8 @@
 		4B6100402B069B7B00A333FB /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B61003F2B069B7B00A333FB /* TabBarController.swift */; };
 		4B64F3E32BA0B6C700117331 /* FirstOnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B64F3E22BA0B6C700117331 /* FirstOnboardingVC.swift */; };
 		4B64F3E72BA0B72A00117331 /* SecondOnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B64F3E62BA0B72A00117331 /* SecondOnboardingVC.swift */; };
+		4B64F3FA2BA24BD000117331 /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 4B64F3F92BA24BD000117331 /* InlineSnapshotTesting */; };
+		4B64F3FC2BA24BD000117331 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 4B64F3FB2BA24BD000117331 /* SnapshotTesting */; };
 		4B6508C02B6D711F0093A221 /* ColorCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6508BF2B6D711F0093A221 /* ColorCollectionViewController.swift */; };
 		4B6508C22B6D73B70093A221 /* ColorsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6508C12B6D73B70093A221 /* ColorsCollectionView.swift */; };
 		4B679B5F2B7163CD00E70EEC /* EmojiAndColorsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B679B5E2B7163CD00E70EEC /* EmojiAndColorsHeaderView.swift */; };
@@ -139,6 +141,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B64F3FC2BA24BD000117331 /* SnapshotTesting in Frameworks */,
+				4B64F3FA2BA24BD000117331 /* InlineSnapshotTesting in Frameworks */,
 				3F7DAB8B429FC5A42894485A /* Pods_TrackerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -503,6 +507,10 @@
 				4B813D352B991D1700A0E938 /* PBXTargetDependency */,
 			);
 			name = TrackerTests;
+			packageProductDependencies = (
+				4B64F3F92BA24BD000117331 /* InlineSnapshotTesting */,
+				4B64F3FB2BA24BD000117331 /* SnapshotTesting */,
+			);
 			productName = TrackerTests;
 			productReference = 4B813D302B991D1700A0E938 /* TrackerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -537,6 +545,7 @@
 			);
 			mainGroup = 4B5BB9232B02B19A005EC75D;
 			packageReferences = (
+				4B64F3F82BA24BD000117331 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
 			productRefGroup = 4B5BB92D2B02B19A005EC75D /* Products */;
 			projectDirPath = "";
@@ -965,6 +974,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4B64F3F82BA24BD000117331 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4B64F3F92BA24BD000117331 /* InlineSnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4B64F3F82BA24BD000117331 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = InlineSnapshotTesting;
+		};
+		4B64F3FB2BA24BD000117331 /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4B64F3F82BA24BD000117331 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		4B7455652B86644900DBA91B /* TrackerCoreDataModels.xcdatamodeld */ = {
