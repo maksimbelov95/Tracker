@@ -104,6 +104,10 @@ final class TrackerViewController: UIViewController {
         button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
         return button
     }()
+    override func viewWillAppear(_ animated: Bool) {
+         super.viewWillAppear(animated)
+        yandexMetric.openMainScreen()
+     }
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,6 +121,10 @@ final class TrackerViewController: UIViewController {
         updateActiveCategories()
         trackersCollectionView.reloadData()
         categoriesStore.delegate = self
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        yandexMetric.closedMainScreen()
     }
     //MARK: Functions
     @objc private func dateChanged(sender: UIDatePicker) {
