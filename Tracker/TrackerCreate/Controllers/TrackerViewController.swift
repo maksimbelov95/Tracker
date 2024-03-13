@@ -473,7 +473,7 @@ extension TrackerViewController: TrackerContextMenuDelegate{
     func delete(indexPath: IndexPath) {
         yandexMetric.reportTrackerDelete()
         let tracker = activeCategories[indexPath.section].trackers[indexPath.row]
-
+        
         let alertController = UIAlertController(title: "", message: "Уверены что хотите удалить трекер?", preferredStyle: .actionSheet)
         
         let delete = UIAlertAction(title: "Удалить", style: .destructive) { _ in
