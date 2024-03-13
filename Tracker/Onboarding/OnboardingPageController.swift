@@ -36,7 +36,7 @@ final class OnboardingPageController: UIPageViewController, UIPageViewController
     }
     
     override init(transitionStyle style: UIPageViewController.TransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation, options: [UIPageViewController.OptionsKey : Any]? = nil) {
-        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        super.init(transitionStyle: .pageCurl, navigationOrientation: .horizontal, options: nil)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
