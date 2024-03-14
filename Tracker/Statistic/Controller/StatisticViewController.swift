@@ -20,8 +20,37 @@ class StatisticViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var placeHoldersImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "StatisticPlaceHolder")
+        imageView.contentMode = .scaleAspectFit
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    private lazy var placeHoldersLabel: UILabel  = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Анализировать пока нечего"
+        label.textColor = .ypBlack
+        label.font = .hugeTitleMedium12
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
+    } ()
+    
     override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+        if trackerRecordStore.fetchAllRecordCoreDataCount() == 0 {
+            placeHoldersLabel.isHidden = false
+            placeHoldersImageView.isHidden = false
+            tableView.isHidden = true
+        }else{
+            placeHoldersLabel.isHidden = true
+            placeHoldersImageView.isHidden = true
+            tableView.isHidden = false
+            tableView.reloadData()
+        }
     }
     
     override func viewDidLoad() {
@@ -34,6 +63,8 @@ class StatisticViewController: UIViewController {
     
     private func addSubViews(){
         view.addSubview(tableView)
+        view.addSubview(placeHoldersImageView)
+        view.addSubview(placeHoldersLabel)
     }
     
     private func setupNavBar(){
@@ -48,7 +79,19 @@ class StatisticViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 206),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            
+            placeHoldersImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 402),
+            placeHoldersImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -330),
+            placeHoldersImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            placeHoldersImageView.widthAnchor.constraint(equalToConstant: 80),
+            placeHoldersImageView.heightAnchor.constraint(equalToConstant: 80),
+            
+            placeHoldersLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 490),
+            placeHoldersLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -304),
+            placeHoldersLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            placeHoldersLabel.widthAnchor.constraint(equalToConstant: 343),
+            placeHoldersLabel.heightAnchor.constraint(equalToConstant: 18),
         ])
     }
 }

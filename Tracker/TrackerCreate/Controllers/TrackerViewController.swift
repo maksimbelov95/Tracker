@@ -77,6 +77,7 @@ final class TrackerViewController: UIViewController {
         label.isHidden = true
         return label
     } ()
+    
     private lazy var searchTextField: UISearchTextField = {
         let textField = UISearchTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
