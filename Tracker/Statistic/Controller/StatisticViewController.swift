@@ -19,9 +19,11 @@ class StatisticViewController: UIViewController {
         tableView.register(StatisticTableViewCell.self, forCellReuseIdentifier: "StatisticTableViewCell")
         return tableView
     }()
+    
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
@@ -29,15 +31,18 @@ class StatisticViewController: UIViewController {
         addSubViews()
         setupConstraints()
     }
+    
     private func addSubViews(){
         view.addSubview(tableView)
     }
+    
     private func setupNavBar(){
         view.backgroundColor = .ypWhite
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "statistics".localized()
         navigationItem.titleView?.backgroundColor = .ypBlack
     }
+    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 206),
@@ -47,14 +52,16 @@ class StatisticViewController: UIViewController {
         ])
     }
 }
+
 //MARK: Statistic TableView DelegateAndDataSource
 extension StatisticViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-          90
-      }
+        90
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "StatisticTableViewCell", for: indexPath) as! StatisticTableViewCell
@@ -62,19 +69,30 @@ extension StatisticViewController: UITableViewDelegate, UITableViewDataSource {
         cell.statisticDescription.text = "Трекеров завершено"
         cell.backgroundColor = .ypBlack
         cell.selectionStyle = .none
- 
-
-
-//        cell.layer.addSublayer(gradientLayer)
-
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = cell.bounds
+        gradientLayer.colors = [
+            UIColor.red.cgColor,
+            UIColor.orange.cgColor,
+            UIColor.yellow.cgColor,
+            UIColor.green.cgColor,
+            UIColor.blue.cgColor,
+            UIColor.purple.cgColor
+        ]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        cell.gradientView.layer.insertSublayer(gradientLayer, at: 0)
+        
         return cell
     }
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let isLastCell = indexPath.row == 1
         let defaultInset = tableView.separatorInset
         var corners: UIRectCorner = []
-            corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
-   
+        corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
+        
         let radius: CGFloat = 16
         let path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         let mask = CAShapeLayer()

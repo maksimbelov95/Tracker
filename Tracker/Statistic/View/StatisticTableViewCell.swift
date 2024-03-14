@@ -17,6 +17,7 @@ final class StatisticTableViewCell: UITableViewCell {
         label.textAlignment = .center
         return label
     }()
+    
     lazy var statisticDescription: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -25,28 +26,15 @@ final class StatisticTableViewCell: UITableViewCell {
         label.textAlignment = .center
         return label
     }()
-    lazy var gradientLayer: CAGradientLayer = {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [
-            UIColor.red.cgColor,
-            UIColor.orange.cgColor,
-            UIColor.yellow.cgColor,
-            UIColor.green.cgColor,
-            UIColor.blue.cgColor,
-            UIColor.purple.cgColor
-        ]
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        return gradientLayer
-    }()
+    
     lazy var gradientView: UIView = {
         let gradientView = UIView()
         gradientView.translatesAutoresizingMaskIntoConstraints = false
         gradientView.layer.cornerRadius = 16
-        gradientView.layer.borderWidth = 1
-        gradientView.layer.addSublayer(gradientLayer)
+        
         return gradientView
     }()
+    
     lazy var tableView: UIView = {
         let tableView = UIView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +42,6 @@ final class StatisticTableViewCell: UITableViewCell {
         tableView.backgroundColor = .ypWhite
         return tableView
     }()
-
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -74,9 +61,8 @@ final class StatisticTableViewCell: UITableViewCell {
         tableView.addSubview(statisticDescription)
         contentView.backgroundColor = .ypWhite
         contentView.layer.cornerRadius = 16
-        
-        
     }
+    
     private func setupCategoryConstraints(){
         NSLayoutConstraint.activate([
             gradientView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -89,13 +75,12 @@ final class StatisticTableViewCell: UITableViewCell {
             tableView.leadingAnchor.constraint(equalTo: gradientView.leadingAnchor, constant: 1),
             tableView.trailingAnchor.constraint(equalTo: gradientView.trailingAnchor, constant: -1),
             tableView.bottomAnchor.constraint(equalTo: gradientView.bottomAnchor, constant: -1),
-
+            
             statisticTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             statisticTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-             
+            
             statisticDescription.topAnchor.constraint(equalTo: statisticTitle.bottomAnchor, constant: 10),
             statisticDescription.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-
         ])
     }
 }

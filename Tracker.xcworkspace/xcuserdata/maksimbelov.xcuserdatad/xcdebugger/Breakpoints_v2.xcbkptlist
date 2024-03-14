@@ -126,8 +126,8 @@
             filePath = "Tracker/Statistic/View/StatisticTableViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
             landmarkName = "StatisticTableViewCell"
             landmarkType = "3">
             <Locations>
@@ -243,14 +243,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "2F15644E-B1E4-443B-A8C7-8CC159BF97E2"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tracker/Statistic/View/StatisticTableViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
             landmarkName = "gradientView"
             landmarkType = "24">
             <Locations>
@@ -267,7 +267,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "42"
                   endingLineNumber = "42"
-                  offsetFromSymbolStart = "160">
+                  offsetFromSymbolStart = "156">
                </Location>
                <Location
                   uuid = "2F15644E-B1E4-443B-A8C7-8CC159BF97E2 - d30a9fc31f8cb92d"
@@ -297,7 +297,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "43"
                   endingLineNumber = "43"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "24">
                </Location>
                <Location
                   uuid = "2F15644E-B1E4-443B-A8C7-8CC159BF97E2 - 6037017db8fbbb3c"
