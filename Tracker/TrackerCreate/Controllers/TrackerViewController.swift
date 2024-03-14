@@ -483,11 +483,9 @@ extension TrackerViewController: TrackerStoreDelegate{
         reloadPlaceHolders()
     }
 }
+
+//MARK: ContextMenuCщllectionView
 extension TrackerViewController {
-    func action(indexPath: IndexPath) {
-
-    }
-
     func edit(indexPath: IndexPath) {
         yandexMetric.reportTrackerEdit()
         let createEditTrackerVC = CreateTrackerViewController(state: .trackerEdit(
