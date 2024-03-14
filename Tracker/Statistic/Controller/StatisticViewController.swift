@@ -3,6 +3,8 @@ import UIKit
 
 class StatisticViewController: UIViewController {
     
+    let trackerRecordStore = TrackerRecordStore()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -10,14 +12,16 @@ class StatisticViewController: UIViewController {
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.rowHeight = 75
         tableView.isScrollEnabled = false
-        tableView.backgroundColor = .ypRed
+        tableView.backgroundColor = .ypWhite
         tableView.delegate = self
         tableView.dataSource = self
         tableView.sectionHeaderHeight = 12
         tableView.register(StatisticTableViewCell.self, forCellReuseIdentifier: "StatisticTableViewCell")
         return tableView
     }()
-    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
@@ -36,7 +40,7 @@ class StatisticViewController: UIViewController {
     }
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: 44),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 206),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
@@ -46,15 +50,41 @@ class StatisticViewController: UIViewController {
 //MARK: Statistic TableView DelegateAndDataSource
 extension StatisticViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 1
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+          90
+      }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "StatisticTableViewCell", for: indexPath) as! StatisticTableViewCell
-        cell.statisticTitle.text = "sdfwe"
+        cell.statisticTitle.text = "\(trackerRecordStore.fetchAllRecordCoreDataCount())"
+        cell.statisticDescription.text = "Трекеров завершено"
         cell.backgroundColor = .ypBlack
         cell.selectionStyle = .none
-        //        reloadPlaceHolders()
+ 
+
+
+//        cell.layer.addSublayer(gradientLayer)
+
         return cell
+    }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let isLastCell = indexPath.row == 1
+        let defaultInset = tableView.separatorInset
+        var corners: UIRectCorner = []
+            corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
+   
+        let radius: CGFloat = 16
+        let path = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        cell.layer.mask = mask
+        
+        if isLastCell {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
+        } else {
+            cell.separatorInset = defaultInset
+        }
     }
 }

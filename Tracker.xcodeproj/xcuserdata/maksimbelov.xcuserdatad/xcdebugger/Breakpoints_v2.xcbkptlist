@@ -62,8 +62,8 @@
             filePath = "Tracker/Statistic/Controller/StatisticViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6"
-            endingLineNumber = "6"
+            startingLineNumber = "8"
+            endingLineNumber = "8"
             landmarkName = "tableView"
             landmarkType = "24">
             <Locations>
@@ -185,8 +185,8 @@
             filePath = "Tracker/Statistic/Controller/StatisticViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -201,8 +201,8 @@
             filePath = "Tracker/Statistic/Controller/StatisticViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -217,9 +217,9 @@
             filePath = "Tracker/Statistic/Controller/StatisticViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "addSubViews()"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "setupNavBar()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -233,8 +233,8 @@
             filePath = "Tracker/CoreData/TrackerRecordStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "deleteTrackerRecordCoreData(for:)"
             landmarkType = "7">
          </BreakpointContent>

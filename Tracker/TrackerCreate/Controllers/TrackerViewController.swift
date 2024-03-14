@@ -505,6 +505,8 @@ extension TrackerViewController {
 
         let delete = UIAlertAction(title: "Удалить", style: .destructive) { _ in
             self.categoriesStore.deleteTrackerCoreData(for: tracker)
+            let trackerRecord = TrackerRecord(id: tracker.id, date: self.datePicker.date, daysSince1970: self.daysSince1970Recalculate(date: self.datePicker.date) )
+            self.trackerRecordStore.deleteTrackerRecordForStatistic(for: trackerRecord)
             self.updateActiveCategories()
         }
 
