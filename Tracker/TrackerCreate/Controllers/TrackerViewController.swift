@@ -18,6 +18,8 @@ final class TrackerViewController: UIViewController {
     
     private var typeFilter: TypeFilter = .textAndDatePickerTrackers
     
+    private var savedFilter: String = "Все трекеры"
+    
     private enum TypeFilter{
         case allTrackers
         case todayTrackers
@@ -135,8 +137,9 @@ final class TrackerViewController: UIViewController {
     @objc private func filterButtonTapped(){
         yandexMetric.clickedFilterButton()
         let createVC = FilterViewController()
-        
+        createVC.savedFilter = self.savedFilter
         createVC.selectedFilter = {[weak self] selectedFilter in
+            self?.savedFilter = selectedFilter
             switch selectedFilter{
             case "Все трекеры":
                 print("Все трекеры")
@@ -387,7 +390,7 @@ extension TrackerViewController: UICollectionViewDataSource{
         let completedDays = completedTrackers.filter{
             $0.id == currentTracker.id}.count
         cell.configure(with: currentTracker, isCompletedToday: isCompletedToday, indexPath: indexPath, completedDays: completedDays)
-        
+        cell.pinImage.isHidden = !currentTracker.isPinned
         return cell
     }
     
@@ -488,9 +491,11 @@ extension TrackerViewController: TrackerStoreDelegate{
 extension TrackerViewController {
     func edit(indexPath: IndexPath) {
         yandexMetric.reportTrackerEdit()
+        let currentTracker = activeCategories[indexPath.section].trackers[indexPath.row]
+        let completedDays = completedTrackers.filter{$0.id == currentTracker.id}.count
         let createEditTrackerVC = CreateTrackerViewController(state: .trackerEdit(
             tracker: activeCategories[indexPath.section].trackers[indexPath.row],
-            trackerCategory: activeCategories[indexPath.section]))
+            trackerCategory: activeCategories[indexPath.section], countDays: completedDays))
         createEditTrackerVC.delegate = self
         let navController = UINavigationController(rootViewController: createEditTrackerVC)
         present(navController, animated: true, completion: nil)

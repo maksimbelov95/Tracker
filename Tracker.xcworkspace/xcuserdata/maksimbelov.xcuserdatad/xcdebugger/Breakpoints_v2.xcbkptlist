@@ -372,8 +372,8 @@
             filePath = "Tracker/TrackerCreate/Controllers/TrackerViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "543"
-            endingLineNumber = "543"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
             landmarkName = "collectionView(_:contextMenuConfigurationForItemsAt:point:)"
             landmarkType = "7">
             <Locations>
@@ -420,8 +420,8 @@
             filePath = "Tracker/TrackerCreate/Controllers/TrackerViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "549"
-            endingLineNumber = "549"
+            startingLineNumber = "554"
+            endingLineNumber = "554"
             landmarkName = "collectionView(_:contextMenuConfigurationForItemsAt:point:)"
             landmarkType = "7">
             <Locations>
@@ -468,8 +468,8 @@
             filePath = "Tracker/TrackerCreate/Controllers/TrackerViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "512"
-            endingLineNumber = "512"
+            startingLineNumber = "517"
+            endingLineNumber = "517"
             landmarkName = "delete(indexPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -484,8 +484,8 @@
             filePath = "Tracker/TrackerCreate/Controllers/TrackerViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "505"
-            endingLineNumber = "505"
+            startingLineNumber = "510"
+            endingLineNumber = "510"
             landmarkName = "delete(indexPath:)"
             landmarkType = "7">
             <Locations>
@@ -532,8 +532,8 @@
             filePath = "Tracker/TrackerCreate/Controllers/TrackerViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "503"
-            endingLineNumber = "503"
+            startingLineNumber = "508"
+            endingLineNumber = "508"
             landmarkName = "delete(indexPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -548,8 +548,8 @@
             filePath = "Tracker/TrackerCreate/Controllers/TrackerViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "501"
-            endingLineNumber = "501"
+            startingLineNumber = "506"
+            endingLineNumber = "506"
             landmarkName = "delete(indexPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -564,8 +564,8 @@
             filePath = "Tracker/TrackerCreate/Controllers/TrackerViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "489"
-            endingLineNumber = "489"
+            startingLineNumber = "492"
+            endingLineNumber = "492"
             landmarkName = "edit(indexPath:)"
             landmarkType = "7">
          </BreakpointContent>

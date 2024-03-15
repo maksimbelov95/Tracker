@@ -4,7 +4,7 @@ final class FilterTableViewCell: UITableViewCell {
     
     var indexPath: IndexPath = IndexPath(index: 0)
     
-    private lazy var selectedCategoryImage: UIImageView = {
+    lazy var selectedFilterImage: UIImageView = {
         let imageView = UIImageView(frame: CGRectMake(0, 0, 24, 24))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "SelectedCategory")
@@ -31,7 +31,7 @@ final class FilterTableViewCell: UITableViewCell {
     }
     
     private func setupContentView(){
-        contentView.addSubview(selectedCategoryImage)
+        contentView.addSubview(selectedFilterImage)
         contentView.addSubview(titleCategory)
         contentView.layer.masksToBounds = true
         contentView.backgroundColor = .ypBackgroundDay
@@ -40,10 +40,10 @@ final class FilterTableViewCell: UITableViewCell {
     }
     private func setupCategoryConstraints(){
         NSLayoutConstraint.activate([
-            selectedCategoryImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 26),
-            selectedCategoryImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            selectedCategoryImage.heightAnchor.constraint(equalToConstant: 24),
-            selectedCategoryImage.widthAnchor.constraint(equalToConstant: 24),
+            selectedFilterImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 26),
+            selectedFilterImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            selectedFilterImage.heightAnchor.constraint(equalToConstant: 24),
+            selectedFilterImage.widthAnchor.constraint(equalToConstant: 24),
             
             titleCategory.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleCategory.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)

@@ -73,7 +73,7 @@ final class TrackerCellsView: UICollectionViewCell {
         button.addTarget(self, action: #selector(trackerButtonTapped), for: .touchUpInside)
         return button
     }()
-    private lazy var pinImage: UIImageView = {
+    lazy var pinImage: UIImageView = {
         let pinImage = UIImageView()
         pinImage.translatesAutoresizingMaskIntoConstraints = false
         pinImage.image = UIImage(named: "Pin")

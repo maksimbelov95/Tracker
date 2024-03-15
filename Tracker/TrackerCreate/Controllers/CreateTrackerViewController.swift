@@ -39,7 +39,7 @@ class CreateTrackerViewController: UIViewController {
     enum ViewState {
         case habit
         case irregularEvent
-        case trackerEdit(tracker: Tracker, trackerCategory: TrackerCategory)
+        case trackerEdit(tracker: Tracker, trackerCategory: TrackerCategory, countDays: Int)
         
         var title: String {
             switch self{
@@ -72,7 +72,7 @@ class CreateTrackerViewController: UIViewController {
         case .irregularEvent :
             updateCreateButton()
             return [.init(title: "Категория", description: self.habitDesc)]
-        case .trackerEdit(_,_):
+        case .trackerEdit(_,_,_):
             return [.init(title: "Категория", description: self.habitDesc), .init(title: "Расписание", description: self.eventDesc)]
         }
     }
@@ -89,7 +89,10 @@ class CreateTrackerViewController: UIViewController {
         switch state{
         case .habit : schedule = []
         case .irregularEvent : schedule = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
-        case .trackerEdit(let tracker, let trackerCategory) :
+        case .trackerEdit(let tracker, let trackerCategory, let countDays) :
+            
+            countDaysLabel.text = getDayAddition(countDays)
+            countDaysLabel.isHidden = false
             editTracker = tracker
             schedule = tracker.schedule
             emoji = tracker.emoji
@@ -156,6 +159,15 @@ class CreateTrackerViewController: UIViewController {
         label.text = "Ограничение 38 символов"
         label.font =  .hugeTitleMedium17
         label.textColor = .ypRed
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
+    }()
+    private lazy var countDaysLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font =  .hugeTitleBold32
+        label.textColor = .ypBlack
         label.textAlignment = .center
         label.isHidden = true
         return label
@@ -254,6 +266,24 @@ class CreateTrackerViewController: UIViewController {
             .font: UIFont.hugeTitleMedium16
         ]
     }
+    private func getDayAddition(_ day: Int) -> String {
+        
+        let preLastDigit = day % 100 / 10;
+        
+        if (preLastDigit == 1) {
+            return "\(day)" + "days".localized();
+        }
+        
+        switch (day % 10) {
+        case 1:
+            return "\(day)" + "day".localized();
+        case 2,3,4:
+            return "\(day)" + "one_day".localized();
+        default:
+            return "\(day)" + "more_day".localized();
+        }
+    }
+    
     private func emojiHeaderAdd(){
         emojiCollectionView.register(EmojiAndColorsHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmojiAndColorsHeaderView")
     }
@@ -270,6 +300,7 @@ class CreateTrackerViewController: UIViewController {
     }
     
     private func addViewToStackView(){
+        stackView.addArrangedSubview(countDaysLabel)
         stackView.addArrangedSubview(nameTrackerTextField)
         stackView.addArrangedSubview(symbolsLimitLabel)
         stackView.addArrangedSubview(tableView)
@@ -324,7 +355,7 @@ class CreateTrackerViewController: UIViewController {
         guard let emoji = self.emoji, let color = self.color else {return}
         guard let category = habitDesc else {return}
         switch self.state{
-        case .trackerEdit(_,_) :
+        case .trackerEdit(_,_,_) :
             guard let id = editTracker?.id else {return}
             let newTracker = Tracker(
                 id: id,
