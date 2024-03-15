@@ -519,13 +519,10 @@ extension TrackerViewController {
 }
 
 extension TrackerViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
-            guard
-//                let indexPath = configuration.identifier as? IndexPath,
-                let cell = collectionView.visibleCells.first as? TrackerCellsView
-            else { return nil }
-        return UITargetedPreview(view: cell.trackerCellView)
-        }
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfiguration configuration: UIContextMenuConfiguration, highlightPreviewForItemAt indexPath: IndexPath) -> UITargetedPreview? {
+      guard let cell = collectionView.cellForItem(at: indexPath) as? TrackerCellsView else { return nil }
+      return UITargetedPreview(view: cell.trackerCellView)
+     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
         guard indexPaths.count > 0 else {
