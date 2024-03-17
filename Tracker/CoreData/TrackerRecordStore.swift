@@ -41,6 +41,19 @@ final class TrackerRecordStore {
             print("Error fetching TrackerCoreData: \(error)")
         }
     }
+    func deleteTrackerRecordForCategories(for id: UUID) {
+        let fetchRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        do {
+            let results = try context.fetch(fetchRequest)
+            for result in results {
+                context.delete(result)
+            }
+            try context.save()
+        } catch {
+            print("Error fetching TrackerCoreData: \(error)")
+        }
+    }
     
     func deleteTrackerRecordCoreData(for trackerRecord: TrackerRecord) {
         let fetchRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")

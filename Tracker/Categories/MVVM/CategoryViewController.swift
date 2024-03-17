@@ -93,6 +93,7 @@ final class CategoryViewController: UIViewController {
         viewModel.categoryTitlesUpdated = { [weak self] in
             self?.tableView.reloadData()
         }
+        reloadPlaceHolders()
     }
     
     private func addSCategorySubViews(){
@@ -146,7 +147,7 @@ final class CategoryViewController: UIViewController {
     }
     @objc private func addCategoryButtonTapped() {
         let createVC = EditCategoriesViewController()
-        createVC.titleLabel.text = "Редактирование категории"
+        createVC.titleLabel.text = "Новая категория"
         createVC.editText = { [weak self] text in
             self?.trackerCategoryStore.addNewTrackerCategory(title: text, trackers: [])
             self?.viewModel.fetchCategoryTitles()

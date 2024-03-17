@@ -110,6 +110,7 @@ class CreateTrackerViewController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .ypWhite
+        scrollView.keyboardDismissMode = .onDrag
         return scrollView
     }()
     
@@ -146,6 +147,7 @@ class CreateTrackerViewController: UIViewController {
         nameTrackerTextField.layer.cornerRadius = 16
         nameTrackerTextField.layer.borderWidth = 0
         nameTrackerTextField.layer.masksToBounds = true
+        nameTrackerTextField.delegate = self
         nameTrackerTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: nameTrackerTextField.frame.height))
         nameTrackerTextField.leftView = paddingView
@@ -266,6 +268,7 @@ class CreateTrackerViewController: UIViewController {
             .font: UIFont.hugeTitleMedium16
         ]
     }
+    
     private func getDayAddition(_ day: Int) -> String {
         
         let preLastDigit = day % 100 / 10;
@@ -448,5 +451,10 @@ extension CreateTrackerViewController: ColorCollectionViewControllerDelegate{
     func colorDelegate(_ color: UIColor) {
         self.color = color
         updateCreateButton()
+    }
+}
+extension CreateTrackerViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
     }
 }

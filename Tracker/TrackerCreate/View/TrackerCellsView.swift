@@ -51,7 +51,7 @@ final class TrackerCellsView: UICollectionViewCell {
     private lazy var trackerLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .ypWhite
+        label.textColor = .white
         label.font = .hugeTitleMedium12
         print(label.font.fontName)
         label.numberOfLines = 2

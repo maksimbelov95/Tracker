@@ -31,7 +31,7 @@ extension EmojiCollectionViewController: UICollectionViewDelegate, UICollectionV
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath) as! EmojiCollectionViewCell
         cell.emojiLabel.text = emoji[indexPath.row]
         if indexPath == self.indexPath{
-            cell.emojiCellView.backgroundColor = .ypGray
+            cell.emojiCellView.backgroundColor = .ypGray.withAlphaComponent(0.3)
         } else {
             cell.emojiCellView.backgroundColor = .clear
         }

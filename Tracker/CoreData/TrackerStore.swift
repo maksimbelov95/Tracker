@@ -169,6 +169,7 @@ final class TrackerStore: NSObject {
             print("Error fetching TrackerCoreData: \(error)")
         }
     }
+
     func toggleTracker(for tracker: Tracker){
         let fetchRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
         fetchRequest.predicate = NSPredicate(format: "id == %@", tracker.id as CVarArg)
