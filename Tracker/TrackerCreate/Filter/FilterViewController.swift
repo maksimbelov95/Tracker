@@ -8,6 +8,8 @@ final class FilterViewController: UIViewController {
     
     var selectedFilter: ((String) -> ())?
     
+    var savedFilter: String?
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +37,7 @@ final class FilterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .ypWhite
         navigationItem.hidesBackButton = true
         addSCategorySubViews()
         setupConstraints()
@@ -71,6 +73,8 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FilterTableViewCell", for: indexPath) as! FilterTableViewCell
         
         cell.titleCategory.text = filterCategories[indexPath.row]
+        cell.selectedFilterImage.isHidden = cell.titleCategory.text != savedFilter
+
         cell.selectionStyle = .none
         cell.indexPath = indexPath
         

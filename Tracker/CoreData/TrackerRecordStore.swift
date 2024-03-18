@@ -28,6 +28,32 @@ final class TrackerRecordStore {
             print("Error saving TrackerRecord: \(error)")
         }
     }
+    func deleteTrackerRecordForStatistic(for trackerRecord: TrackerRecord) {
+        let fetchRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", trackerRecord.id as CVarArg)
+        do {
+            let results = try context.fetch(fetchRequest)
+            for result in results {
+                context.delete(result)
+            }
+            try context.save()
+        } catch {
+            print("Error fetching TrackerCoreData: \(error)")
+        }
+    }
+    func deleteTrackerRecordForCategories(for id: UUID) {
+        let fetchRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        do {
+            let results = try context.fetch(fetchRequest)
+            for result in results {
+                context.delete(result)
+            }
+            try context.save()
+        } catch {
+            print("Error fetching TrackerCoreData: \(error)")
+        }
+    }
     
     func deleteTrackerRecordCoreData(for trackerRecord: TrackerRecord) {
         let fetchRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
@@ -58,5 +84,29 @@ final class TrackerRecordStore {
             return []
         }
     }
-}
+    func fetchAllRecordCoreDataCount() -> Int {
+        let fetchRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            return results.count
 
+        } catch {
+            print("Error fetching TrackerCoreData: \(error)")
+            return 0
+        }
+    }
+    func deleteTrackerRecord() {
+        let fetchRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            for result in results {
+                context.delete(result)
+            }
+            try context.save()
+        } catch {
+            print("Error fetching TrackerCoreData: \(error)")
+        }
+    }
+}

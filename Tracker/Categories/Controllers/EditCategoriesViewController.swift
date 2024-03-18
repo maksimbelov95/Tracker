@@ -10,13 +10,14 @@ final class EditCategoriesViewController: UIViewController {
     private lazy var newCategoryTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Введите название новой категории"
+        textField.placeholder = "Введите название категории"
         textField.backgroundColor = .ypBackgroundDay
         textField.font = .hugeTitleMedium17
         textField.textColor = .ypBlack
         textField.layer.cornerRadius = 16
         textField.layer.borderWidth = 0
         textField.layer.masksToBounds = true
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftView = paddingView
         textField.leftViewMode = .always
@@ -42,8 +43,20 @@ final class EditCategoriesViewController: UIViewController {
         button.titleLabel?.font = .hugeTitleMedium16
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(createCategoryButtonTapped), for: .touchUpInside)
+        button.backgroundColor = .ypGray
+        button.isEnabled = false
         return button
     }()
+    
+    func addTapGestureToHideKeyboard() {
+         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapGesture))
+         view.addGestureRecognizer(tapGesture)
+         updateCreateButton()
+     }
+
+    @objc func tapGesture() {
+         newCategoryTextField.resignFirstResponder()
+     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +64,8 @@ final class EditCategoriesViewController: UIViewController {
         navigationItem.hidesBackButton = true
         addSCategorySubViews()
         setupConstraints()
+        addTapGestureToHideKeyboard()
+        updateCreateButton()
     }
     
     private func addSCategorySubViews(){
@@ -76,9 +91,18 @@ final class EditCategoriesViewController: UIViewController {
             createCategoryButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
+    private func updateCreateButton(){
+        let bool = !(newCategoryTextField.text?.isEmpty == true)
+        createCategoryButton.isEnabled = bool
+        createCategoryButton.backgroundColor = bool ? .ypBlack : .ypGray
+    }
+    
+    @objc private func textFieldDidChange() {
+        updateCreateButton()
+    }
     @objc private func createCategoryButtonTapped() {
         guard let text = newCategoryTextField.text else {return}
-        if text.isEmpty{} else {editText?(text)}
+        editText?(text)
         dismiss(animated: true)
     }
 }

@@ -17,6 +17,7 @@ final class StatisticTableViewCell: UITableViewCell {
         label.textAlignment = .center
         return label
     }()
+    
     lazy var statisticDescription: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -24,6 +25,22 @@ final class StatisticTableViewCell: UITableViewCell {
         label.font = .hugeTitleMedium12
         label.textAlignment = .center
         return label
+    }()
+    
+    lazy var gradientView: UIView = {
+        let gradientView = UIView()
+        gradientView.translatesAutoresizingMaskIntoConstraints = false
+        gradientView.layer.cornerRadius = 16
+        
+        return gradientView
+    }()
+    
+    lazy var tableView: UIView = {
+        let tableView = UIView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.layer.cornerRadius = 16
+        tableView.backgroundColor = .ypWhite
+        return tableView
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -38,22 +55,32 @@ final class StatisticTableViewCell: UITableViewCell {
     
     private func setupContentView(){
         contentView.layer.masksToBounds = true
-        contentView.addSubview(statisticTitle)
-        contentView.addSubview(statisticDescription)
+        contentView.addSubview(gradientView)
+        gradientView.addSubview(tableView)
+        tableView.addSubview(statisticTitle)
+        tableView.addSubview(statisticDescription)
         contentView.backgroundColor = .ypWhite
-        
-        
+        contentView.layer.cornerRadius = 16
     }
+    
     private func setupCategoryConstraints(){
         NSLayoutConstraint.activate([
+            gradientView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            gradientView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            gradientView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            gradientView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            
+            tableView.topAnchor.constraint(equalTo: gradientView.topAnchor, constant: 1),
+            tableView.leadingAnchor.constraint(equalTo: gradientView.leadingAnchor, constant: 1),
+            tableView.trailingAnchor.constraint(equalTo: gradientView.trailingAnchor, constant: -1),
+            tableView.bottomAnchor.constraint(equalTo: gradientView.bottomAnchor, constant: -1),
+            
+            statisticTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             statisticTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            statisticTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             
-            statisticDescription.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
-            statisticDescription.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            
-            contentView.heightAnchor.constraint(equalToConstant: 90),
-            contentView.widthAnchor.constraint(equalToConstant: 343),
+            statisticDescription.topAnchor.constraint(equalTo: statisticTitle.bottomAnchor, constant: 10),
+            statisticDescription.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
         ])
     }
 }

@@ -22,14 +22,12 @@ final class TrackerCellsView: UICollectionViewCell {
     private var trackerId: UUID?
     private var indexPath: IndexPath?
     
-    private lazy var trackerCellView: UIView = {
+    lazy var trackerCellView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .ypBackgroundDay
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 0
-        let interaction = UIContextMenuInteraction(delegate: self)
-        view.addInteraction(interaction)
         return view
     }()
     private lazy var quantityManagementView: UIView = {
@@ -53,7 +51,7 @@ final class TrackerCellsView: UICollectionViewCell {
     private lazy var trackerLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .ypWhite
+        label.textColor = .white
         label.font = .hugeTitleMedium12
         print(label.font.fontName)
         label.numberOfLines = 2
@@ -75,7 +73,7 @@ final class TrackerCellsView: UICollectionViewCell {
         button.addTarget(self, action: #selector(trackerButtonTapped), for: .touchUpInside)
         return button
     }()
-    private lazy var pinImage: UIImageView = {
+    lazy var pinImage: UIImageView = {
         let pinImage = UIImageView()
         pinImage.translatesAutoresizingMaskIntoConstraints = false
         pinImage.image = UIImage(named: "Pin")
@@ -120,16 +118,16 @@ final class TrackerCellsView: UICollectionViewCell {
         let preLastDigit = day % 100 / 10;
         
         if (preLastDigit == 1) {
-            return "\(day) дней";
+            return "\(day)" + "days".localized();
         }
         
         switch (day % 10) {
         case 1:
-            return "\(day) день";
+            return "\(day)" + "day".localized();
         case 2,3,4:
-            return "\(day) дня";
+            return "\(day)" + "one_day".localized();
         default:
-            return "\(day) дней";
+            return "\(day)" + "more_day".localized();
         }
     }
     func addElements() {
@@ -187,32 +185,4 @@ final class TrackerCellsView: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-extension TrackerCellsView: UIContextMenuInteractionDelegate {
-    
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
-            
-            let action = UIAction(title: "Закрепить") { [weak self] action in
-                guard let self else {return}
-
-            }
-            
-            let edit = UIAction(title: "Редактировать") { [weak self] action in
-                guard let self else {return}
-                guard let indexPath = self.indexPath else {return}
-                self.contextMenuDelegate?.edit(indexPath: indexPath)
-
-            }
-            
-            let delete = UIAction(title: "Удалить", attributes: .destructive) { [weak self] action in
-                guard let self else {return}
-                guard let indexPath = self.indexPath else {return}
-                self.contextMenuDelegate?.delete(indexPath: indexPath)
-            }
-            
-            return UIMenu(children: [action, edit, delete])
-        }
-    }
-}
-
 

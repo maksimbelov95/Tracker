@@ -30,7 +30,7 @@ class ColorCollectionViewController: UICollectionView {
         UIColor(named: "Color Selection 18") ?? .green
     ]
     func setColor(color: UIColor?){
-        guard let index = colorSelection.firstIndex(where: {$0 == color}) else {return}
+        guard let index = colorSelection.firstIndex(where: {$0.toHexString() == color?.toHexString()}) else {return}
         self.indexPath = IndexPath(row: Int(index), section: 0)
     }
 }
@@ -50,7 +50,7 @@ extension ColorCollectionViewController: UICollectionViewDelegate, UICollectionV
         if indexPath == self.indexPath{
             let color = colorSelection[indexPath.row]
             cell.contentView.layer.borderWidth = 3
-            cell.contentView.layer.borderColor = color.cgColor
+            cell.contentView.layer.borderColor = color.withAlphaComponent(0.3).cgColor
         } else {
             cell.contentView.layer.borderWidth = 0
         }

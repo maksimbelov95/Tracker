@@ -93,6 +93,7 @@ final class CategoryViewController: UIViewController {
         viewModel.categoryTitlesUpdated = { [weak self] in
             self?.tableView.reloadData()
         }
+        reloadPlaceHolders()
     }
     
     private func addSCategorySubViews(){
@@ -146,7 +147,7 @@ final class CategoryViewController: UIViewController {
     }
     @objc private func addCategoryButtonTapped() {
         let createVC = EditCategoriesViewController()
-        createVC.titleLabel.text = "Редактирование категории"
+        createVC.titleLabel.text = "Новая категория"
         createVC.editText = { [weak self] text in
             self?.trackerCategoryStore.addNewTrackerCategory(title: text, trackers: [])
             self?.viewModel.fetchCategoryTitles()
@@ -167,12 +168,8 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryTableViewCell", for: indexPath) as! CategoryTableViewCell
         
         cell.titleCategory.text = viewModel.categoryTitles[indexPath.row]
-        if cell.titleCategory.text == savedCategory {
-            cell.accessoryType = .checkmark
-            cell.tintColor = .ypBlue
-        } else {
-            cell.accessoryType = .none
-        }
+   
+        cell.selectedCategoryImage.isHidden = cell.titleCategory.text != savedCategory
         
         cell.delegate = self
         cell.indexPath = indexPath
@@ -183,15 +180,6 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let category = viewModel.categoryTitles[indexPath.row]
         selectedCategory?(category)
-        if let lastIndexPath = lastSelectedIndexPath,
-           let lastCell = tableView.cellForRow(at: lastIndexPath) as? CategoryTableViewCell {
-            lastCell.accessoryType = .none
-        }
-        
-        if let cell = tableView.cellForRow(at: indexPath) as? CategoryTableViewCell {
-            cell.accessoryType = .checkmark
-            cell.tintColor = .systemBlue
-        }
         lastSelectedIndexPath = indexPath
         navigationController?.popViewController(animated: true)
     }

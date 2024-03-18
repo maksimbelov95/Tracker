@@ -15,12 +15,20 @@ struct YandexMetrics {
         })
     }
     
+    func openMainScreen() {
+        reportYandexMetric(event: "open", screen: "Main", item: nil)
+    }
+    
+    func closedMainScreen() {
+        reportYandexMetric(event: "close", screen: "Main", item: nil)
+    }
+    
     func clickedTrackerCreateButton() {
         reportYandexMetric(event: "click", screen: "Main", item: "add_tracker")
     }
     
     func clickedFilterButton() {
-        reportYandexMetric(event: "click", screen: "Main", item: "selected_filter")
+        reportYandexMetric(event: "click", screen: "Main", item: "filter")
     }
     
     func reportTrackerEdit() {
@@ -32,9 +40,9 @@ struct YandexMetrics {
     }
     
     func reportTrackerCompleteButton() {
-        reportYandexMetric(event: "click", screen: "Main", item: "tracker_complete")
+        reportYandexMetric(event: "click", screen: "Main", item: "track")
     }
     func reportTrackerUnCompleteButton() {
-        reportYandexMetric(event: "click", screen: "Main", item: "tracker_uncomplete")
+        reportYandexMetric(event: "click", screen: "Main", item: "no_track")
     }
 }

@@ -26,9 +26,17 @@ class TabBarController: UITabBarController{
     }
     private func setupTabBar(){
         tabBar.backgroundColor = .ypWhite
-        tabBar.layer.borderWidth = 1
-        tabBar.layer.borderColor = UIColor.ypTBDay.cgColor
+        tabBar.addTopBorder(color: UIColor.gray, width: 1.0)
+        
     }
     private func setupNavControllers(){
+    }
+}
+extension UITabBar {
+    func addTopBorder(color: UIColor, width: CGFloat) {
+        let border = CALayer()
+        border.backgroundColor = UIColor.ypGray.cgColor
+        border.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: width)
+        layer.addSublayer(border)
     }
 }

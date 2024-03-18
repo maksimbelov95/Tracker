@@ -6,6 +6,8 @@ import UIKit
 final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
     private let context: NSManagedObjectContext
     
+    private let trackerRecordStore = TrackerRecordStore()
+    
     convenience override init() {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         self.init(context: context)
@@ -78,8 +80,17 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
         do {
             let results = try context.fetch(fetchRequest)
             for result in results {
+                if let trackersSet = result.trackers {
+                    let tracersArray = (trackersSet.allObjects as! [TrackerCoreData]).compactMap { trackerCoreData in
+                        return tracker(from:trackerCoreData)
+                    }
+                    for tracker in tracersArray {
+                        trackerRecordStore.deleteTrackerRecordForCategories(for: tracker.id)
+                    }
+                }
                 context.delete(result)
             }
+            
             try context.save()
         } catch {
             print("Error fetching TrackerCoreData: \(error)")
@@ -122,7 +133,8 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
             schedule: schedule.split(separator: ",").compactMap { sch in
                 guard let int = Int(sch) else { return nil }
                 return Schedule(rawValue: int)
-            }
+            },
+            isPinned: trackerCoreData.isPinned
         )
     }
     
